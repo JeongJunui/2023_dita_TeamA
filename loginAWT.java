@@ -1,6 +1,6 @@
 package warehouse;
 
-public class loginAWT {
+public class LoginAWT {
 
 	public static void main(String[] args) {
 
