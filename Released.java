@@ -52,8 +52,8 @@ public class Released {
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
-				ReleasedBean bean=new ReleasedBean(rs.getInt("TAKEOUT_IDX"), rs.getString("TAKEOUT_DATE"),
-						rs.getString("PRODUCT_CODE"), rs.getInt("MEMBER_IDX"), rs.getInt("TAKEOUT_AMOUNT"),
+				ReleasedBean bean=new ReleasedBean(rs.getInt("TAKEOUT_IDX"), rs.getString("PRODUCT_CODE"),
+						rs.getInt("MEMBER_IDX"), rs.getString("TAKEOUT_DATE"), rs.getInt("TAKEOUT_AMOUNT"),
 						rs.getString("OTHER"));
 				vlist.addElement(bean);
 			}
@@ -72,8 +72,9 @@ public class Released {
 		String sql = null;
 		try {
 			con = pool.getConnection();
-			sql = "insert into TAKEOUT_LOG values (?,?,?,?,?,?)";
+			sql = "insert into TAKEOUT_LOG values (?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
+			pstmt.st
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {

@@ -8,7 +8,7 @@ public class ReleasedBean {
 	private int takeoutAmount;
 	private String other;
 	public ReleasedBean() {};
-	public ReleasedBean(int takeoutIdx, String takeoutDate, String prodCode, int memberIdx, int takeoutAmount, String other)
+	public ReleasedBean(int takeoutIdx, String prodCode, int memberIdx, String takeoutDate, int takeoutAmount, String other)
 	{
 		super();
 		this.takeoutIdx=takeoutIdx;
