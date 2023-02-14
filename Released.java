@@ -7,7 +7,36 @@ import java.util.Vector;
 
 public class Released {
 	DBConnectionMgr pool;
-	public void loadWarehouseOut(String prodCode, String prodName)//출고 테이블 부르기
+	public Vector<ProductBean> loadWarehouseOut(String prodCode, String prodName)//출고 테이블 부르기
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		Vector<ProductBean> vlist=new Vector<ProductBean>();
+		try {
+			con = pool.getConnection();
+			sql = "select * from PRODUCT where PROD_CODE = ? OR PROD_NAME = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, prodCode);
+			pstmt.setString(2, prodName);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				ProductBean bean=new ProductBean(rs.getString("PROD_CODE"), rs.getString("CATEGORY"),
+						rs.getString("PROD_NAME"), rs.getString("PROD_SIZE"), rs.getString("PROD_COLOR"),
+						rs.getInt("PROD_STOCK"));
+				vlist.addElement(bean);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return vlist;
+	}
+	public Vector<ReleasedBean> outSearch(String keyword)//출고 검색
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -16,21 +45,42 @@ public class Released {
 		Vector<ReleasedBean> vlist=new Vector<ReleasedBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from PRODUCT where ? = PROD_CODE OR ? = PROD_NAME";
-			pstmt = con.prepareStatement(prodCode);
-			pstmt.setString(1, sql);
-			pstmt.setString(2, prodName);
+			sql = "select * from TAKEOUT_LOG where PROD_CODE = ? or MEMBER_IDX = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
 			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				ReleasedBean bean=new ReleasedBean(rs.getInt("TAKEOUT_IDX"), rs.getString("TAKEOUT_DATE"),
+						rs.getString("PRODUCT_CODE"), rs.getInt("MEMBER_IDX"), rs.getInt("TAKEOUT_AMOUNT"),
+						rs.getString("OTHER"));
+				vlist.addElement(bean);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
+		return vlist;
+	}
+	public void releasedStart()//출고하기
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "insert into TAKEOUT_LOG values (?,?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
 		return;
 	}
-	public void outSearch()//출고 검색
-	{}
-	public void releasedStart()//출고하기
-	{}
 }
