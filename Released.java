@@ -73,7 +73,7 @@ public class Released {
 		boolean flag=false;
 		try {
 			con = pool.getConnection();
-			sql = "insert into TAKEOUT_LOG values (?,?,datetime.now(),?,?)";//mysql 안에서 현재시간 불러오는 게 뭐였더라
+			sql = "insert into TAKEOUT_LOG values (?,?,now(),?,?)";//mysql 안에서 현재시간 불러오는 건 now()
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, prodCode);
 			pstmt.setInt(2, memberIdx);
