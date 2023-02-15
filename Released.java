@@ -65,23 +65,28 @@ public class Released {
 		}
 		return vlist;
 	}
-	public void releasedStart()//출고하기
+	public boolean releasedStart(String prodCode, int memberIdx, int takeoutAmount, String other)//출고하기
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
+		boolean flag=false;
 		try {
 			con = pool.getConnection();
-			sql = "insert into TAKEOUT_LOG values (?,?,?,?,?)";
+			sql = "insert into TAKEOUT_LOG values (?,?,datetime.now(),?,?)";//mysql 안에서 현재시간 불러오는 게 뭐였더라
 			pstmt = con.prepareStatement(sql);
-			pstmt.st
-			pstmt.executeUpdate();
+			pstmt.setString(1, prodCode);
+			pstmt.setInt(2, memberIdx);
+			pstmt.setInt(3, takeoutAmount);
+			pstmt.setString(4, other);
+			int cnt=pstmt.executeUpdate();
+			if(cnt==1) flag=true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		return;
+		return flag;
 	}
 }
