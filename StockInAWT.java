@@ -1,5 +1,6 @@
 package warehouse;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,10 +22,11 @@ import javax.swing.JTextField;
 public class StockInAWT extends JFrame implements ActionListener{
 
 	JPanel p1,p2,p3;
-	JButton b1,b2,b3;
+	JButton b1,b2,b3,regBtn;
 	JLabel label, label2, l3;
 	JLabel pl1, pl2, pl3, pl4, pl5, pl6, pl7;
 	JTextField pf1, pf2, pf3, pf4, pf5, pf6, pf7;
+	Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
 	
 	class imgPanel extends JPanel{ //입고하기 안에 있는 패널
 		Image background=new ImageIcon(StockInAWT.class.getResource("/warehouse/images/releaseBox.png")).getImage();
@@ -39,7 +41,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		getContentPane(); setLayout(null);
 		setTitle("StockInAWT");
 		
-		Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
+		
         
 		menuPanel();
 		
@@ -101,19 +103,81 @@ public class StockInAWT extends JFrame implements ActionListener{
 		label2.setBounds(28, 34, 150, 50);
 		p2.add(label2);
 
-		imgPanel startP = new imgPanel();
+		//imgPanel startP = new imgPanel();
+		Panel startP = new Panel();
+		startP.setBackground(Color.white);
 		//startP.getRootPane();
 		startP.setLayout(null);
 		startP.setBounds(50, 130, 450, 300);
 		p2.add(startP);
 		
-		pl1 = new JLabel("물품코드");
-		pl1.setBounds(10,10,30,30);
+		pl1 = new JLabel("물품코드 : ");
+		pl1.setBounds(20,20,80,30);
+		pl1.setFont(myFont1);
 		startP.add(pl1);
 		
+		pl2 = new JLabel("카테고리 : ");
+		pl2.setBounds(220,20,80,30);
+		pl2.setFont(myFont1);
+		startP.add(pl2);
+		
+		pl3 = new JLabel("물품명 : ");
+		pl3.setBounds(20,80,80,30);
+		pl3.setFont(myFont1);
+		startP.add(pl3);
+		
+		pl4 = new JLabel("사이즈 : ");
+		pl4.setBounds(220,80,70,30);
+		pl4.setFont(myFont1);
+		startP.add(pl4);
+		
+		pl5 = new JLabel("색상 : ");
+		pl5.setBounds(20,140,70,30);
+		pl5.setFont(myFont1);
+		startP.add(pl5);
+		
+		pl6 = new JLabel("입고수량 : ");
+		pl6.setBounds(220,140,80,30);
+		pl6.setFont(myFont1);
+		startP.add(pl6);
+		
+		pl7 = new JLabel("고객번호 : ");
+		pl7.setBounds(20,200,80,30);
+		pl7.setFont(myFont1);
+		startP.add(pl7);
+		
 		pf1 = new JTextField("입력해라");
-		pf1.setBounds(50,15,50,15);
+		pf1.setBounds(100,20,100,30);
 		startP.add(pf1);
+		
+		pf2 = new JTextField("카테고리");
+		pf2.setBounds(300,20,100,30);
+		startP.add(pf2);
+		
+		pf3 = new JTextField("물품명");
+		pf3.setBounds(100,80,100,30);
+		startP.add(pf3);
+		
+		pf4 = new JTextField("사이즈");
+		pf4.setBounds(300,80,100,30);
+		startP.add(pf4);
+		
+		pf5 = new JTextField("색상");
+		pf5.setBounds(100,140,100,30);
+		startP.add(pf5);
+		
+		pf6 = new JTextField("입고수량");
+		pf6.setBounds(300,140,100,30);
+		startP.add(pf6);
+		
+		pf7 = new JTextField("고객번호");
+		pf7.setBounds(100,200,100,30);
+		startP.add(pf7);
+		
+		regBtn = new JButton();
+		regBtn.setBounds(310, 250, 130, 40);
+		regBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/regist.png")));
+		startP.add(regBtn);
 		
 //		startP.add(pl2);
 //		startP.add(pl3);
