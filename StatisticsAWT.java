@@ -20,7 +20,8 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 	JPanel p1, p2, p3, p4, p5, p6, p7;
 	JLabel statisticsTitle, history, invenStatus, categoryName, chart;
 	JButton p1_btn1, p1_btn2, p1_btn3, p1_btn4;
-	JButton p2_btn1, p2_btn2, p2_btn3, p2_btn4;
+	JButton p2_btn1, p2_btn2;
+	JButton p3_btn1, p3_btn2;
 	JButton p4_btn1, p4_btn2;
 	JButton p6_btn1;
 	JComboBox comboBox;
@@ -103,7 +104,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p2 = new JPanel();
 		p2.setLayout(null);
 		p2.setBackground(new Color(0, 32, 96));
-		p2.setBounds(132, 0, 552, 461);
+		p2.setBounds(132, 0, 552, 135);
 		// 입출고 내역 타이틀
 		image = new ImageIcon(".\\images\\history.png");
 		history = new JLabel(image);
@@ -115,7 +116,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		comboBox = new JComboBox(list);
 		comboBox.setBounds(25, 95, 90, 32);
 		comboBox.addActionListener(this);
-		
+
 		textField = new JTextField();
 		textField.setBounds(119, 95, 180, 32);
 		textField.setColumns(10);
@@ -137,36 +138,47 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p2_btn2.setContentAreaFilled(false);
 		p2_btn2.setFocusable(false);
 		p2_btn2.addActionListener(this);
-		// 입고내역 버튼
-		p2_btn3 = new JButton();
-		p2_btn3.setIcon(new ImageIcon(".\\images\\receiptHistoryBtn1.png"));
-		p2_btn3.setRolloverIcon(new ImageIcon(".\\images\\receiptHistoryBtn2.png"));
-		p2_btn3.setBounds(300, 415, 115, 38);
-		p2_btn3.setBorderPainted(false);
-		p2_btn3.setContentAreaFilled(false);
-		p2_btn3.setFocusable(false);
-		p2_btn3.addActionListener(this);
-		// 출고내역 버튼
-		p2_btn4 = new JButton();
-		p2_btn4.setIcon(new ImageIcon(".\\images\\releaseHistoryBtn1.png"));
-		p2_btn4.setRolloverIcon(new ImageIcon(".\\images\\releaseHistoryBtn2.png"));
-		p2_btn4.setBounds(420, 415, 115, 38);
-		p2_btn4.setBorderPainted(false);
-		p2_btn4.setContentAreaFilled(false);
-		p2_btn4.setFocusable(false);
-		p2_btn4.addActionListener(this);
 
 		p2.add(history);
 		p2.add(comboBox);
 		p2.add(textField);
 		p2.add(p2_btn1);
 		p2.add(p2_btn2);
-		p2.add(p2_btn3);
-		p2.add(p2_btn4);
-		// 입출고내역 테이블 클래스 호출
-		new HistoryMgr(this, reciept_releaseCheck);
 
 		add(p2);
+		historySearchPanel();
+	}
+
+	// 입출고 내역 검색 패널
+	public void historySearchPanel() {
+		p3 = new JPanel();
+		p3.setLayout(null);
+		p3.setBackground(new Color(0, 32, 96));
+		p3.setBounds(132, 135, 552, 326);
+
+		// 입고내역 버튼
+		p3_btn1 = new JButton();
+		p3_btn1.setIcon(new ImageIcon(".\\images\\receiptHistoryBtn1.png"));
+		p3_btn1.setRolloverIcon(new ImageIcon(".\\images\\receiptHistoryBtn2.png"));
+		p3_btn1.setBounds(308, 280, 115, 38);
+		p3_btn1.setBorderPainted(false);
+		p3_btn1.setContentAreaFilled(false);
+		p3_btn1.setFocusable(false);
+		p3_btn1.addActionListener(this);
+		// 출고내역 버튼
+		p3_btn2 = new JButton();
+		p3_btn2.setIcon(new ImageIcon(".\\images\\releaseHistoryBtn1.png"));
+		p3_btn2.setRolloverIcon(new ImageIcon(".\\images\\releaseHistoryBtn2.png"));
+		p3_btn2.setBounds(420, 280, 115, 38);
+		p3_btn2.setBorderPainted(false);
+		p3_btn2.setContentAreaFilled(false);
+		p3_btn2.setFocusable(false);
+		p3_btn2.addActionListener(this);
+		p3.add(p3_btn1);
+		p3.add(p3_btn2);
+		// 입출고내역 테이블 클래스 호출
+		new HistoryMgr(this, reciept_releaseCheck);
+		add(p3);
 		setVisible(true);
 	}
 
@@ -267,6 +279,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			if (menuCheck == 0) {
 				menuCheck = 0;
 				p2.setVisible(false);
+				p3.setVisible(false);
 				historyPanel();
 				revalidate();
 				repaint();
@@ -287,6 +300,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			if (menuCheck == 0) {
 				menuCheck = 1;
 				p2.setVisible(false);
+				p3.setVisible(false);
 				inventoryStatusPanel();
 				revalidate();
 				repaint();
@@ -308,6 +322,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			if (menuCheck == 0) {
 				menuCheck = 2;
 				p2.setVisible(false);
+				p3.setVisible(false);
 				chartPanel();
 				revalidate();
 				repaint();
@@ -327,16 +342,16 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 
 		} else if (obj == p1_btn4) { // Home 버튼
 
-		} else if (obj == p2_btn3) { // 입고내역 버튼
+		} else if (obj == p3_btn1) { // 입고내역 버튼
 			reciept_releaseCheck = 0;
-			p2.setVisible(false);
-			historyPanel();
+			p3.setVisible(false);
+			historySearchPanel();
 			revalidate();
 			repaint();
-		} else if (obj == p2_btn4) { // 출고내역 버튼
+		} else if (obj == p3_btn2) { // 출고내역 버튼
 			reciept_releaseCheck = 1;
-			p2.setVisible(false);
-			historyPanel();
+			p3.setVisible(false);
+			historySearchPanel();
 			revalidate();
 			repaint();
 		}

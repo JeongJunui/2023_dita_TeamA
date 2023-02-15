@@ -31,7 +31,7 @@ public class HistoryMgr extends JPanel {
 		this.reciept_releaseCheck = reciept_releaseCheck;
 		this.statisticsAWT = statisticsAWT;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBounds(25, 140, 505, 260);
+		setBounds(25, 5, 505, 260);
 
 		if (reciept_releaseCheck == 0) {
 			table = new JTable(model);
@@ -78,7 +78,7 @@ public class HistoryMgr extends JPanel {
 				}
 
 			}
-			statisticsAWT.p2.add(this);
+			statisticsAWT.p3.add(this);
 		} else if (reciept_releaseCheck == 1) { // 출고 내역
 			try {
 				con = pool.getConnection();
@@ -105,7 +105,7 @@ public class HistoryMgr extends JPanel {
 				}
 
 			}
-			statisticsAWT.p2.add(this);
+			statisticsAWT.p3.add(this);
 		}
 	}
 }
