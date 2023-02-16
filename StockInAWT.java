@@ -23,13 +23,14 @@ import javax.swing.table.DefaultTableModel;
 public class StockInAWT extends JFrame implements ActionListener{
 
 	JPanel p1,p2,p3;
+	static JPanel p4;
 	JButton b1,b2,b3,regBtn, search;
 	JLabel label, label2, l3,label3;
 	JTextField pf[] = new JTextField[7];
 	JLabel pl[] = new JLabel[7];
 	JTextField searchField;
 	Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
-	JTable stockinTable;
+	//JTable stockinTable;
 	int menuCheck = 0;
 	
 	int num[] = new int[7];
@@ -98,10 +99,10 @@ public class StockInAWT extends JFrame implements ActionListener{
 		add(p1);
 		
 		//테이블 미리 선언
-		String header[] = {"물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
-		Object data[][] = {{"A01", "옷", "바지", "34", "black", "50"}};
-		model = new DefaultTableModel(data, header);
-		stockinTable = new JTable(model);
+//		String header[] = {"물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
+//		Object data[][] = {{"A01", "옷", "바지", "34", "black", "50"}};
+//		model = new DefaultTableModel(data, header);
+//		stockinTable = new JTable(model);
 		
 		
 		rightPanel();	//입고하기 페이지 실행
@@ -226,13 +227,13 @@ public class StockInAWT extends JFrame implements ActionListener{
 		delete.setFocusable(false);
 		p3.add(delete);
 		
-		JPanel p4 = new JPanel();
+		p4 = new JPanel();
 		p4.setBounds(25, 160, 505, 230);
 		p3.add(p4);
 		
-		
-		JScrollPane scrollPane = new JScrollPane(stockinTable);
-		p4.add(scrollPane);
+		new loadStockin(this);
+//		JScrollPane scrollPane = new JScrollPane(stockinTable);
+//		p4.add(scrollPane);
 	}
 	
 	@Override
@@ -280,7 +281,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 				}
 			}
 			if(check == 0) { //빈값 없으면 테이블 추가
-				DefaultTableModel model = (DefaultTableModel)stockinTable.getModel();
+//				DefaultTableModel model = (DefaultTableModel)stockinTable.getModel();
 				model.addRow(str);
 			}
 			for (int i = 0; i < 6; i++) {

@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,19 +18,23 @@ import javax.swing.JTextField;
 
 public class StatisticsAWT extends JFrame implements ActionListener {
 	ImageIcon image;
-	JPanel p1, p2, p3, p4, p5, p6, p7;
+	JPanel p1, p2, p3, p4, p5, p6;
 	JLabel statisticsTitle, history, invenStatus, categoryName, chart;
 	JButton p1_btn1, p1_btn2, p1_btn3, p1_btn4;
-	JButton p2_btn1, p2_btn2, p2_btn3, p2_btn4;
+	JButton p2_btn1, p2_btn2;
+	JButton p3_btn1, p3_btn2;
 	JButton p4_btn1, p4_btn2;
 	JButton p6_btn1;
 	JComboBox comboBox;
 	JTextField textField;
+	String cbText = "제품코드", tfText = "";
+	String cbText2 = "바지", tfText2 = "";
 	JTable table;
 	JScrollPane scrollpane;
 	Vector<Object> list;
 	int menuCheck = 0; // 상황에 따른 메뉴 카테고리 버튼 패널 변환 확인
 	int reciept_releaseCheck = 0; // 상항에 따른 입고 출고 버튼 패널 변환 확인
+	boolean historySeacrhCheck;
 
 	// 통계 프레임
 	public StatisticsAWT() {
@@ -98,12 +103,12 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		historyPanel();
 	}
 
-	// 입출고 내역 패널
+	// 입출고 내역 조호ㅟ 패널
 	public void historyPanel() {
 		p2 = new JPanel();
 		p2.setLayout(null);
 		p2.setBackground(new Color(0, 32, 96));
-		p2.setBounds(132, 0, 552, 461);
+		p2.setBounds(132, 0, 552, 135);
 		// 입출고 내역 타이틀
 		image = new ImageIcon(".\\images\\history.png");
 		history = new JLabel(image);
@@ -115,7 +120,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		comboBox = new JComboBox(list);
 		comboBox.setBounds(25, 95, 90, 32);
 		comboBox.addActionListener(this);
-		
+
 		textField = new JTextField();
 		textField.setBounds(119, 95, 180, 32);
 		textField.setColumns(10);
@@ -137,36 +142,52 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p2_btn2.setContentAreaFilled(false);
 		p2_btn2.setFocusable(false);
 		p2_btn2.addActionListener(this);
-		// 입고내역 버튼
-		p2_btn3 = new JButton();
-		p2_btn3.setIcon(new ImageIcon(".\\images\\receiptHistoryBtn1.png"));
-		p2_btn3.setRolloverIcon(new ImageIcon(".\\images\\receiptHistoryBtn2.png"));
-		p2_btn3.setBounds(300, 415, 115, 38);
-		p2_btn3.setBorderPainted(false);
-		p2_btn3.setContentAreaFilled(false);
-		p2_btn3.setFocusable(false);
-		p2_btn3.addActionListener(this);
-		// 출고내역 버튼
-		p2_btn4 = new JButton();
-		p2_btn4.setIcon(new ImageIcon(".\\images\\releaseHistoryBtn1.png"));
-		p2_btn4.setRolloverIcon(new ImageIcon(".\\images\\releaseHistoryBtn2.png"));
-		p2_btn4.setBounds(420, 415, 115, 38);
-		p2_btn4.setBorderPainted(false);
-		p2_btn4.setContentAreaFilled(false);
-		p2_btn4.setFocusable(false);
-		p2_btn4.addActionListener(this);
 
 		p2.add(history);
 		p2.add(comboBox);
 		p2.add(textField);
 		p2.add(p2_btn1);
 		p2.add(p2_btn2);
-		p2.add(p2_btn3);
-		p2.add(p2_btn4);
-		// 입출고내역 테이블 클래스 호출
-		new HistoryMgr(this, reciept_releaseCheck);
 
 		add(p2);
+		historySearchPanel();
+	}
+
+	// 입출고 내역 검색 패널
+	public void historySearchPanel() {
+		p3 = new JPanel();
+		p3.setLayout(null);
+		p3.setBackground(new Color(0, 32, 96));
+		p3.setBounds(132, 135, 552, 326);
+
+		// 입고내역 버튼
+		p3_btn1 = new JButton();
+		p3_btn1.setIcon(new ImageIcon(".\\images\\receiptHistoryBtn1.png"));
+		p3_btn1.setRolloverIcon(new ImageIcon(".\\images\\receiptHistoryBtn2.png"));
+		p3_btn1.setBounds(333, 280, 115, 38);
+		p3_btn1.setBorderPainted(false);
+		p3_btn1.setContentAreaFilled(false);
+		p3_btn1.setFocusable(false);
+		p3_btn1.addActionListener(this);
+		// 출고내역 버튼
+		p3_btn2 = new JButton();
+		p3_btn2.setIcon(new ImageIcon(".\\images\\releaseHistoryBtn1.png"));
+		p3_btn2.setRolloverIcon(new ImageIcon(".\\images\\releaseHistoryBtn2.png"));
+		p3_btn2.setBounds(428, 280, 115, 38);
+		p3_btn2.setBorderPainted(false);
+		p3_btn2.setContentAreaFilled(false);
+		p3_btn2.setFocusable(false);
+		p3_btn2.addActionListener(this);
+		p3.add(p3_btn1);
+		p3.add(p3_btn2);
+		// 입출고내역 테이블 클래스 호출
+		if (historySeacrhCheck) {
+			new HistorySearchMgr(this, reciept_releaseCheck, cbText, tfText);
+			add(p3);
+		} else {
+			new HistoryMgr(this, reciept_releaseCheck);
+			add(p3);
+		}
 		setVisible(true);
 	}
 
@@ -185,12 +206,21 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		categoryName = new JLabel(image);
 		categoryName.setBounds(184, 85, 210, 48);
 
-		comboBox = new JComboBox();
+		list = new Vector<>();
+		list.add("바지");
+		list.add("옷3");
+		list.add("옷2");
+		list.add("옷1");
+
+		comboBox = new JComboBox(list);
 		comboBox.setBounds(195, 123, 65, 27);
+		comboBox.addActionListener(this);
 
 		textField = new JTextField();
 		textField.setBounds(260, 123, 130, 27);
 		textField.setColumns(10);
+		textField.addActionListener(this);
+
 		// 조회하기 버튼
 		p4_btn1 = new JButton();
 		p4_btn1.setIcon(new ImageIcon(".\\images\\check2.png"));
@@ -267,6 +297,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			if (menuCheck == 0) {
 				menuCheck = 0;
 				p2.setVisible(false);
+				p3.setVisible(false);
 				historyPanel();
 				revalidate();
 				repaint();
@@ -287,6 +318,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			if (menuCheck == 0) {
 				menuCheck = 1;
 				p2.setVisible(false);
+				p3.setVisible(false);
 				inventoryStatusPanel();
 				revalidate();
 				repaint();
@@ -308,6 +340,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			if (menuCheck == 0) {
 				menuCheck = 2;
 				p2.setVisible(false);
+				p3.setVisible(false);
 				chartPanel();
 				revalidate();
 				repaint();
@@ -327,18 +360,69 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 
 		} else if (obj == p1_btn4) { // Home 버튼
 
-		} else if (obj == p2_btn3) { // 입고내역 버튼
+		} else if (obj == comboBox) { // 입출고 내역 콤보 박스
+			cbText = comboBox.getSelectedItem().toString();
+
+		} else if (obj == p2_btn1) { // 입출고 내역 조회하기 버튼
+			if (cbText != null && textField.getText() != null) {
+				tfText = textField.getText();
+				textField.setText("");
+				textField.setFocusable(true);
+				historySeacrhCheck = true;
+				p3.setVisible(false);
+				historySearchPanel();
+				revalidate();
+				repaint();
+			} else if (textField.getText() == null) {
+				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (obj == p2_btn2) { // 입출고 내역 전체조회 버튼
+			if (reciept_releaseCheck == 0) {
+				historySeacrhCheck = false;
+				p3.setVisible(false);
+				historySearchPanel();
+				revalidate();
+				repaint();
+
+			} else if (reciept_releaseCheck == 1) {
+				historySeacrhCheck = false;
+				p3.setVisible(false);
+				historySearchPanel();
+				revalidate();
+				repaint();
+			}
+		} else if (obj == p3_btn1) { // 입고내역 버튼
 			reciept_releaseCheck = 0;
-			p2.setVisible(false);
-			historyPanel();
+			historySeacrhCheck = false;
+			p3.setVisible(false);
+			historySearchPanel();
 			revalidate();
 			repaint();
-		} else if (obj == p2_btn4) { // 출고내역 버튼
+		} else if (obj == p3_btn2) { // 출고내역 버튼
 			reciept_releaseCheck = 1;
-			p2.setVisible(false);
-			historyPanel();
+			historySeacrhCheck = false;
+			p3.setVisible(false);
+			historySearchPanel();
 			revalidate();
 			repaint();
+		} else if (obj == comboBox) { // 재고 현황 코보 박스
+			cbText2 = comboBox.getSelectedItem().toString();
+
+		} else if (obj == p4_btn1) { // 재고 현황 조회하기 버튼
+			if (cbText2 != null && textField.getText() != null) {
+				tfText2 = textField.getText();
+				textField.setText("");
+				textField.setFocusable(true);
+				historySeacrhCheck = true;
+				p3.setVisible(false);
+				historySearchPanel();
+				revalidate();
+				repaint();
+			} else if (textField.getText() == null) {
+				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (obj == p4_btn2) {
+
 		}
 	}
 
