@@ -25,10 +25,10 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 	JButton p3_btn1, p3_btn2;
 	JButton p4_btn1, p4_btn2;
 	JButton p6_btn1;
-	JComboBox comboBox;
-	JTextField textField;
-	String cbText = "제품코드", tfText = "";
-	String cbText2 = "바지", tfText2 = "";
+	JComboBox comboBox,comboBox2;
+	JTextField textField,textField2;
+	String cbText, tfText;
+	String cbText2, tfText2;
 	JTable table;
 	JScrollPane scrollpane;
 	Vector<Object> list;
@@ -103,7 +103,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		historyPanel();
 	}
 
-	// 입출고 내역 조호ㅟ 패널
+	// 입출고 내역 조회 패널
 	public void historyPanel() {
 		p2 = new JPanel();
 		p2.setLayout(null);
@@ -120,7 +120,8 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		comboBox = new JComboBox(list);
 		comboBox.setBounds(25, 95, 90, 32);
 		comboBox.addActionListener(this);
-
+		cbText = "제품코드";
+	
 		textField = new JTextField();
 		textField.setBounds(119, 95, 180, 32);
 		textField.setColumns(10);
@@ -212,14 +213,15 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		list.add("옷2");
 		list.add("옷1");
 
-		comboBox = new JComboBox(list);
-		comboBox.setBounds(195, 123, 65, 27);
-		comboBox.addActionListener(this);
-
-		textField = new JTextField();
-		textField.setBounds(260, 123, 130, 27);
-		textField.setColumns(10);
-		textField.addActionListener(this);
+		comboBox2 = new JComboBox(list);
+		comboBox2.setBounds(195, 123, 65, 27);
+		comboBox2.addActionListener(this);
+		cbText2 = "바지";
+		
+		textField2 = new JTextField();
+		textField2.setBounds(260, 123, 130, 27);
+		textField2.setColumns(10);
+		textField2.addActionListener(this);
 
 		// 조회하기 버튼
 		p4_btn1 = new JButton();
@@ -242,8 +244,8 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 
 		p4.add(invenStatus);
 		p4.add(categoryName);
-		p4.add(comboBox);
-		p4.add(textField);
+		p4.add(comboBox2);
+		p4.add(textField2);
 		p4.add(p4_btn1);
 		p4.add(p4_btn2);
 
@@ -405,21 +407,14 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			historySearchPanel();
 			revalidate();
 			repaint();
-		} else if (obj == comboBox) { // 재고 현황 코보 박스
-			cbText2 = comboBox.getSelectedItem().toString();
+		} else if (obj == comboBox2) { // 재고 현황 콤보 박스
+			cbText2 = comboBox2.getSelectedItem().toString();
 
 		} else if (obj == p4_btn1) { // 재고 현황 조회하기 버튼
-			if (cbText2 != null && textField.getText() != null) {
-				tfText2 = textField.getText();
-				textField.setText("");
-				textField.setFocusable(true);
-				historySeacrhCheck = true;
-				p3.setVisible(false);
-				historySearchPanel();
-				revalidate();
-				repaint();
+			if (cbText2 != null && textField2.getText() != null) {
+			
 			} else if (textField.getText() == null) {
-				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
+				
 			}
 		} else if (obj == p4_btn2) {
 
