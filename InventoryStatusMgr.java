@@ -26,7 +26,7 @@ public class InventoryStatusMgr extends JPanel {
 	public InventoryStatusMgr(StatisticsAWT statisticsAWT) {
 		this.statisticsAWT = statisticsAWT;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBounds(25, 160, 505, 280);
+		setBounds(25, 30, 505, 275);
 
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
@@ -64,7 +64,7 @@ public class InventoryStatusMgr extends JPanel {
 				}
 
 			}
-			statisticsAWT.p4.add(this);
+			statisticsAWT.p5.add(this);
 		}
 	
 }
