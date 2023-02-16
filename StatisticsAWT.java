@@ -256,10 +256,10 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 
 	// 기간별 차트 패널
 	public void chartPanel() {
-		p5 = new JPanel();
-		p5.setLayout(null);
-		p5.setBackground(new Color(0, 32, 96));
-		p5.setBounds(132, 0, 552, 461);
+		p6 = new JPanel();
+		p6.setLayout(null);
+		p6.setBackground(new Color(0, 32, 96));
+		p6.setBounds(132, 0, 552, 461);
 		// 현 재고 현황 타이틀
 		image = new ImageIcon(".\\images\\chart.png");
 		chart = new JLabel(image);
@@ -278,16 +278,16 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p6_btn1.setFocusable(false);
 		p6_btn1.addActionListener(this);
 
-		p6 = new JPanel();
-		p6.setLayout(null);
-		p6.setBounds(25, 140, 505, 300);
-		p6.setBackground(Color.white);
+		p7 = new JPanel();
+		p7.setLayout(null);
+		p7.setBounds(25, 140, 505, 300);
+		p7.setBackground(Color.white);
 
-		p5.add(chart);
-		p5.add(comboBox);
-		p5.add(p6_btn1);
-		p5.add(p6);
-		add(p5);
+		p6.add(chart);
+		p6.add(comboBox);
+		p6.add(p6_btn1);
+		p6.add(p7);
+		add(p6);
 	}
 
 	// 버튼 이벤트
@@ -311,7 +311,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				repaint();
 			} else if (menuCheck == 2) {
 				menuCheck = 0;
-				p5.setVisible(false);
+				p6.setVisible(false);
 				historyPanel();
 				revalidate();
 				repaint();
@@ -332,7 +332,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				repaint();
 			} else if (menuCheck == 2) {
 				menuCheck = 1;
-				p5.setVisible(false);
+				p6.setVisible(false);
 				inventoryStatusSearchPanel();
 				revalidate();
 				repaint();
@@ -354,7 +354,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				repaint();
 			} else if (menuCheck == 2) {
 				menuCheck = 2;
-				p5.setVisible(false);
+				p6.setVisible(false);
 				chartPanel();
 				revalidate();
 				repaint();
