@@ -15,7 +15,7 @@ import net.DBConnectionMgr;
 public class InventoryStatusMgr extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
-	private String colNames[] = { "카테고리", "제품코드", "제품명", "재고수량", "고객번호", "비고" };
+	private String colNames[] = { "제품코드", "카테고리", "제품명", "제품사이즈", "제품색상", "재고수량" };
 	private DefaultTableModel model = new DefaultTableModel(colNames, 0);
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
@@ -40,16 +40,17 @@ public class InventoryStatusMgr extends JPanel {
 			String sql = null;
 			try {
 				con = pool.getConnection();
-				sql = "select p.CATEGORY, p.PROD_CODE, p.PROD_NAME, p.PROD_STOCK, m.MEMBER_IDX, t.OTHER\r\n"
-						+ "from product p,member m,takeout_log t ";
+				sql = "SELECT PROD_CODE, CATEGORY, PROD_NAME, PROD_SIZE, PROD_COLOR, PROD_STOCK\r\n"
+						+ "FROM product\r\n"
+						+ "ORDER BY PROD_CODE DESC";
 				pstmt = con.prepareStatement(sql);
 			
 				rs = pstmt.executeQuery();
 
 				while (rs.next()) {
 					model.addRow(
-							new Object[] { rs.getString("CATEGORY"), rs.getString("PROD_CODE"), rs.getString("PROD_NAME"),
-									rs.getString("PROD_STOCK"), rs.getString("MEMBER_IDX"), rs.getString("OTHER") });
+							new Object[] { rs.getString("PROD_CODE"), rs.getString("CATEGORY"), rs.getString("PROD_NAME"),
+									rs.getString("PROD_SIZE"), rs.getString("PROD_COLOR"), rs.getInt("PROD_STOCK") });
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
