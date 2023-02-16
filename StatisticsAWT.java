@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 public class StatisticsAWT extends JFrame implements ActionListener {
 	ImageIcon image;
-	JPanel p1, p2, p3, p4, p5, p6;
+	JPanel p1, p2, p3, p4, p5, p6, p7;
 	JLabel statisticsTitle, history, invenStatus, categoryName, chart;
 	JButton p1_btn1, p1_btn2, p1_btn3, p1_btn4;
 	JButton p2_btn1, p2_btn2;
@@ -193,7 +193,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 	}
 
 	// 재고 현황 패널
-	public void inventoryStatusPanel() {
+	public void inventoryStatusSearchPanel() {
 		p4 = new JPanel();
 		p4.setLayout(null);
 		p4.setBackground(new Color(0, 32, 96));
@@ -321,19 +321,19 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				menuCheck = 1;
 				p2.setVisible(false);
 				p3.setVisible(false);
-				inventoryStatusPanel();
+				inventoryStatusSearchPanel();
 				revalidate();
 				repaint();
 			} else if (menuCheck == 1) {
 				menuCheck = 1;
 				p4.setVisible(false);
-				inventoryStatusPanel();
+				inventoryStatusSearchPanel();
 				revalidate();
 				repaint();
 			} else if (menuCheck == 2) {
 				menuCheck = 1;
 				p5.setVisible(false);
-				inventoryStatusPanel();
+				inventoryStatusSearchPanel();
 				revalidate();
 				repaint();
 			}
