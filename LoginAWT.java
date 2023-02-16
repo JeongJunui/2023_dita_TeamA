@@ -16,31 +16,35 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+
+import net.ChatClient3;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 
-// 1번째 패널
-class JPanel01 extends JPanel{ 
+// //// 로그인페이지
+class LogIn extends JPanel{ 
 	
 	Image img;
-	private LoginAWT win;
+	public LoginAWT win;
 	
-	public JPanel01(LoginAWT win) {
+	// 로그인 화면 세팅
+	public LogIn(LoginAWT win) {
 		this.win = win;
 		
 		img = Toolkit.getDefaultToolkit().getImage("C:/Java2/myJava/warehouse/images/loginTitle.png");
-		
 		
 		setBackground(new Color(239, 239, 239));
 		setLayout(null);
 		setBounds(23, 23, 338, 314);
 		
+		//// 로고이미지 흰색 뒷배경
 		JPanel imgBack = new JPanel();
 		imgBack.setBounds(0, 0, 338, 120);
 		imgBack.setBackground(Color.white);
-		
 		add(imgBack);
 		
+		//// 로그인 버튼
 		JButton btnNewButton = new JButton("login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -49,24 +53,27 @@ class JPanel01 extends JPanel{
 		btnNewButton.setBounds(238, 197, 74, 23);
 		add(btnNewButton);
 		
+		//// 입력칸
 		JTextField textField = new JTextField();
 		textField.setBounds(96, 198, 130, 21);
 		add(textField);
 		textField.setColumns(10);
 		
+		//// Password 라벨
 		JLabel lblNewLabel = new JLabel("Password");
 		lblNewLabel.setBounds(22, 201, 72, 15);
 		add(lblNewLabel);
 		
-		JButton signUp = new JButton(new ImageIcon("C:/Java2/myJava/warehouse/images/signUpBtn.png"));
-		signUp.setBackground(new Color(255, 255, 255));
-		signUp.setBounds(240, 285, 97, 23);
-		signUp.setBorderPainted(false);
-		signUp.setContentAreaFilled(false);
-		signUp.setFocusPainted(false);
-		add(signUp);
+		//// 회원가입 버튼
+		JButton signUpBtn = new JButton(new ImageIcon("C:/Java2/myJava/warehouse/images/signUpBtn.png"));
+		signUpBtn.setBackground(new Color(255, 255, 255));
+		signUpBtn.setBounds(240, 285, 97, 23);
+		signUpBtn.setBorderPainted(false);
+		signUpBtn.setContentAreaFilled(false);
+		signUpBtn.setFocusPainted(false);
+		add(signUpBtn);
 		
-		signUp.addActionListener(new MyActionListener());
+		signUpBtn.addActionListener(new MyActionListener());
 	}
 	
 	public void paint(Graphics g) {
@@ -76,17 +83,17 @@ class JPanel01 extends JPanel{
 	class MyActionListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			win.change("panel02");
+			win.change("SignUp");
 		}
 	}
 }
 
 //2 번째 패널
-class JPanel02 extends JPanel{
+class SignUp extends JPanel{
 	
 	private LoginAWT win;
 	Image img;
-	public JPanel02(LoginAWT win) {
+	public SignUp(LoginAWT win) {
 		
 		img = Toolkit.getDefaultToolkit().getImage("C:/Java2/myJava/warehouse/images/signUpTitle.png");
 		
@@ -137,15 +144,16 @@ class JPanel02 extends JPanel{
 	class MyActionListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			win.change("panel01");
+			win.dispose();//LoginAWT 사라지고
+			new MainAWT();
 		}
 	}
 }
 
 public class LoginAWT extends JFrame{
 	
-	public JPanel01 jpanel01 = null;
-	public JPanel02 jpanel02 = null;
+	public LogIn jpanel01 = null;
+	public SignUp jpanel02 = null;
 	
 	public LoginAWT() {
 		setTitle("");//창의 타이틀
@@ -157,7 +165,7 @@ public class LoginAWT extends JFrame{
 	}
 	
 	public void change(String panelName) {
-		if(panelName.equals("panel01")) {
+		if(panelName.equals("LogIn")) {
 			getContentPane().removeAll();
 			getContentPane().add(jpanel01);
 			revalidate();
@@ -174,8 +182,8 @@ public class LoginAWT extends JFrame{
 		LoginAWT win = new LoginAWT();
 		
 		win.setTitle("");
-		win.jpanel01 = new JPanel01(win);
-		win.jpanel02 = new JPanel02(win);
+		win.jpanel01 = new LogIn(win);
+		win.jpanel02 = new SignUp(win);
 		
 		win.getContentPane().add(win.jpanel01);
 		win.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
