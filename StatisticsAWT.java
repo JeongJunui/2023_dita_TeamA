@@ -34,9 +34,9 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 	Vector<Object> list;
 	int menuCheck = 0; // 상황에 따른 메뉴 카테고리 버튼 패널 변환 확인
 	int reciept_releaseCheck = 0; // 상항에 따른 입고 출고 버튼 패널 변환 확인
-	boolean historySeacrhCheck;
+	boolean historySeacrhCheck, inventoryStatusSearchCheck;
 
-	// 통계 프레임
+// ----------------------------------------통계 프레임 생성----------------------------------------
 	public StatisticsAWT() {
 		getContentPane().setLayout(null);
 		setSize(700, 500);
@@ -47,7 +47,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		menuPanel();
 	}
 
-	// 왼쪽 메뉴 패널
+// ----------------------------------------통계 메뉴 패널 생성----------------------------------------
 	public void menuPanel() {
 		p1 = new JPanel();
 		p1.setLayout(null);
@@ -102,8 +102,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		add(p1);
 		historySearchPanel();
 	}
-
-	// 입출고 내역 조회 패널
+// ----------------------------------------입출고 내역 조회 패널----------------------------------------
 	public void historySearchPanel() {
 		p2 = new JPanel();
 		p2.setLayout(null);
@@ -122,7 +121,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		comboBox.addActionListener(this);
 		cbText = "제품코드";
 
-		textField = new JTextField();
+		textField = new JTextField("");
 		textField.setBounds(119, 95, 180, 32);
 		textField.setColumns(10);
 		// 조회하기 버튼
@@ -153,8 +152,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		add(p2);
 		historyTablePanel();
 	}
-
-	// 입출고 내역 테이블 패널
+// ----------------------------------------입출고 내역 테이블 패널----------------------------------------
 	public void historyTablePanel() {
 		p3 = new JPanel();
 		p3.setLayout(null);
@@ -191,8 +189,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		}
 		setVisible(true);
 	}
-
-	// 재고 현황 조회 패널
+// ----------------------------------------재고 현황 조회 패널----------------------------------------
 	public void inventoryStatusSearchPanel() {
 		p4 = new JPanel();
 		p4.setLayout(null);
@@ -205,7 +202,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		// 카테고리 제품명 라벨
 		image = new ImageIcon(".\\images\\category&name.png");
 		categoryName = new JLabel(image);
-		categoryName.setBounds(184, 85, 210, 48);
+		categoryName.setBounds(164, 85, 210, 48);
 
 		list = new Vector<>();
 		list.add("바지");
@@ -214,12 +211,12 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		list.add("옷1");
 
 		comboBox2 = new JComboBox(list);
-		comboBox2.setBounds(195, 123, 65, 27);
+		comboBox2.setBounds(175, 123, 65, 27);
 		comboBox2.addActionListener(this);
 		cbText2 = "바지";
 
-		textField2 = new JTextField();
-		textField2.setBounds(260, 123, 130, 27);
+		textField2 = new JTextField("");
+		textField2.setBounds(240, 123, 130, 27);
 		textField2.setColumns(10);
 		textField2.addActionListener(this);
 
@@ -227,7 +224,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p4_btn1 = new JButton();
 		p4_btn1.setIcon(new ImageIcon(".\\images\\check2.png"));
 		p4_btn1.setRolloverIcon(new ImageIcon(".\\images\\check2_1.png"));
-		p4_btn1.setBounds(370, 94, 115, 62);
+		p4_btn1.setBounds(360, 94, 115, 62);
 		p4_btn1.setBorderPainted(false);
 		p4_btn1.setContentAreaFilled(false);
 		p4_btn1.setFocusable(false);
@@ -252,18 +249,22 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		add(p4);
 		inventoryStatusTablePanel();
 	}
-
-	// 재고 현황 테이블 패널
+// ----------------------------------------재고 현황 테이블 패널----------------------------------------
 	public void inventoryStatusTablePanel() {
 		p5 = new JPanel();
 		p5.setLayout(null);
 		p5.setBackground(new Color(0, 32, 96));
 		p5.setBounds(132, 135, 552, 326);
-		new InventoryStatusMgr(this);
-		add(p5);
-	}
 
-	// 기간별 차트 패널
+		if (inventoryStatusSearchCheck) {
+			new InventoryStatusSearchMgr(this, cbText2, tfText2);
+			add(p5);
+		} else {
+			new InventoryStatusMgr(this);
+			add(p5);
+		}
+	}
+// ----------------------------------------기가변 차트 패널----------------------------------------
 	public void chartPanel() {
 		p6 = new JPanel();
 		p6.setLayout(null);
@@ -298,8 +299,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p6.add(p7);
 		add(p6);
 	}
-
-	// 버튼 이벤트
+// ----------------------------------------버튼 이벤트----------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -378,7 +378,9 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			cbText = comboBox.getSelectedItem().toString();
 
 		} else if (obj == p2_btn1) { // 입출고 내역 조회하기 버튼
-			if (cbText != null && textField.getText() != null) {
+			if (textField.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
+			} else {
 				tfText = textField.getText();
 				textField.setText("");
 				textField.setFocusable(true);
@@ -387,8 +389,6 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				historyTablePanel();
 				revalidate();
 				repaint();
-			} else if (textField.getText() == null) {
-				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (obj == p2_btn2) { // 입출고 내역 전체조회 버튼
 			if (reciept_releaseCheck == 0) {
@@ -423,13 +423,24 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			cbText2 = comboBox2.getSelectedItem().toString();
 
 		} else if (obj == p4_btn1) { // 재고 현황 조회하기 버튼
-			if (cbText2 != null && textField2.getText() != null) {
-
-			} else if (textField.getText() == null) {
-
+			if (textField2.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				tfText2 = textField2.getText();
+				textField2.setText("");
+				textField2.setFocusable(true);
+				inventoryStatusSearchCheck = true;
+				p5.setVisible(false);
+				inventoryStatusTablePanel();
+				revalidate();
+				repaint();
 			}
-		} else if (obj == p4_btn2) {
-
+		} else if (obj == p4_btn2) { // 재고 현황 전체조회 버튼
+			inventoryStatusSearchCheck = false;
+			p5.setVisible(false);
+			inventoryStatusTablePanel();
+			revalidate();
+			repaint();
 		}
 	}
 

@@ -62,9 +62,7 @@ public class InventoryStatusMgr extends JPanel {
 				} catch (Exception e2) {
 
 				}
-
 			}
 			statisticsAWT.p5.add(this);
-		}
-	
+		}	
 }

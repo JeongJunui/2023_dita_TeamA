@@ -52,7 +52,7 @@ public class HistorySearchMgr extends JPanel {
 		select();
 	}
 
-	// 검색하기
+	// 조회하기
 	public void select() {
 		String sql = null;
 
