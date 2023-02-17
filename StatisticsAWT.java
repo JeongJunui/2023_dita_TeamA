@@ -25,10 +25,11 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 	JButton p3_btn1, p3_btn2;
 	JButton p4_btn1, p4_btn2;
 	JButton p6_btn1;
-	JComboBox comboBox, comboBox2;
+	JComboBox comboBox, comboBox2, comboBox3;
 	JTextField textField, textField2;
 	String cbText, tfText;
 	String cbText2, tfText2;
+	String cbText3;
 	JTable table;
 	JScrollPane scrollpane;
 	Vector<Object> list;
@@ -275,9 +276,14 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		chart = new JLabel(image);
 		chart.setBounds(10, 30, 290, 48);
 
-		comboBox = new JComboBox();
-		comboBox.setBounds(327, 35, 90, 32);
-
+		list = new Vector<>();
+		list.add("입고");
+		list.add("출고");
+	
+		comboBox3 = new JComboBox(list);
+		comboBox3.setBounds(327, 35, 90, 32);
+		comboBox3.addActionListener(this);
+		cbText3 = "입고";
 		// 조회하기 버튼
 		p6_btn1 = new JButton();
 		p6_btn1.setIcon(new ImageIcon(".\\images\\check.png"));
@@ -288,19 +294,19 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p6_btn1.setFocusable(false);
 		p6_btn1.addActionListener(this);
 		p6.add(chart);
-		p6.add(comboBox);
+		p6.add(comboBox3);
 		p6.add(p6_btn1);
 	
 		add(p6);
-		charInputPanel();
+		chartInputPanel();
 	}
 // ----------------------------------------기가변 차트 넣는 패널----------------------------------------	
-	public void charInputPanel() {
+	public void chartInputPanel() {
 		p7 = new JPanel();
 		p7.setLayout(null);
 		p7.setBounds(133, 90, 551, 371);
 		p7.setBackground(new Color(0, 32, 96));
-		new GanttChartMgr(this);
+		new GanttChartMgr(this, cbText3);
 		add(p7);
 	}
 // ----------------------------------------버튼 이벤트----------------------------------------
@@ -380,10 +386,10 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			}
 
 		} else if (obj == p1_btn4) { // Home 버튼
-
+			setVisible(false);
+			new MainAWT();
 		} else if (obj == comboBox) { // 입출고 내역 콤보 박스
 			cbText = comboBox.getSelectedItem().toString();
-
 		} else if (obj == p2_btn1) { // 입출고 내역 조회하기 버튼
 			if (textField.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
@@ -428,7 +434,6 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			repaint();
 		} else if (obj == comboBox2) { // 재고 현황 콤보 박스
 			cbText2 = comboBox2.getSelectedItem().toString();
-
 		} else if (obj == p4_btn1) { // 재고 현황 조회하기 버튼
 			if (textField2.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
@@ -448,10 +453,17 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			inventoryStatusTablePanel();
 			revalidate();
 			repaint();
+		} else if (obj == comboBox3) { // 기가별 차트 콤보 박스
+			cbText3 = comboBox3.getSelectedItem().toString();
+		} else if (obj == p6_btn1) { // 기가별 차트 조회하기 버튼
+			p7.setVisible(false);
+			chartInputPanel();
+			revalidate();
+			repaint();
 		}
 	}
 
-	public static void main(String[] args) {
-		StatisticsAWT h = new StatisticsAWT();
-	}
+//	public static void main(String[] args) {
+	//	StatisticsAWT h = new StatisticsAWT();
+	//}
 }
