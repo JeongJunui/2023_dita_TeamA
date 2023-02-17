@@ -15,18 +15,18 @@ import net.DBConnectionMgr;
 public class InventoryStatusMgr extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
-	private String colNames[] = { "ì œí’ˆì½”ë“œ", "ì¹´í…Œê³ ë¦¬", "ì œí’ˆëª…", "ì œí’ˆì‚¬ì´ì¦ˆ", "ì œí’ˆìƒ‰ìƒ", "ì¬ê³ ìˆ˜ëŸ‰" };
+	private String colNames[] = { "Á¦Ç°ÄÚµå", "Ä«Å×°í¸®", "Á¦Ç°¸í", "Á¦Ç°»çÀÌÁî", "Á¦Ç°»ö»ó", "Àç°í¼ö·®" };
 	private DefaultTableModel model = new DefaultTableModel(colNames, 0);
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	private DBConnectionMgr pool;
 	StatisticsAWT statisticsAWT;
-	//ì¬ê³  í˜„í™© í…Œì´ë¸” 
+	//Àç°í ÇöÈ² Å×ÀÌºí 
 	public InventoryStatusMgr(StatisticsAWT statisticsAWT) {
 		this.statisticsAWT = statisticsAWT;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBounds(25, 160, 505, 280);
+		setBounds(25, 30, 505, 275);
 
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
@@ -35,7 +35,7 @@ public class InventoryStatusMgr extends JPanel {
 		select();
 		
 	}
-	// sql ë¬¸
+	// sql ¹®
 		private void select() {
 			String sql = null;
 			try {
@@ -62,9 +62,7 @@ public class InventoryStatusMgr extends JPanel {
 				} catch (Exception e2) {
 
 				}
-
 			}
-			statisticsAWT.p4.add(this);
-		}
-	
+			statisticsAWT.p5.add(this);
+		}	
 }

@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,6 +18,8 @@ import javax.swing.JTextField;
 import java.awt.Panel;
 import javax.swing.BoxLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ReleaseAWT2 {
 
@@ -24,6 +28,7 @@ public class ReleaseAWT2 {
 	private JTextField amountTextField;
 	private JTextField memberTextField;
 	private JTextField roadAddressTextField;
+	ReleasedMgr rsl;
 
 	/**
 	 * Launch the application.
@@ -126,7 +131,8 @@ public class ReleaseAWT2 {
 		addressPanel.add(addressLabel);
 		addressLabel.setPreferredSize(new Dimension(80,20));
 		
-		JButton addressButton = new JButton("주소찾기");
+		JButton addressButton = new JButton("");
+		addressButton.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/searchAddressBtn.png")));
 		addressPanel.add(addressButton);
 		addressButton.setPreferredSize(new Dimension(110,20));
 		
@@ -149,6 +155,47 @@ public class ReleaseAWT2 {
 		mainPanel.add(lblNewLabel);
 		
 		JButton releaseButton = new JButton("");
+		releaseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String prodCode=codeTextField.getText();
+				if(prodCode.length()==0)
+				{
+					JOptionPane.showMessageDialog(null,"물품코드란이 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				String amountSt=amountTextField.getText();
+				if(amountSt.length()==0 || amountSt.equals("0"))
+				{
+					JOptionPane.showMessageDialog(null,"수량이 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				int amount=Integer.parseInt(amountSt);
+				String member=memberTextField.getText();
+				if(member.length()==0)
+				{
+					JOptionPane.showMessageDialog(null,"회사번호가 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				int memberIdx=Integer.parseInt(member);
+				String addr=roadAddressTextField.getText();
+				if(addr.length()==0)
+				{
+					JOptionPane.showMessageDialog(null,"주소가 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				if(rsl.releasedStart(prodCode, memberIdx, amount, ""))
+				{
+					JOptionPane.showMessageDialog(null,"출고가 완료되었습니다.","알림",JOptionPane.INFORMATION_MESSAGE);
+					//출고 완료
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null,"출고 작업 중 오류가 발생했습니다.\n재고가 부족합니다.","오류",JOptionPane.ERROR_MESSAGE);
+					//문제 발생, 보통은 재고 딸려서 이게 나올 것
+				}
+			}
+		});
 		releaseButton.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/releaseBtn2.png")));
 		frame.getContentPane().add(releaseButton, BorderLayout.SOUTH);
 	}

@@ -14,9 +14,14 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
+import member.MemberMgr;
 import net.ChatClient3;
 
 import javax.swing.JLabel;
@@ -89,10 +94,16 @@ class LogIn extends JPanel{
 }
 
 //2 번째 패널
-class SignUp extends JPanel{
+class SignUp extends JPanel implements ActionListener{
 	
-	private LoginAWT win;
+	LoginAWT win;
 	Image img;
+	JTextField textField;
+	JComboBox cbx;
+	LoginMgr mgr = new LoginMgr();
+	
+	
+	
 	public SignUp(LoginAWT win) {
 		
 		img = Toolkit.getDefaultToolkit().getImage("C:/Java2/myJava/warehouse/images/signUpTitle.png");
@@ -108,7 +119,7 @@ class SignUp extends JPanel{
 		
 		add(imgBack);
 		
-		JTextField textField = new JTextField();
+		textField = new JTextField();
 		textField.setBounds(146, 133, 130, 21);
 		add(textField);
 		textField.setColumns(10);
@@ -117,8 +128,12 @@ class SignUp extends JPanel{
 		lblNewLabel.setBounds(52, 136, 72, 15);
 		add(lblNewLabel);
 		
-		JComboBox cbx = new JComboBox();
+		cbx = new JComboBox();
 		cbx.setBounds(146, 183, 130, 21);
+		cbx.addItem("LG");
+		cbx.addItem("SAMSUNG");
+		cbx.addItem("SKT");
+		String com = cbx.getSelectedItem().toString();
 		add(cbx);
 		
 		JLabel lblNewLabel2 = new JLabel("회사명");
@@ -134,19 +149,37 @@ class SignUp extends JPanel{
 		joinBtn.setFocusPainted(false);
 		add(joinBtn);
 		
-		joinBtn.addActionListener(new MyActionListener());
+		joinBtn.addActionListener(this);
 	}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(img, 56,0,this);
+		
+		
 	}
 	
-	class MyActionListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			win.dispose();//LoginAWT 사라지고
-			new MainAWT();
-		}
+//	class MyActionListener implements ActionListener{
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			MemberBean bean = new MemberBean();
+//			bean.setTel(textField.getText());
+//			mgr.insert(bean);
+//			win.dispose();//LoginAWT 사라지고
+////			new MainAWT();
+//		}
+//	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		MemberBean bean = new MemberBean();
+		bean.setTel(textField.getText());
+		bean.setAddress("123");
+		bean.setName("123");
+		mgr.insert(bean);
+		win.dispose();//LoginAWT 사라지고
+//		new MainAWT();
 	}
 }
 
