@@ -133,8 +133,10 @@ public class ReleasedAWT {
 				}
 				Vector<ProductBean> searchResult=rsl.loadWarehouseOut(keyword);
 				int l=dtm.getRowCount();
+				System.out.println(l);
 				for(int i=l-1;i>=0;i--)
 					dtm.removeRow(i);
+				System.out.println(searchResult);
 				dtm.addRow(searchResult);
 				//String[][] tableContents=new String[][6]();
 				//while() {}
