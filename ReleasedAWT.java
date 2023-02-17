@@ -160,7 +160,7 @@ public class ReleasedAWT {
 					JOptionPane.showMessageDialog(null,"출고를 진행할 제품을 선택하십시오.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				String s=dtm.getDataVector().toString();
+				String s=dtm.getDataVector().elementAt(table.getSelectedRow()).toString();
 				awt=new ReleaseAWT2(s);
 			}
 		});
