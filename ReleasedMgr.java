@@ -7,6 +7,10 @@ import java.util.Vector;
 
 public class ReleasedMgr {
 	DBConnectionMgr pool;
+	public ReleasedMgr()
+	{
+		pool=DBConnectionMgr.getInstance();
+	}
 	public Vector<ProductBean> loadWarehouseOut(String keyword)//출고 테이블 부르기
 	{
 		Connection con = null;
@@ -16,10 +20,11 @@ public class ReleasedMgr {
 		Vector<ProductBean> vlist=new Vector<ProductBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from PRODUCT where PROD_CODE = ? OR PROD_NAME = ?";
+			sql = "select * from product where PROD_CODE like ? OR PROD_NAME like ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, keyword);
 			pstmt.setString(2, keyword);
+			System.out.println(keyword);
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
@@ -45,7 +50,7 @@ public class ReleasedMgr {
 		Vector<ReleasedBean> vlist=new Vector<ReleasedBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from TAKEOUT_LOG where PROD_CODE = ? or MEMBER_IDX = ?";
+			sql = "select * from takeout_log where PROD_CODE = ? or MEMBER_IDX = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, keyword);
 			pstmt.setString(2, keyword);
@@ -73,7 +78,7 @@ public class ReleasedMgr {
 		boolean flag=false;
 		try {
 			con = pool.getConnection();
-			sql = "insert into TAKEOUT_LOG values (?,?,now(),?,?)";//mysql 안에서 현재시간 불러오는 건 now()
+			sql = "insert into takeout_log values (?,?,now(),?,?)";//mysql 안에서 현재시간 불러오는 건 now()
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, prodCode);
 			pstmt.setInt(2, memberIdx);
