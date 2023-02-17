@@ -12,15 +12,20 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 
 public class ZipcodeAWT {
 
 	private JFrame frame;
 	private JTextField textField;
-
+	ZipcodeMgr mgr;
+	private JList searchedList;
 	/**
 	 * Launch the application.
 	 */
@@ -81,6 +86,29 @@ public class ZipcodeAWT {
 		JButton btnNewButton_1 = new JButton("");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String keyword=textField.getText();
+				if(keyword.length()==0)
+				{
+					JOptionPane.showMessageDialog(null, "경고","검색할 키워드를 입력하십시오.",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				searchedList.removeAll();
+				Vector<String> serachResult=mgr.getSearchedResult(keyword);
+				if(serachResult.isEmpty())
+				{
+					JOptionPane.showMessageDialog(null, "검색 결과가 없습니다.\n정확한 도로명을 입력하였는지 확인해 주십시오.","알림",JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				/*
+				for(int i=0; i<serachResult.size();i++) {
+					ZipcodeBean bean = serachResult.get(i);
+					String str = bean.getZipcode()+" ";
+					str += bean.getArea1()+" ";
+					str += bean.getArea2()+" ";
+					str += bean.getArea3()+" ";
+					searchedList.add;
+				}*/
+				searchedList.setListData(serachResult);
 			}
 		});
 		btnNewButton_1.setIcon(new ImageIcon(ZipcodeAWT.class.getResource("/warehouse/images/addressSearchBtn.png")));
@@ -89,9 +117,10 @@ public class ZipcodeAWT {
 		btnNewButton_1.setFocusPainted(false);
 		btnNewButton_1.setContentAreaFilled(false);
 		
-		JList list = new JList();
-		list.setPreferredSize(new Dimension(270,250));
-		panel.add(list);
+		searchedList = new JList();
+		searchedList.setPreferredSize(new Dimension(270,250));
+		panel.add(searchedList);
+		searchedList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
 }
