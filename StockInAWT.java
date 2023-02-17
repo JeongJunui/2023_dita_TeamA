@@ -1,38 +1,40 @@
 package warehouse;
 
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.PublicKey;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 public class StockInAWT extends JFrame implements ActionListener{
 
 	JPanel p1,p2,p3;
+	static JPanel p4;
 	JButton b1,b2,b3,regBtn, search;
 	JLabel label, label2, l3,label3;
-	JLabel pl1, pl2, pl3, pl4, pl5, pl6, pl7;
-	JTextField pf1, pf2, pf3, pf4, pf5, pf6, pf7;
+	JTextField pf[] = new JTextField[7];
+	JLabel pl[] = new JLabel[7];
 	JTextField searchField;
-	JLabel bar1, bar2, bar3, bar4, bar5, bar6, bar7;
 	Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
-	JTable stockinTable;
+	//JTable stockinTable;
 	int menuCheck = 0;
+	
+	int num[] = new int[7];
+	DefaultTableModel model;
 	
 	class imgPanel extends JPanel{ //입고하기 안에 있는 패널
 		Image background=new ImageIcon(StockInAWT.class.getResource("/warehouse/images/releaseBox.png")).getImage();
@@ -96,10 +98,22 @@ public class StockInAWT extends JFrame implements ActionListener{
 		p1.add(b3);
 		add(p1);
 		
-		rightPanel();
+		//테이블 미리 선언
+//		String header[] = {"물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
+//		Object data[][] = {{"A01", "옷", "바지", "34", "black", "50"}};
+//		model = new DefaultTableModel(data, header);
+//		stockinTable = new JTable(model);
+		
+		
+		rightPanel();	//입고하기 페이지 실행
 	}
 
 	public void rightPanel(){ //입고하기
+		
+		
+		JLabel bar[] = new JLabel[7];
+		
+		
 		p2 = new JPanel();
 		p2.setLayout(null); 
 		p2.setBackground(new Color(0,32,96));
@@ -119,108 +133,58 @@ public class StockInAWT extends JFrame implements ActionListener{
 		startP.setBounds(50, 130, 450, 300);
 		p2.add(startP);
 		
-		pl1 = new JLabel("물품코드 : ");
-		pl1.setBounds(20,20,80,30);
-		pl1.setFont(myFont1);
-		startP.add(pl1);
+		pl[0] = new JLabel("물품코드 : ");
+		pl[1] = new JLabel("카테고리 : ");
+		pl[2] = new JLabel("물품명 : ");
+		pl[3] = new JLabel("사이즈 : ");
+		pl[4] = new JLabel("색상 : ");
+		pl[5] = new JLabel("입고수량 : ");
+		pl[6] = new JLabel("고객번호 : ");
 		
-		pl2 = new JLabel("카테고리 : ");
-		pl2.setBounds(220,20,80,30);
-		pl2.setFont(myFont1);
-		startP.add(pl2);
+		for (int i = 0; i < 7; i++) {
+			if(i%2 == 1) {
+				pl[i].setBounds(220, 20+(60*(i/2)), 80, 30);
+			} else {
+				pl[i].setBounds(20, 20+(60*(i/2)), 80, 30);
+			}
+			pl[i].setFont(myFont1);
+			startP.add(pl[i]);
+		}
 		
-		pl3 = new JLabel("물품명 : ");
-		pl3.setBounds(20,80,80,30);
-		pl3.setFont(myFont1);
-		startP.add(pl3);
 		
-		pl4 = new JLabel("사이즈 : ");
-		pl4.setBounds(220,80,70,30);
-		pl4.setFont(myFont1);
-		startP.add(pl4);
 		
-		pl5 = new JLabel("색상 : ");
-		pl5.setBounds(20,140,70,30);
-		pl5.setFont(myFont1);
-		startP.add(pl5);
-		
-		pl6 = new JLabel("입고수량 : ");
-		pl6.setBounds(220,140,80,30);
-		pl6.setFont(myFont1);
-		startP.add(pl6);
-		
-		pl7 = new JLabel("고객번호 : ");
-		pl7.setBounds(20,200,80,30);
-		pl7.setFont(myFont1);
-		startP.add(pl7);
-		
-		pf1 = new JTextField("물품코드");
-		pf1.setBounds(100,20,100,30);
-		startP.add(pf1);
-		
-		pf2 = new JTextField("카테고리");
-		pf2.setBounds(300,20,100,30);
-		startP.add(pf2);
-		
-		pf3 = new JTextField("물품명");
-		pf3.setBounds(100,80,100,30);
-		startP.add(pf3);
-		
-		pf4 = new JTextField("사이즈");
-		pf4.setBounds(300,80,100,30);
-		startP.add(pf4);
-		
-		pf5 = new JTextField("색상");
-		pf5.setBounds(100,140,100,30);
-		startP.add(pf5);
-		
-		pf6 = new JTextField("입고수량");
-		pf6.setBounds(300,140,100,30);
-		startP.add(pf6);
-		
-		pf7 = new JTextField("고객번호");
-		pf7.setBounds(100,200,100,30);
-		startP.add(pf7);
+		for (int i = 0; i < 7; i++) {
+			pf[i] = new JTextField("");
+			if(i%2 == 1) {
+				pf[i].setBounds(300, 20+(60*(i/2)), 100, 30);
+			} else {
+				pf[i].setBounds(100, 20+(60*(i/2)), 100, 30);
+			}
+			pf[i].setBorder(null);
+			startP.add(pf[i]);
+		}
 		
 		regBtn = new JButton();
 		regBtn.setBounds(310, 250, 130, 40);
 		regBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/regist.png")));
+		regBtn.addActionListener(this);
 		startP.add(regBtn);
 		
-		bar1 = new JLabel();
-		bar1.setBounds(20,20,200,70);
-		bar1.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
-		startP.add(bar1);
+		for (int i = 0; i < 7; i++) {
+			bar[i] = new JLabel();
+			if(i%2 == 1) {
+				bar[i].setBounds(220,20+(60*(i/2)),200,70);
+			} else {
+				bar[i].setBounds(20,20+(60*(i/2)),200,70);
+			}
+			bar[i].setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
+			startP.add(bar[i]);
+		}
 		
-		bar2 = new JLabel();
-		bar2.setBounds(220,20,200,70);
-		bar2.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
-		startP.add(bar2);
+	}
+	
+	public void setBorder(Border border) {
 		
-		bar3 = new JLabel();
-		bar3.setBounds(20,80,200,70);
-		bar3.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
-		startP.add(bar3);
-		
-		bar4 = new JLabel();
-		bar4.setBounds(220,80,200,70);
-		bar4.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
-		startP.add(bar4);
-		
-		bar5 = new JLabel();
-		bar5.setBounds(20,140,200,70);
-		bar5.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
-		startP.add(bar5);
-		
-		bar6 = new JLabel();
-		bar6.setBounds(220,140,200,70);
-		bar6.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
-		startP.add(bar6);
-		
-		bar7 = new JLabel();
-		bar7.setBounds(20,200,200,70);
-		bar7.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
-		startP.add(bar7);
 	}
 	
 	public void rightPanel2() { //입고현황
@@ -263,21 +227,20 @@ public class StockInAWT extends JFrame implements ActionListener{
 		delete.setFocusable(false);
 		p3.add(delete);
 		
-		JPanel p4 = new JPanel();
+		p4 = new JPanel();
 		p4.setBounds(25, 160, 505, 230);
 		p3.add(p4);
-		String colNames[] = {"입고순서","물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
-		Object data[][] = {{1, "A01", "옷", "바지", "34", "black", "50"}};
-		stockinTable = new JTable(data, colNames);
-		JScrollPane scrollPane = new JScrollPane(stockinTable);
-		p4.add(scrollPane);
+		
+		new loadStockin(this);
+//		JScrollPane scrollPane = new JScrollPane(stockinTable);
+//		p4.add(scrollPane);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		
-		
+		String str[] = new String[6];
+		int check = 0;
 		if(obj == b1) {
 			if(menuCheck == 0) {
 //				p2.setVisible(false);
@@ -300,20 +263,35 @@ public class StockInAWT extends JFrame implements ActionListener{
 				repaint();
 				menuCheck = 1;
 			} else if(menuCheck == 1) {
-//				p3.setVisible(false);
-//				rightPanel2();
-//				revalidate();
-//				repaint();
 			}
 			System.out.println("2번 버튼!!!!!!!!!" + menuCheck);
 		}else if(obj==b3) {
-			System.out.println("3번 버튼!!!!!!!!!");
+			for (int i = 0; i < 6; i++) {
+				str[i] = pf[i].getText();
+				System.out.println(str[i]);
+			}
+			
+		}else if(obj == regBtn){
+			for (int i = 0; i < 6; i++) {
+				str[i] = pf[i].getText();
+				if(str[i].isEmpty()) { //빈값 체크
+					System.out.println("빈값");
+					JOptionPane.showMessageDialog(null, pl[i].getText() + "에 빈값이 있습니다");
+					check++;
+				}
+			}
+			if(check == 0) { //빈값 없으면 테이블 추가
+//				DefaultTableModel model = (DefaultTableModel)stockinTable.getModel();
+				model.addRow(str);
+			}
+			for (int i = 0; i < 6; i++) {
+				pf[i].setText("");
+			} //값비우기
+			check = 0;
 		}
-		
 	}
 	
 	public static void main(String[] args) {
 		new StockInAWT();
 	}
-
 }

@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Released {
 	DBConnectionMgr pool;
-	public Vector<ProductBean> loadWarehouseOut(String prodCode, String prodName)//출고 테이블 부르기
+	public Vector<ProductBean> loadWarehouseOut(String keyword)//출고 테이블 부르기
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -18,8 +18,8 @@ public class Released {
 			con = pool.getConnection();
 			sql = "select * from PRODUCT where PROD_CODE = ? OR PROD_NAME = ?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, prodCode);
-			pstmt.setString(2, prodName);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
