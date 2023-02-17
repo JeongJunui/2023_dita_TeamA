@@ -5,14 +5,21 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+import java.awt.event.ActionEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class ReleasedAWT {
 
@@ -22,6 +29,11 @@ public class ReleasedAWT {
 	private JLabel lblNewLabel_1;
 	private JTextField searchTextField;
 	private JTable table;
+	Released rsl;
+	private Object[][] tableContent=new Object[0][6];
+	String[] tableCol= {"물품코드","카테고리","물품명","사이즈","색상","재고량"};
+	DefaultTableModel dtm; 
+	JScrollPane tableScroll;
 
 	/**
 	 * Launch the application.
@@ -53,6 +65,7 @@ public class ReleasedAWT {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dtm=new DefaultTableModel(tableContent, tableCol);
 		p1=new JPanel();
 		p1.setLayout(null);
 		p1.setBackground(new Color(44,122,147));
@@ -105,16 +118,34 @@ public class ReleasedAWT {
 		searchTextField.setColumns(10);
 		
 		JButton searchButton = new JButton("");
+		searchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String keyword=searchTextField.getText();
+				if(keyword.length()==0)
+				{
+					JOptionPane.showMessageDialog(null, "경고","검색할 키워드를 입력하십시오.",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				Vector<ProductBean> searchResult=rsl.loadWarehouseOut(keyword);
+				int l=dtm.getRowCount();
+				for(int i=l-1;i>=0;i--)
+					dtm.removeRow(i);
+				dtm.addRow(searchResult);
+				//String[][] tableContents=new String[][6]();
+				//while() {}
+			}
+		});
 		searchButton.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/searchBtn.png")));
 		panel_1.add(searchButton);
 		searchButton.setBorderPainted(false);
 		searchButton.setFocusPainted(false);
 		searchButton.setContentAreaFilled(false);
 		
-		table = new JTable();
-		table.setColumnSelectionAllowed(true);
-		table.setBounds(12, 73, 503, 203);
-		panel.add(table);
+		table = new JTable(dtm);
+		table.setRowSelectionAllowed(true);
+		tableScroll=new JScrollPane(table);
+		tableScroll.setBounds(12, 73, 503, 233);
+		panel.add(tableScroll);
 		
 		JButton releaseButton = new JButton("");
 		releaseButton.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/releaseBtn.png")));
