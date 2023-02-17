@@ -15,8 +15,8 @@ import net.DBConnectionMgr;
 public class HistorySearchMgr extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
-	private String[] colNames = { "ì…ê³ ë‚ ì§œ", "ì¹´í…Œê³ ë¦¬", "ì œí’ˆì½”ë“œ", "ì…ê³ ìˆ˜ëŸ‰", "ê³ ê°ë²ˆí˜¸" };
-	private String[] colNames2 = { "ì¶œê³ ë‚ ì§œ", "ì¹´í…Œê³ ë¦¬", "ì œí’ˆì½”ë“œ", "ì¶œê³ ìˆ˜ëŸ‰", "ê³ ê°ë²ˆí˜¸", "ë¹„ê³ " };
+	private String[] colNames = { "ÀÔ°í³¯Â¥", "Ä«Å×°í¸®", "Á¦Ç°ÄÚµå", "ÀÔ°í¼ö·®", "°í°´¹øÈ£" };
+	private String[] colNames2 = { "Ãâ°í³¯Â¥", "Ä«Å×°í¸®", "Á¦Ç°ÄÚµå", "Ãâ°í¼ö·®", "°í°´¹øÈ£", "ºñ°í" };
 	private DefaultTableModel model = new DefaultTableModel(colNames, 0);
 	private DefaultTableModel model2 = new DefaultTableModel(colNames2, 0);
 	private Connection con = null;
@@ -27,7 +27,7 @@ public class HistorySearchMgr extends JPanel {
 	String cbText, tfText;
 	StatisticsAWT statisticsAWT;
 
-	// ì…ì¶œê³  ë‚´ì—­ í…Œì´ë¸”
+	// ÀÔÃâ°í ³»¿ª Å×ÀÌºí
 	public HistorySearchMgr(StatisticsAWT statisticsAWT, int reciept_releaseCheck, String cbText, String tfText) {
 		this.reciept_releaseCheck = reciept_releaseCheck;
 		this.statisticsAWT = statisticsAWT;
@@ -52,21 +52,21 @@ public class HistorySearchMgr extends JPanel {
 		select();
 	}
 
-	// ì¡°íšŒí•˜ê¸°
+	// Á¶È¸ÇÏ±â
 	public void select() {
 		String sql = null;
 
-		if (reciept_releaseCheck == 0) { // ì…ê³  ë‚´ì—­
+		if (reciept_releaseCheck == 0) { // ÀÔ°í ³»¿ª
 			try {
 				con = pool.getConnection();
 				sql = "SELECT s.STORED_DATE, p.CATEGORY, s.PROD_CODE, s.STORED_STOCK, s.MEMBER_IDX\r\n"
 						+ "FROM stored_log s, product p, member m\r\n" + "where s.PROD_CODE = p.PROD_CODE\r\n"
 						+ "	and s.MEMBER_IDX = m.MEMBER_IDX and";
 
-				if (cbText.equals("ì œí’ˆì½”ë“œ")) {
+				if (cbText.equals("Á¦Ç°ÄÚµå")) {
 					pstmt = con.prepareStatement(
 							sql + " s.PROD_CODE LIKE '" + tfText + "%'"+"ORDER BY s.STORED_DATE DESC");
-				} else if (cbText.equals("ê³ ê°ì½”ë“œ")) {
+				} else if (cbText.equals("°í°´ÄÚµå")) {
 					int tfText2 = Integer.parseInt(tfText);
 					pstmt = con.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'"+"ORDER BY s.STORED_DATE DESC");
 				}
@@ -89,17 +89,17 @@ public class HistorySearchMgr extends JPanel {
 
 			}
 			statisticsAWT.p3.add(this);
-		} else if (reciept_releaseCheck == 1) { // ì¶œê³  ë‚´ì—­
+		} else if (reciept_releaseCheck == 1) { // Ãâ°í ³»¿ª
 			try {
 				con = pool.getConnection();
 				sql = "SELECT t.TAKEOUT_DATE, p.CATEGORY, p.PROD_CODE, t.TAKEOUT_AMOUNT, t.MEMBER_IDX, t.OTHER\r\n"
 						+ "FROM takeout_log t, product p, member m\r\n" + "where t.PROD_CODE = p.PROD_CODE\r\n"
 						+ "	and t.MEMBER_IDX = m.MEMBER_IDX and";
 				
-				if (cbText.equals("ì œí’ˆì½”ë“œ")) {
+				if (cbText.equals("Á¦Ç°ÄÚµå")) {
 					pstmt = con.prepareStatement(
 							sql + " t.PROD_CODE LIKE '" + tfText + "%'"+"ORDER BY t.TAKEOUT_DATE DESC");
-				} else if (cbText.equals("ê³ ê°ì½”ë“œ")) {
+				} else if (cbText.equals("°í°´ÄÚµå")) {
 					int tfText2 = Integer.parseInt(tfText);
 					pstmt = con.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'"+"ORDER BY t.TAKEOUT_DATE DESC");
 				}

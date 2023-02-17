@@ -15,8 +15,8 @@ import net.DBConnectionMgr;
 public class HistoryMgr extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
-	private String[] colNames={ "ì…ê³ ë‚ ì§œ", "ì¹´í…Œê³ ë¦¬", "ì œí’ˆì½”ë“œ", "ì…ê³ ìˆ˜ëŸ‰", "ê³ ê°ë²ˆí˜¸"};
-	private String[] colNames2={ "ì¶œê³ ë‚ ì§œ", "ì¹´í…Œê³ ë¦¬", "ì œí’ˆì½”ë“œ", "ì¶œê³ ìˆ˜ëŸ‰", "ê³ ê°ë²ˆí˜¸", "ë¹„ê³ " };
+	private String[] colNames={ "ÀÔ°í³¯Â¥", "Ä«Å×°í¸®", "Á¦Ç°ÄÚµå", "ÀÔ°í¼ö·®", "°í°´¹øÈ£"};
+	private String[] colNames2={ "Ãâ°í³¯Â¥", "Ä«Å×°í¸®", "Á¦Ç°ÄÚµå", "Ãâ°í¼ö·®", "°í°´¹øÈ£", "ºñ°í" };
 	private DefaultTableModel model = new DefaultTableModel(colNames, 0);
 	private DefaultTableModel model2 = new DefaultTableModel(colNames2, 0);
 	private Connection con = null;
@@ -26,7 +26,7 @@ public class HistoryMgr extends JPanel {
 	int reciept_releaseCheck;
 	StatisticsAWT statisticsAWT;
 
-	// ì…ì¶œê³  ë‚´ì—­ í…Œì´ë¸”
+	// ÀÔÃâ°í ³»¿ª Å×ÀÌºí
 	public HistoryMgr(StatisticsAWT statisticsAWT, int reciept_releaseCheck) {
 		this.reciept_releaseCheck = reciept_releaseCheck;
 		this.statisticsAWT = statisticsAWT;
@@ -48,11 +48,11 @@ public class HistoryMgr extends JPanel {
 		select();
 	}
 
-	// sql ë¬¸
+	// sql ¹®
 	private void select() {
 		String sql = null;
 
-		if (reciept_releaseCheck == 0) { // ì…ê³  ë‚´ì—­
+		if (reciept_releaseCheck == 0) { // ÀÔ°í ³»¿ª
 			try {
 				con = pool.getConnection();
 				sql = "SELECT s.STORED_DATE, p.CATEGORY, s.PROD_CODE, s.STORED_STOCK, m.MEMBER_IDX\r\n"
@@ -81,7 +81,7 @@ public class HistoryMgr extends JPanel {
 
 			}
 			statisticsAWT.p3.add(this);
-		} else if (reciept_releaseCheck == 1) { // ì¶œê³  ë‚´ì—­
+		} else if (reciept_releaseCheck == 1) { // Ãâ°í ³»¿ª
 			try {
 				con = pool.getConnection();
 				sql = "SELECT t.TAKEOUT_DATE, p.CATEGORY, p.PROD_CODE, t.TAKEOUT_AMOUNT, m.MEMBER_IDX, t.OTHER\r\n"

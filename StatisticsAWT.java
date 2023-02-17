@@ -32,11 +32,11 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 	JTable table;
 	JScrollPane scrollpane;
 	Vector<Object> list;
-	int menuCheck = 0; // ìƒí™©ì— ë”°ë¥¸ ë©”ë‰´ ì¹´í…Œê³ ë¦¬ ë²„íŠ¼ íŒ¨ë„ ë³€í™˜ í™•ì¸
-	int reciept_releaseCheck = 0; // ìƒí•­ì— ë”°ë¥¸ ì…ê³  ì¶œê³  ë²„íŠ¼ íŒ¨ë„ ë³€í™˜ í™•ì¸
+	int menuCheck = 0; // »óÈ²¿¡ µû¸¥ ¸Ş´º Ä«Å×°í¸® ¹öÆ° ÆĞ³Î º¯È¯ È®ÀÎ
+	int reciept_releaseCheck = 0; // »óÇ×¿¡ µû¸¥ ÀÔ°í Ãâ°í ¹öÆ° ÆĞ³Î º¯È¯ È®ÀÎ
 	boolean historySeacrhCheck, inventoryStatusSearchCheck;
 
-// ----------------------------------------í†µê³„ í”„ë ˆì„ ìƒì„±----------------------------------------
+// ----------------------------------------Åë°è ÇÁ·¹ÀÓ »ı¼º----------------------------------------
 	public StatisticsAWT() {
 		getContentPane().setLayout(null);
 		setSize(700, 500);
@@ -47,26 +47,26 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		menuPanel();
 	}
 
-// ----------------------------------------í†µê³„ ë©”ë‰´ íŒ¨ë„ ìƒì„±----------------------------------------
+// ----------------------------------------Åë°è ¸Ş´º ÆĞ³Î »ı¼º----------------------------------------
 	public void menuPanel() {
 		p1 = new JPanel();
 		p1.setLayout(null);
 		p1.setBackground(new Color(44, 112, 147));
 		p1.setBounds(0, 0, 133, 461);
-		// í†µê³„ íƒ€ì´í‹€
+		// Åë°è Å¸ÀÌÆ²
 		image = new ImageIcon(".\\images\\statisticsTitle.png");
 		statisticsTitle = new JLabel(image);
 		statisticsTitle.setBounds(10, 30, 119, 48);
-		// ì…ì¶œê³  ë‚´ì—­ ë²„íŠ¼
+		// ÀÔÃâ°í ³»¿ª ¹öÆ°
 		p1_btn1 = new JButton();
 		p1_btn1.setIcon(new ImageIcon(".\\images\\statusBtn1_1.png"));
 		p1_btn1.setRolloverIcon(new ImageIcon(".\\images\\statusBtn1_2.png"));
 		p1_btn1.setBounds(20, 150, 110, 30);
-		p1_btn1.setBorderPainted(false);// ë²„íŠ¼ í…Œë‘ë¦¬ íˆ¬ëª…ìƒ‰
-		p1_btn1.setContentAreaFilled(false);// ë²„íŠ¼ íˆ¬ëª…ìƒ‰
+		p1_btn1.setBorderPainted(false);// ¹öÆ° Å×µÎ¸® Åõ¸í»ö
+		p1_btn1.setContentAreaFilled(false);// ¹öÆ° Åõ¸í»ö
 		p1_btn1.setFocusable(false);
 		p1_btn1.addActionListener(this);
-		// ì¬ê³  í˜„í™© ë²„íŠ¼
+		// Àç°í ÇöÈ² ¹öÆ°
 		p1_btn2 = new JButton();
 		p1_btn2.setIcon(new ImageIcon(".\\images\\statusBtn2_1.png"));
 		p1_btn2.setRolloverIcon(new ImageIcon(".\\images\\statusBtn2_2.png"));
@@ -75,7 +75,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p1_btn2.setContentAreaFilled(false);
 		p1_btn2.setFocusable(false);
 		p1_btn2.addActionListener(this);
-		// ê¸°ê°„ë³„ ì°¨íŠ¸ ë²„íŠ¼
+		// ±â°£º° Â÷Æ® ¹öÆ°
 		p1_btn3 = new JButton();
 		p1_btn3.setIcon(new ImageIcon(".\\images\\statusBtn3_1.png"));
 		p1_btn3.setRolloverIcon(new ImageIcon(".\\images\\statusBtn3_2.png"));
@@ -84,7 +84,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p1_btn3.setContentAreaFilled(false);
 		p1_btn3.setFocusable(false);
 		p1_btn3.addActionListener(this);
-		// Home ë²„íŠ¼
+		// Home ¹öÆ°
 		p1_btn4 = new JButton();
 		p1_btn4.setIcon(new ImageIcon(".\\images\\homeBtn.png"));
 		p1_btn4.setRolloverIcon(new ImageIcon(".\\images\\homeBtn2.png"));
@@ -102,29 +102,29 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		add(p1);
 		historySearchPanel();
 	}
-// ----------------------------------------ì…ì¶œê³  ë‚´ì—­ ì¡°íšŒ íŒ¨ë„----------------------------------------
+// ----------------------------------------ÀÔÃâ°í ³»¿ª Á¶È¸ ÆĞ³Î----------------------------------------
 	public void historySearchPanel() {
 		p2 = new JPanel();
 		p2.setLayout(null);
 		p2.setBackground(new Color(0, 32, 96));
 		p2.setBounds(132, 0, 552, 135);
-		// ì…ì¶œê³  ë‚´ì—­ íƒ€ì´í‹€
+		// ÀÔÃâ°í ³»¿ª Å¸ÀÌÆ²
 		image = new ImageIcon(".\\images\\history.png");
 		history = new JLabel(image);
 		history.setBounds(10, 30, 290, 48);
 
 		list = new Vector<>();
-		list.add("ì œí’ˆì½”ë“œ");
-		list.add("ê³ ê°ì½”ë“œ");
+		list.add("Á¦Ç°ÄÚµå");
+		list.add("°í°´ÄÚµå");
 		comboBox = new JComboBox(list);
 		comboBox.setBounds(25, 95, 90, 32);
 		comboBox.addActionListener(this);
-		cbText = "ì œí’ˆì½”ë“œ";
+		cbText = "Á¦Ç°ÄÚµå";
 
 		textField = new JTextField("");
 		textField.setBounds(119, 95, 180, 32);
 		textField.setColumns(10);
-		// ì¡°íšŒí•˜ê¸° ë²„íŠ¼
+		// Á¶È¸ÇÏ±â ¹öÆ°
 		p2_btn1 = new JButton();
 		p2_btn1.setIcon(new ImageIcon(".\\images\\check.png"));
 		p2_btn1.setRolloverIcon(new ImageIcon(".\\images\\check_1.png"));
@@ -133,7 +133,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p2_btn1.setContentAreaFilled(false);
 		p2_btn1.setFocusable(false);
 		p2_btn1.addActionListener(this);
-		// ì „ì²´ì¡°íšŒ ë²„íŠ¼
+		// ÀüÃ¼Á¶È¸ ¹öÆ°
 		p2_btn2 = new JButton();
 		p2_btn2.setIcon(new ImageIcon(".\\images\\checkAll.png"));
 		p2_btn2.setRolloverIcon(new ImageIcon(".\\images\\checkAll_1.png"));
@@ -152,14 +152,14 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		add(p2);
 		historyTablePanel();
 	}
-// ----------------------------------------ì…ì¶œê³  ë‚´ì—­ í…Œì´ë¸” íŒ¨ë„----------------------------------------
+// ----------------------------------------ÀÔÃâ°í ³»¿ª Å×ÀÌºí ÆĞ³Î----------------------------------------
 	public void historyTablePanel() {
 		p3 = new JPanel();
 		p3.setLayout(null);
 		p3.setBackground(new Color(0, 32, 96));
 		p3.setBounds(132, 135, 552, 326);
 
-		// ì…ê³ ë‚´ì—­ ë²„íŠ¼
+		// ÀÔ°í³»¿ª ¹öÆ°
 		p3_btn1 = new JButton();
 		p3_btn1.setIcon(new ImageIcon(".\\images\\receiptHistoryBtn1.png"));
 		p3_btn1.setRolloverIcon(new ImageIcon(".\\images\\receiptHistoryBtn2.png"));
@@ -168,7 +168,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p3_btn1.setContentAreaFilled(false);
 		p3_btn1.setFocusable(false);
 		p3_btn1.addActionListener(this);
-		// ì¶œê³ ë‚´ì—­ ë²„íŠ¼
+		// Ãâ°í³»¿ª ¹öÆ°
 		p3_btn2 = new JButton();
 		p3_btn2.setIcon(new ImageIcon(".\\images\\releaseHistoryBtn1.png"));
 		p3_btn2.setRolloverIcon(new ImageIcon(".\\images\\releaseHistoryBtn2.png"));
@@ -179,7 +179,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p3_btn2.addActionListener(this);
 		p3.add(p3_btn1);
 		p3.add(p3_btn2);
-		// ì…ì¶œê³ ë‚´ì—­ í…Œì´ë¸” í´ë˜ìŠ¤ í˜¸ì¶œ
+		// ÀÔÃâ°í³»¿ª Å×ÀÌºí Å¬·¡½º È£Ãâ
 		if (historySeacrhCheck) {
 			new HistorySearchMgr(this, reciept_releaseCheck, cbText, tfText);
 			add(p3);
@@ -189,38 +189,38 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		}
 		setVisible(true);
 	}
-// ----------------------------------------ì¬ê³  í˜„í™© ì¡°íšŒ íŒ¨ë„----------------------------------------
+// ----------------------------------------Àç°í ÇöÈ² Á¶È¸ ÆĞ³Î----------------------------------------
 	public void inventoryStatusSearchPanel() {
 		p4 = new JPanel();
 		p4.setLayout(null);
 		p4.setBackground(new Color(0, 32, 96));
 		p4.setBounds(132, 0, 552, 160);
-		// í˜„ ì¬ê³  í˜„í™© íƒ€ì´í‹€
+		// Çö Àç°í ÇöÈ² Å¸ÀÌÆ²
 		image = new ImageIcon(".\\images\\invenStatus.png");
 		invenStatus = new JLabel(image);
 		invenStatus.setBounds(10, 30, 290, 48);
-		// ì¹´í…Œê³ ë¦¬ ì œí’ˆëª… ë¼ë²¨
+		// Ä«Å×°í¸® Á¦Ç°¸í ¶óº§
 		image = new ImageIcon(".\\images\\category&name.png");
 		categoryName = new JLabel(image);
 		categoryName.setBounds(164, 85, 210, 48);
 
 		list = new Vector<>();
-		list.add("ë°”ì§€");
-		list.add("ì˜·3");
-		list.add("ì˜·2");
-		list.add("ì˜·1");
+		list.add("¹ÙÁö");
+		list.add("¿Ê3");
+		list.add("¿Ê2");
+		list.add("¿Ê1");
 
 		comboBox2 = new JComboBox(list);
 		comboBox2.setBounds(175, 123, 65, 27);
 		comboBox2.addActionListener(this);
-		cbText2 = "ë°”ì§€";
+		cbText2 = "¹ÙÁö";
 
 		textField2 = new JTextField("");
 		textField2.setBounds(240, 123, 130, 27);
 		textField2.setColumns(10);
 		textField2.addActionListener(this);
 
-		// ì¡°íšŒí•˜ê¸° ë²„íŠ¼
+		// Á¶È¸ÇÏ±â ¹öÆ°
 		p4_btn1 = new JButton();
 		p4_btn1.setIcon(new ImageIcon(".\\images\\check2.png"));
 		p4_btn1.setRolloverIcon(new ImageIcon(".\\images\\check2_1.png"));
@@ -229,7 +229,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p4_btn1.setContentAreaFilled(false);
 		p4_btn1.setFocusable(false);
 		p4_btn1.addActionListener(this);
-		// ì „ì²´ì¡°íšŒ ë²„íŠ¼
+		// ÀüÃ¼Á¶È¸ ¹öÆ°
 		p4_btn2 = new JButton();
 		p4_btn2.setIcon(new ImageIcon(".\\images\\checkAll2.png"));
 		p4_btn2.setRolloverIcon(new ImageIcon(".\\images\\checkAll2_1.png"));
@@ -249,7 +249,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		add(p4);
 		inventoryStatusTablePanel();
 	}
-// ----------------------------------------ì¬ê³  í˜„í™© í…Œì´ë¸” íŒ¨ë„----------------------------------------
+// ----------------------------------------Àç°í ÇöÈ² Å×ÀÌºí ÆĞ³Î----------------------------------------
 	public void inventoryStatusTablePanel() {
 		p5 = new JPanel();
 		p5.setLayout(null);
@@ -264,25 +264,25 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			add(p5);
 		}
 	}
-// ----------------------------------------ê¸°ê°„ë³€ ì°¨íŠ¸ íŒ¨ë„----------------------------------------
+// ----------------------------------------±â°£º¯ Â÷Æ® ÆĞ³Î----------------------------------------
 	public void chartPanel() {
 		p6 = new JPanel();
 		p6.setLayout(null);
 		p6.setBackground(new Color(0, 32, 96));
-		p6.setBounds(132, 0, 552, 140);
-		// í˜„ ì¬ê³  í˜„í™© íƒ€ì´í‹€
+		p6.setBounds(132, 0, 552, 90);
+		// Çö Àç°í ÇöÈ² Å¸ÀÌÆ²
 		image = new ImageIcon(".\\images\\chart.png");
 		chart = new JLabel(image);
 		chart.setBounds(10, 30, 290, 48);
 
 		comboBox = new JComboBox();
-		comboBox.setBounds(327, 95, 90, 32);
+		comboBox.setBounds(327, 35, 90, 32);
 
-		// ì¡°íšŒí•˜ê¸° ë²„íŠ¼
+		// Á¶È¸ÇÏ±â ¹öÆ°
 		p6_btn1 = new JButton();
 		p6_btn1.setIcon(new ImageIcon(".\\images\\check.png"));
 		p6_btn1.setRolloverIcon(new ImageIcon(".\\images\\check_1.png"));
-		p6_btn1.setBounds(420, 94, 115, 38);
+		p6_btn1.setBounds(420, 34, 115, 38);
 		p6_btn1.setBorderPainted(false);
 		p6_btn1.setContentAreaFilled(false);
 		p6_btn1.setFocusable(false);
@@ -294,20 +294,21 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		add(p6);
 		charInputPanel();
 	}
-// ----------------------------------------ê¸°ê°€ë³€ ì°¨íŠ¸ ë„£ëŠ” íŒ¨ë„----------------------------------------	
+// ----------------------------------------±â°¡º¯ Â÷Æ® ³Ö´Â ÆĞ³Î----------------------------------------	
 	public void charInputPanel() {
 		p7 = new JPanel();
 		p7.setLayout(null);
-		p7.setBounds(133, 140, 551, 321);
+		p7.setBounds(133, 90, 551, 371);
 		p7.setBackground(new Color(0, 32, 96));
+		new GanttChartMgr(this);
 		add(p7);
 	}
-// ----------------------------------------ë²„íŠ¼ ì´ë²¤íŠ¸----------------------------------------
+// ----------------------------------------¹öÆ° ÀÌº¥Æ®----------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 
-		if (obj == p1_btn1) { // ì…ì¶œê³  ë‚´ì—­ ë²„íŠ¼
+		if (obj == p1_btn1) { // ÀÔÃâ°í ³»¿ª ¹öÆ°
 			if (menuCheck == 0) {
 				menuCheck = 0;
 				p2.setVisible(false);
@@ -325,12 +326,12 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 0;
 				p6.setVisible(false);
-				p7.setVisible(false);//ì¶”ê°€
+				p7.setVisible(false);//Ãß°¡
 				historySearchPanel();
 				revalidate();
 				repaint();
 			}
-		} else if (obj == p1_btn2) { // ì¬ê³  í˜„í™© ë²„íŠ¼
+		} else if (obj == p1_btn2) { // Àç°í ÇöÈ² ¹öÆ°
 			if (menuCheck == 0) {
 				menuCheck = 1;
 				p2.setVisible(false);
@@ -348,13 +349,13 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 1;
 				p6.setVisible(false);
-				p7.setVisible(false);//ì¶”ê°€
+				p7.setVisible(false);//Ãß°¡
 				inventoryStatusSearchPanel();
 				revalidate();
 				repaint();
 			}
 
-		} else if (obj == p1_btn3) { // ê¸°ê°„ë³„ ì°¨íŠ¸ ë²„íŠ¼
+		} else if (obj == p1_btn3) { // ±â°£º° Â÷Æ® ¹öÆ°
 			if (menuCheck == 0) {
 				menuCheck = 2;
 				p2.setVisible(false);
@@ -372,20 +373,20 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 2;
 				p6.setVisible(false);
-				p7.setVisible(false);//ì¶”ê°€
+				p7.setVisible(false);//Ãß°¡
 				chartPanel();
 				revalidate();
 				repaint();
 			}
 
-		} else if (obj == p1_btn4) { // Home ë²„íŠ¼
+		} else if (obj == p1_btn4) { // Home ¹öÆ°
 
-		} else if (obj == comboBox) { // ì…ì¶œê³  ë‚´ì—­ ì½¤ë³´ ë°•ìŠ¤
+		} else if (obj == comboBox) { // ÀÔÃâ°í ³»¿ª ÄŞº¸ ¹Ú½º
 			cbText = comboBox.getSelectedItem().toString();
 
-		} else if (obj == p2_btn1) { // ì…ì¶œê³  ë‚´ì—­ ì¡°íšŒí•˜ê¸° ë²„íŠ¼
+		} else if (obj == p2_btn1) { // ÀÔÃâ°í ³»¿ª Á¶È¸ÇÏ±â ¹öÆ°
 			if (textField.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "ì…ë ¥ëœ ê°’ì´ ì—†ìŠµë‹ˆë‹¤.", "ì—ëŸ¬", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ÀÔ·ÂµÈ °ªÀÌ ¾ø½À´Ï´Ù.", "¿¡·¯", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				tfText = textField.getText();
 				textField.setText("");
@@ -396,7 +397,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				revalidate();
 				repaint();
 			}
-		} else if (obj == p2_btn2) { // ì…ì¶œê³  ë‚´ì—­ ì „ì²´ì¡°íšŒ ë²„íŠ¼
+		} else if (obj == p2_btn2) { // ÀÔÃâ°í ³»¿ª ÀüÃ¼Á¶È¸ ¹öÆ°
 			if (reciept_releaseCheck == 0) {
 				historySeacrhCheck = false;
 				p3.setVisible(false);
@@ -411,26 +412,26 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				revalidate();
 				repaint();
 			}
-		} else if (obj == p3_btn1) { // ì…ê³ ë‚´ì—­ ë²„íŠ¼
+		} else if (obj == p3_btn1) { // ÀÔ°í³»¿ª ¹öÆ°
 			reciept_releaseCheck = 0;
 			historySeacrhCheck = false;
 			p3.setVisible(false);
 			historyTablePanel();
 			revalidate();
 			repaint();
-		} else if (obj == p3_btn2) { // ì¶œê³ ë‚´ì—­ ë²„íŠ¼
+		} else if (obj == p3_btn2) { // Ãâ°í³»¿ª ¹öÆ°
 			reciept_releaseCheck = 1;
 			historySeacrhCheck = false;
 			p3.setVisible(false);
 			historyTablePanel();
 			revalidate();
 			repaint();
-		} else if (obj == comboBox2) { // ì¬ê³  í˜„í™© ì½¤ë³´ ë°•ìŠ¤
+		} else if (obj == comboBox2) { // Àç°í ÇöÈ² ÄŞº¸ ¹Ú½º
 			cbText2 = comboBox2.getSelectedItem().toString();
 
-		} else if (obj == p4_btn1) { // ì¬ê³  í˜„í™© ì¡°íšŒí•˜ê¸° ë²„íŠ¼
+		} else if (obj == p4_btn1) { // Àç°í ÇöÈ² Á¶È¸ÇÏ±â ¹öÆ°
 			if (textField2.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "ì…ë ¥ëœ ê°’ì´ ì—†ìŠµë‹ˆë‹¤.", "ì—ëŸ¬", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ÀÔ·ÂµÈ °ªÀÌ ¾ø½À´Ï´Ù.", "¿¡·¯", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				tfText2 = textField2.getText();
 				textField2.setText("");
@@ -441,7 +442,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				revalidate();
 				repaint();
 			}
-		} else if (obj == p4_btn2) { // ì¬ê³  í˜„í™© ì „ì²´ì¡°íšŒ ë²„íŠ¼
+		} else if (obj == p4_btn2) { // Àç°í ÇöÈ² ÀüÃ¼Á¶È¸ ¹öÆ°
 			inventoryStatusSearchCheck = false;
 			p5.setVisible(false);
 			inventoryStatusTablePanel();

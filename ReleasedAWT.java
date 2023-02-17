@@ -29,7 +29,7 @@ public class ReleasedAWT {
 	private JLabel lblNewLabel_1;
 	private JTextField searchTextField;
 	private JTable table;
-	Released rsl;
+	ReleasedMgr rsl;
 	private Object[][] tableContent=new Object[0][6];
 	String[] tableCol= {"물품코드","카테고리","물품명","사이즈","색상","재고량"};
 	DefaultTableModel dtm; 
@@ -123,7 +123,7 @@ public class ReleasedAWT {
 				String keyword=searchTextField.getText();
 				if(keyword.length()==0)
 				{
-					JOptionPane.showMessageDialog(null, "경고","검색할 키워드를 입력하십시오.",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"검색할 키워드를 입력하십시오.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				Vector<ProductBean> searchResult=rsl.loadWarehouseOut(keyword);

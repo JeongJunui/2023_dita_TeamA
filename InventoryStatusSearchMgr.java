@@ -15,7 +15,7 @@ import net.DBConnectionMgr;
 public class InventoryStatusSearchMgr extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
-	private String colNames[] = { "ì œí’ˆì½”ë“œ", "ì¹´í…Œê³ ë¦¬", "ì œí’ˆëª…", "ì œí’ˆì‚¬ì´ì¦ˆ", "ì œí’ˆìƒ‰ìƒ", "ì¬ê³ ìˆ˜ëŸ‰" };
+	private String colNames[] = { "Á¦Ç°ÄÚµå", "Ä«Å×°í¸®", "Á¦Ç°¸í", "Á¦Ç°»çÀÌÁî", "Á¦Ç°»ö»ó", "Àç°í¼ö·®" };
 	private DefaultTableModel model = new DefaultTableModel(colNames, 0);
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
@@ -24,7 +24,7 @@ public class InventoryStatusSearchMgr extends JPanel {
 	private String cbText, tfText;
 	StatisticsAWT statisticsAWT;
 
-	// ì¬ê³  í˜„í™© í…Œì´ë¸”
+	// Àç°í ÇöÈ² Å×ÀÌºí
 	public InventoryStatusSearchMgr(StatisticsAWT statisticsAWT, String cbText, String tfText) {
 		this.statisticsAWT = statisticsAWT;
 		this.cbText = cbText;
@@ -40,7 +40,7 @@ public class InventoryStatusSearchMgr extends JPanel {
 		select();
 	}
 
-	// ì¡°íšŒí•˜ê¸°
+	// Á¶È¸ÇÏ±â
 	public void select() {
 		String sql = null;
 		try {
@@ -48,18 +48,18 @@ public class InventoryStatusSearchMgr extends JPanel {
 			sql = "SELECT PROD_CODE, CATEGORY, PROD_NAME, PROD_SIZE, PROD_COLOR, PROD_STOCK\r\n" + "FROM product\r\n"
 					+ "where CATEGORY like";
 
-			if (cbText.equals("ë°”ì§€")) {
+			if (cbText.equals("¹ÙÁö")) {
 				pstmt = con.prepareStatement(
 						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
-			} else if (cbText.equals("ì˜·3")) {
-				pstmt = con.prepareStatement(
-						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
-
-			} else if (cbText.equals("ì˜·2")) {
+			} else if (cbText.equals("¿Ê3")) {
 				pstmt = con.prepareStatement(
 						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
 
-			} else if (cbText.equals("ì˜·1")) {
+			} else if (cbText.equals("¿Ê2")) {
+				pstmt = con.prepareStatement(
+						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
+
+			} else if (cbText.equals("¿Ê1")) {
 				pstmt = con.prepareStatement(
 						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
 			}

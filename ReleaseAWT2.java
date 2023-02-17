@@ -28,7 +28,7 @@ public class ReleaseAWT2 {
 	private JTextField amountTextField;
 	private JTextField memberTextField;
 	private JTextField roadAddressTextField;
-	Released rsl;
+	ReleasedMgr rsl;
 
 	/**
 	 * Launch the application.
