@@ -30,6 +30,7 @@ public class ReleasedAWT {
 	private JTextField searchTextField;
 	private JTable table;
 	ReleasedMgr rsl;
+	ReleaseAWT2 awt;
 	private Object[][] tableContent=new Object[0][6];
 	String[] tableCol= {"물품코드","카테고리","물품명","사이즈","색상","재고량"};
 	DefaultTableModel dtm; 
@@ -61,10 +62,14 @@ public class ReleasedAWT {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	public void openAWT2(String s)
+	{
+	}
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		rsl=new ReleasedMgr();
 		dtm=new DefaultTableModel(tableContent, tableCol);
 		p1=new JPanel();
 		p1.setLayout(null);
@@ -148,6 +153,17 @@ public class ReleasedAWT {
 		panel.add(tableScroll);
 		
 		JButton releaseButton = new JButton("");
+		releaseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRowCount()==0)
+				{
+					JOptionPane.showMessageDialog(null,"출고를 진행할 제품을 선택하십시오.","경고",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				String s=dtm.getDataVector().toString();
+				awt=new ReleaseAWT2(s);
+			}
+		});
 		releaseButton.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/releaseBtn.png")));
 		releaseButton.setBounds(410, 316, 105, 30);
 		panel.add(releaseButton);

@@ -26,10 +26,11 @@ public class ZipcodeAWT {
 	private JTextField textField;
 	ZipcodeMgr mgr;
 	private JList searchedList;
+	ReleaseAWT2 awt;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -45,17 +46,20 @@ public class ZipcodeAWT {
 	/**
 	 * Create the application.
 	 */
-	public ZipcodeAWT() {
+	public ZipcodeAWT(ReleaseAWT2 awt) {
+		this.awt=awt;
 		initialize();
+		this.frame.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		mgr=new ZipcodeMgr();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 300, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -63,6 +67,16 @@ public class ZipcodeAWT {
 		frame.getContentPane().add(lblNewLabel, BorderLayout.NORTH);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(searchedList.isSelectionEmpty())
+				{
+					JOptionPane.showMessageDialog(null,"주소를 선택하십시오.","경고",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				awt.setAddress(searchedList.getSelectedValue().toString());
+			}
+		});
 		btnNewButton.setIcon(new ImageIcon(ZipcodeAWT.class.getResource("/warehouse/images/selectBtn.png")));
 		frame.getContentPane().add(btnNewButton, BorderLayout.SOUTH);
 		btnNewButton.setBorderPainted(false);
@@ -89,7 +103,7 @@ public class ZipcodeAWT {
 				String keyword=textField.getText();
 				if(keyword.length()==0)
 				{
-					JOptionPane.showMessageDialog(null, "경고","검색할 키워드를 입력하십시오.",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"검색할 키워드를 입력하십시오.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				searchedList.removeAll();

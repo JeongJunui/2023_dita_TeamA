@@ -20,6 +20,8 @@ import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ReleaseAWT2 {
 
@@ -28,6 +30,8 @@ public class ReleaseAWT2 {
 	private JTextField amountTextField;
 	private JTextField memberTextField;
 	private JTextField roadAddressTextField;
+	ZipcodeAWT za;
+
 	ReleasedMgr rsl;
 
 	/**
@@ -37,8 +41,7 @@ public class ReleaseAWT2 {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ReleaseAWT2 window = new ReleaseAWT2();
-					window.frame.setVisible(true);
+					ReleaseAWT2 window = new ReleaseAWT2("asdf");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,8 +52,13 @@ public class ReleaseAWT2 {
 	/**
 	 * Create the application.
 	 */
-	public ReleaseAWT2() {
+	public ReleaseAWT2(String s) {
 		initialize();
+		this.codeTextField.setText(s);
+		this.frame.setVisible(true);
+	}
+	public void setAddress(String Addr) {
+		roadAddressTextField.setText(Addr);
 	}
 
 	/**
@@ -59,7 +67,7 @@ public class ReleaseAWT2 {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 300, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel mainPanel=new JPanel();
@@ -132,9 +140,17 @@ public class ReleaseAWT2 {
 		addressLabel.setPreferredSize(new Dimension(80,20));
 		
 		JButton addressButton = new JButton("");
+		addressButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				zaOpen();
+			}
+		});
 		addressButton.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/searchAddressBtn.png")));
 		addressPanel.add(addressButton);
 		addressButton.setPreferredSize(new Dimension(110,20));
+		addressButton.setBorderPainted(false);
+		addressButton.setFocusPainted(false);
+		addressButton.setContentAreaFilled(false);
 		
 		Panel roadAddressPanel = new Panel();
 		FlowLayout flowLayout_5 = (FlowLayout) roadAddressPanel.getLayout();
@@ -198,6 +214,10 @@ public class ReleaseAWT2 {
 		});
 		releaseButton.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/releaseBtn2.png")));
 		frame.getContentPane().add(releaseButton, BorderLayout.SOUTH);
+	}
+	public void zaOpen()
+	{
+		za=new ZipcodeAWT(this);
 	}
 
 }
