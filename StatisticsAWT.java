@@ -264,12 +264,12 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			add(p5);
 		}
 	}
-// ----------------------------------------기가변 차트 패널----------------------------------------
+// ----------------------------------------기간변 차트 패널----------------------------------------
 	public void chartPanel() {
 		p6 = new JPanel();
 		p6.setLayout(null);
 		p6.setBackground(new Color(0, 32, 96));
-		p6.setBounds(132, 0, 552, 461);
+		p6.setBounds(132, 0, 552, 140);
 		// 현 재고 현황 타이틀
 		image = new ImageIcon(".\\images\\chart.png");
 		chart = new JLabel(image);
@@ -287,17 +287,20 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p6_btn1.setContentAreaFilled(false);
 		p6_btn1.setFocusable(false);
 		p6_btn1.addActionListener(this);
-
-		p7 = new JPanel();
-		p7.setLayout(null);
-		p7.setBounds(25, 140, 505, 300);
-		p7.setBackground(Color.white);
-
 		p6.add(chart);
 		p6.add(comboBox);
 		p6.add(p6_btn1);
-		p6.add(p7);
+	
 		add(p6);
+		charInputPanel();
+	}
+// ----------------------------------------기가변 차트 넣는 패널----------------------------------------	
+	public void charInputPanel() {
+		p7 = new JPanel();
+		p7.setLayout(null);
+		p7.setBounds(133, 140, 551, 321);
+		p7.setBackground(new Color(0, 32, 96));
+		add(p7);
 	}
 // ----------------------------------------버튼 이벤트----------------------------------------
 	@Override
@@ -322,6 +325,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 0;
 				p6.setVisible(false);
+				p7.setVisible(false);//추가
 				historySearchPanel();
 				revalidate();
 				repaint();
@@ -344,6 +348,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 1;
 				p6.setVisible(false);
+				p7.setVisible(false);//추가
 				inventoryStatusSearchPanel();
 				revalidate();
 				repaint();
@@ -367,6 +372,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 2;
 				p6.setVisible(false);
+				p7.setVisible(false);//추가
 				chartPanel();
 				revalidate();
 				repaint();
