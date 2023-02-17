@@ -158,17 +158,6 @@ class SignUp extends JPanel implements ActionListener{
 		
 		
 	}
-	
-//	class MyActionListener implements ActionListener{
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//			MemberBean bean = new MemberBean();
-//			bean.setTel(textField.getText());
-//			mgr.insert(bean);
-//			win.dispose();//LoginAWT 사라지고
-////			new MainAWT();
-//		}
-//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -176,10 +165,10 @@ class SignUp extends JPanel implements ActionListener{
 		MemberBean bean = new MemberBean();
 		bean.setTel(textField.getText());
 		bean.setAddress("123");
-		bean.setName("123");
+		bean.setName(cbx.getSelectedItem().toString());
 		mgr.insert(bean);
 		win.dispose();//LoginAWT 사라지고
-//		new MainAWT();
+		new MainAWT();
 	}
 }
 
