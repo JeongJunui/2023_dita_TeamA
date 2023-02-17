@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class StatisticsAWT extends JFrame implements ActionListener {
+public class StatisticsAWT extends JPanel implements ActionListener {
 	ImageIcon image;
 	JPanel p1, p2, p3, p4, p5, p6, p7;
 	JLabel statisticsTitle, history, invenStatus, categoryName, chart;
@@ -33,21 +33,17 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 	JTable table;
 	JScrollPane scrollpane;
 	Vector<Object> list;
+	MainAWT mainAWT;
 	int menuCheck = 0; // 상황에 따른 메뉴 카테고리 버튼 패널 변환 확인
 	int reciept_releaseCheck = 0; // 상항에 따른 입고 출고 버튼 패널 변환 확인
 	boolean historySeacrhCheck, inventoryStatusSearchCheck;
 
 // ----------------------------------------통계 프레임 생성----------------------------------------
-	public StatisticsAWT() {
-		getContentPane().setLayout(null);
-		setSize(700, 500);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+	public StatisticsAWT(MainAWT mainAWT) {
+		this.mainAWT = mainAWT;
+		setLayout(null);
 		menuPanel();
 	}
-
 // ----------------------------------------통계 메뉴 패널 생성----------------------------------------
 	public void menuPanel() {
 		p1 = new JPanel();
@@ -100,7 +96,8 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p1.add(p1_btn2);
 		p1.add(p1_btn3);
 		p1.add(p1_btn4);
-		add(p1);
+	
+		mainAWT.mainPanel.add(p1);
 		historySearchPanel();
 	}
 // ----------------------------------------입출고 내역 조회 패널----------------------------------------
@@ -150,7 +147,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p2.add(p2_btn1);
 		p2.add(p2_btn2);
 
-		add(p2);
+		mainAWT.mainPanel.add(p2);
 		historyTablePanel();
 	}
 // ----------------------------------------입출고 내역 테이블 패널----------------------------------------
@@ -183,12 +180,11 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		// 입출고내역 테이블 클래스 호출
 		if (historySeacrhCheck) {
 			new HistorySearchMgr(this, reciept_releaseCheck, cbText, tfText);
-			add(p3);
+			mainAWT.mainPanel.add(p3);
 		} else {
 			new HistoryMgr(this, reciept_releaseCheck);
-			add(p3);
+			mainAWT.mainPanel.add(p3);
 		}
-		setVisible(true);
 	}
 // ----------------------------------------재고 현황 조회 패널----------------------------------------
 	public void inventoryStatusSearchPanel() {
@@ -247,7 +243,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p4.add(p4_btn1);
 		p4.add(p4_btn2);
 
-		add(p4);
+		mainAWT.mainPanel.add(p4);
 		inventoryStatusTablePanel();
 	}
 // ----------------------------------------재고 현황 테이블 패널----------------------------------------
@@ -259,10 +255,10 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 
 		if (inventoryStatusSearchCheck) {
 			new InventoryStatusSearchMgr(this, cbText2, tfText2);
-			add(p5);
+			mainAWT.mainPanel.add(p5);
 		} else {
 			new InventoryStatusMgr(this);
-			add(p5);
+			mainAWT.mainPanel.add(p5);
 		}
 	}
 // ----------------------------------------기간변 차트 패널----------------------------------------
@@ -297,7 +293,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p6.add(comboBox3);
 		p6.add(p6_btn1);
 	
-		add(p6);
+		mainAWT.mainPanel.add(p6);
 		chartInputPanel();
 	}
 // ----------------------------------------기가변 차트 넣는 패널----------------------------------------	
@@ -307,7 +303,7 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 		p7.setBounds(133, 90, 551, 371);
 		p7.setBackground(new Color(0, 32, 96));
 		new GanttChartMgr(this, cbText3);
-		add(p7);
+		mainAWT.mainPanel.add(p7);
 	}
 // ----------------------------------------버튼 이벤트----------------------------------------
 	@Override
@@ -320,22 +316,16 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				p2.setVisible(false);
 				p3.setVisible(false);
 				historySearchPanel();
-				revalidate();
-				repaint();
 			} else if (menuCheck == 1) {
 				menuCheck = 0;
 				p4.setVisible(false);
 				p5.setVisible(false);
 				historySearchPanel();
-				revalidate();
-				repaint();
 			} else if (menuCheck == 2) {
 				menuCheck = 0;
 				p6.setVisible(false);
 				p7.setVisible(false);//추가
 				historySearchPanel();
-				revalidate();
-				repaint();
 			}
 		} else if (obj == p1_btn2) { // 재고 현황 버튼
 			if (menuCheck == 0) {
@@ -343,22 +333,16 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				p2.setVisible(false);
 				p3.setVisible(false);
 				inventoryStatusSearchPanel();
-				revalidate();
-				repaint();
 			} else if (menuCheck == 1) {
 				menuCheck = 1;
 				p4.setVisible(false);
 				p5.setVisible(false);
 				inventoryStatusSearchPanel();
-				revalidate();
-				repaint();
 			} else if (menuCheck == 2) {
 				menuCheck = 1;
 				p6.setVisible(false);
 				p7.setVisible(false);//추가
 				inventoryStatusSearchPanel();
-				revalidate();
-				repaint();
 			}
 
 		} else if (obj == p1_btn3) { // 기간별 차트 버튼
@@ -367,27 +351,22 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				p2.setVisible(false);
 				p3.setVisible(false);
 				chartPanel();
-				revalidate();
-				repaint();
 			} else if (menuCheck == 1) {
 				menuCheck = 2;
 				p4.setVisible(false);
 				p5.setVisible(false);
 				chartPanel();
-				revalidate();
-				repaint();
 			} else if (menuCheck == 2) {
 				menuCheck = 2;
 				p6.setVisible(false);
-				p7.setVisible(false);//추가
+				p7.setVisible(false);
 				chartPanel();
-				revalidate();
-				repaint();
 			}
 
-		} else if (obj == p1_btn4) { // Home 버튼
-			setVisible(false);
-			new MainAWT();
+		} else if (obj == p1_btn4) { // Home 버튼	
+			mainAWT.mainPanel.setVisible(false);
+			mainAWT.mainPanel();
+		
 		} else if (obj == comboBox) { // 입출고 내역 콤보 박스
 			cbText = comboBox.getSelectedItem().toString();
 		} else if (obj == p2_btn1) { // 입출고 내역 조회하기 버튼
@@ -400,38 +379,27 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				historySeacrhCheck = true;
 				p3.setVisible(false);
 				historyTablePanel();
-				revalidate();
-				repaint();
 			}
 		} else if (obj == p2_btn2) { // 입출고 내역 전체조회 버튼
 			if (reciept_releaseCheck == 0) {
 				historySeacrhCheck = false;
 				p3.setVisible(false);
 				historyTablePanel();
-				revalidate();
-				repaint();
-
 			} else if (reciept_releaseCheck == 1) {
 				historySeacrhCheck = false;
 				p3.setVisible(false);
 				historyTablePanel();
-				revalidate();
-				repaint();
 			}
 		} else if (obj == p3_btn1) { // 입고내역 버튼
 			reciept_releaseCheck = 0;
 			historySeacrhCheck = false;
 			p3.setVisible(false);
 			historyTablePanel();
-			revalidate();
-			repaint();
 		} else if (obj == p3_btn2) { // 출고내역 버튼
 			reciept_releaseCheck = 1;
 			historySeacrhCheck = false;
 			p3.setVisible(false);
 			historyTablePanel();
-			revalidate();
-			repaint();
 		} else if (obj == comboBox2) { // 재고 현황 콤보 박스
 			cbText2 = comboBox2.getSelectedItem().toString();
 		} else if (obj == p4_btn1) { // 재고 현황 조회하기 버튼
@@ -444,26 +412,16 @@ public class StatisticsAWT extends JFrame implements ActionListener {
 				inventoryStatusSearchCheck = true;
 				p5.setVisible(false);
 				inventoryStatusTablePanel();
-				revalidate();
-				repaint();
 			}
 		} else if (obj == p4_btn2) { // 재고 현황 전체조회 버튼
 			inventoryStatusSearchCheck = false;
 			p5.setVisible(false);
 			inventoryStatusTablePanel();
-			revalidate();
-			repaint();
 		} else if (obj == comboBox3) { // 기가별 차트 콤보 박스
 			cbText3 = comboBox3.getSelectedItem().toString();
 		} else if (obj == p6_btn1) { // 기가별 차트 조회하기 버튼
 			p7.setVisible(false);
 			chartInputPanel();
-			revalidate();
-			repaint();
 		}
 	}
-
-//	public static void main(String[] args) {
-	//	StatisticsAWT h = new StatisticsAWT();
-	//}
 }
