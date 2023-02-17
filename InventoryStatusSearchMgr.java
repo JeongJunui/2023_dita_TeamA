@@ -65,7 +65,7 @@ public class InventoryStatusSearchMgr extends JPanel {
 			}
 
 			rs = pstmt.executeQuery();
-			ProductBean product = new ProductBean();
+		
 			while (rs.next()) {
 				model.addRow(new Object[] { rs.getString("PROD_CODE"), rs.getString("CATEGORY"),
 						rs.getString("PROD_NAME"), rs.getString("PROD_SIZE"),
