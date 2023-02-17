@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class loadStockin extends JPanel{
 	JTable stockinTable;
-	String header[] = {"물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
-	DefaultTableModel model = new DefaultTableModel(header, 0);;
+	static String header[] = {"물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
+	DefaultTableModel model = new DefaultTableModel(header, 0);
 	StockInAWT stockInAWT;
 	
 	JScrollPane scrollPane;

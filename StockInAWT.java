@@ -26,8 +26,8 @@ public class StockInAWT extends JFrame implements ActionListener{
 	static JPanel p4;
 	JButton b1,b2,b3,regBtn, search;
 	JLabel label, label2, l3,label3;
-	JTextField pf[] = new JTextField[7];
-	JLabel pl[] = new JLabel[7];
+	static JTextField pf[] = new JTextField[7];
+	static JLabel pl[] = new JLabel[7];
 	JTextField searchField;
 	Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
 	//JTable stockinTable;
@@ -280,9 +280,11 @@ public class StockInAWT extends JFrame implements ActionListener{
 					check++;
 				}
 			}
+			
 			if(check == 0) { //빈값 없으면 테이블 추가
 //				DefaultTableModel model = (DefaultTableModel)stockinTable.getModel();
-				model.addRow(str);
+				//model.addRow(str);
+				new startStockIn(model,str);
 			}
 			for (int i = 0; i < 6; i++) {
 				pf[i].setText("");
