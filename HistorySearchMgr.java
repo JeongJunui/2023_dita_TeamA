@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import net.DBConnectionMgr;
 
@@ -17,8 +18,8 @@ public class HistorySearchMgr extends JPanel {
 	private JScrollPane scrollPane;
 	private String[] colNames = { "입고날짜", "카테고리", "제품코드", "입고수량", "고객번호" };
 	private String[] colNames2 = { "출고날짜", "카테고리", "제품코드", "출고수량", "고객번호", "비고" };
-	private DefaultTableModel model = new DefaultTableModel(colNames, 0);
-	private DefaultTableModel model2 = new DefaultTableModel(colNames2, 0);
+	private DefaultTableModel model;
+	private DefaultTableModel model2;
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
@@ -38,13 +39,53 @@ public class HistorySearchMgr extends JPanel {
 		setBounds(25, 5, 505, 260);
 
 		if (reciept_releaseCheck == 0) {
+			model = new DefaultTableModel(colNames, 0) { // 테이블 수정 불가
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					if (column >= 0) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			};
+
 			table = new JTable(model);
+			table.setShowVerticalLines(false);
+			table.setShowHorizontalLines(false);
+			TableCellRenderer renderer = new MyTableCellRenderer(table);
+			try {
+				table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			table.getTableHeader().setReorderingAllowed(false);
 			scrollPane = new JScrollPane(table);
 			add(scrollPane);
 			pool = DBConnectionMgr.getInstance();
 
 		} else if (reciept_releaseCheck == 1) {
+			model2 = new DefaultTableModel(colNames2, 0) { // 테이블 수정 불가
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					if (column >= 0) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			};
+			
 			table = new JTable(model2);
+			table.setShowVerticalLines(false);
+			table.setShowHorizontalLines(false);
+			TableCellRenderer renderer = new MyTableCellRenderer(table);
+			try {
+				table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			table.getTableHeader().setReorderingAllowed(false);
 			scrollPane = new JScrollPane(table);
 			add(scrollPane);
 			pool = DBConnectionMgr.getInstance();
@@ -65,10 +106,11 @@ public class HistorySearchMgr extends JPanel {
 
 				if (cbText.equals("제품코드")) {
 					pstmt = con.prepareStatement(
-							sql + " s.PROD_CODE LIKE '" + tfText + "%'"+"ORDER BY s.STORED_DATE DESC");
+							sql + " s.PROD_CODE LIKE '" + tfText + "%'" + "ORDER BY s.STORED_DATE DESC");
 				} else if (cbText.equals("고객코드")) {
 					int tfText2 = Integer.parseInt(tfText);
-					pstmt = con.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'"+"ORDER BY s.STORED_DATE DESC");
+					pstmt = con
+							.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'" + "ORDER BY s.STORED_DATE DESC");
 				}
 				rs = pstmt.executeQuery();
 
@@ -95,13 +137,14 @@ public class HistorySearchMgr extends JPanel {
 				sql = "SELECT t.TAKEOUT_DATE, p.CATEGORY, p.PROD_CODE, t.TAKEOUT_AMOUNT, t.MEMBER_IDX, t.OTHER\r\n"
 						+ "FROM takeout_log t, product p, member m\r\n" + "where t.PROD_CODE = p.PROD_CODE\r\n"
 						+ "	and t.MEMBER_IDX = m.MEMBER_IDX and";
-				
+
 				if (cbText.equals("제품코드")) {
 					pstmt = con.prepareStatement(
-							sql + " t.PROD_CODE LIKE '" + tfText + "%'"+"ORDER BY t.TAKEOUT_DATE DESC");
+							sql + " t.PROD_CODE LIKE '" + tfText + "%'" + "ORDER BY t.TAKEOUT_DATE DESC");
 				} else if (cbText.equals("고객코드")) {
 					int tfText2 = Integer.parseInt(tfText);
-					pstmt = con.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'"+"ORDER BY t.TAKEOUT_DATE DESC");
+					pstmt = con
+							.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'" + "ORDER BY t.TAKEOUT_DATE DESC");
 				}
 				rs = pstmt.executeQuery();
 
