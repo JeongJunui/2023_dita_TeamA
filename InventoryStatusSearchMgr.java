@@ -46,15 +46,13 @@ public class InventoryStatusSearchMgr extends JPanel {
 		};
 
 		table = new JTable(model);
-		table.setShowVerticalLines(false);
-		table.setShowHorizontalLines(false);
+	
 		TableCellRenderer renderer = new MyTableCellRenderer(table);
 		try {
 			table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		table.getTableHeader().setReorderingAllowed(false);
 		scrollPane = new JScrollPane(table);
 		add(scrollPane);
 		pool = DBConnectionMgr.getInstance();

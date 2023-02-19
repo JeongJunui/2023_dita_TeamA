@@ -11,8 +11,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import net.DBConnectionMgr;
-
 public class HistoryMgr extends JPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -47,15 +45,13 @@ public class HistoryMgr extends JPanel {
 			};
 
 			table = new JTable(model);
-			table.setShowVerticalLines(false);
-			table.setShowHorizontalLines(false);
+		
 			TableCellRenderer renderer = new MyTableCellRenderer(table);
 			try {
 				table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			table.getTableHeader().setReorderingAllowed(false);
 			scrollPane = new JScrollPane(table);
 			add(scrollPane);
 			pool = DBConnectionMgr.getInstance();
@@ -73,15 +69,12 @@ public class HistoryMgr extends JPanel {
 			};
 
 			table = new JTable(model2);
-			table.setShowVerticalLines(false);
-			table.setShowHorizontalLines(false);
 			TableCellRenderer renderer = new MyTableCellRenderer(table);
 			try {
 				table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			table.getTableHeader().setReorderingAllowed(false);
 			scrollPane = new JScrollPane(table);
 			add(scrollPane);
 			pool = DBConnectionMgr.getInstance();

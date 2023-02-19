@@ -40,10 +40,7 @@ public class InventoryStatusMgr extends JPanel {
 				}
 			}
 		};
-
 		table = new JTable(model);
-		table.setShowVerticalLines(false);
-		table.setShowHorizontalLines(false);
 
 		TableCellRenderer renderer = new MyTableCellRenderer(table); // 테이블 색상 수정 클래스 호출
 		try {
@@ -51,7 +48,6 @@ public class InventoryStatusMgr extends JPanel {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		table.getTableHeader().setReorderingAllowed(false);
 		scrollPane = new JScrollPane(table);
 		add(scrollPane);
 		pool = DBConnectionMgr.getInstance();
