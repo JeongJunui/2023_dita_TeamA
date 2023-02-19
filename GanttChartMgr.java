@@ -131,13 +131,16 @@ public class GanttChartMgr extends JPanel {
 		pool = DBConnectionMgr.getInstance();
 		try {
 			con = pool.getConnection();
-			sql = "select *\r\n" + "from takeout_log\r\n" + "where TAKEOUT_AMOUNT>0";
+			sql = "select p.PROD_NAME, sum(t.TAKEOUT_AMOUNT)\r\n"
+					+ "from takeout_log t, product p \r\n"
+					+ "where p.PROD_CODE = t.PROD_CODE \r\n"
+					+ "group by t.PROD_CODE";
 			pstmt = con.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				dataset2.addValue(rs.getInt("TAKEOUT_AMOUNT"), rs.getString("PROD_CODE"), rs.getString("PROD_CODE"));
+				dataset2.addValue(rs.getInt("sum(t.TAKEOUT_AMOUNT)"), rs.getString("p.PROD_NAME"), rs.getString("p.PROD_NAME"));
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

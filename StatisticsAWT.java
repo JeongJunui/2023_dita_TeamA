@@ -113,7 +113,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 
 		list = new Vector<>();
 		list.add("力前内靛");
-		list.add("绊按内靛");
+		list.add("绊按锅龋");
 		comboBox = new JComboBox(list);
 		comboBox.setBounds(25, 95, 90, 32);
 		comboBox.addActionListener(this);

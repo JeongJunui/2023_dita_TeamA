@@ -102,7 +102,7 @@ public class HistorySearchMgr extends JPanel {
 				if (cbText.equals("力前内靛")) {
 					pstmt = con.prepareStatement(
 							sql + " s.PROD_CODE LIKE '" + tfText + "%'" + "ORDER BY s.STORED_DATE DESC");
-				} else if (cbText.equals("绊按内靛")) {
+				} else if (cbText.equals("绊按锅龋")) {
 					int tfText2 = Integer.parseInt(tfText);
 					pstmt = con
 							.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'" + "ORDER BY s.STORED_DATE DESC");
@@ -136,7 +136,7 @@ public class HistorySearchMgr extends JPanel {
 				if (cbText.equals("力前内靛")) {
 					pstmt = con.prepareStatement(
 							sql + " t.PROD_CODE LIKE '" + tfText + "%'" + "ORDER BY t.TAKEOUT_DATE DESC");
-				} else if (cbText.equals("绊按内靛")) {
+				} else if (cbText.equals("绊按锅龋")) {
 					int tfText2 = Integer.parseInt(tfText);
 					pstmt = con
 							.prepareStatement(sql + " m.MEMBER_IDX='" + tfText2 + "'" + "ORDER BY t.TAKEOUT_DATE DESC");
