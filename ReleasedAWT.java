@@ -29,6 +29,7 @@ public class ReleasedAWT {
 	private JLabel lblNewLabel_1;
 	private JTextField searchTextField;
 	private JTable table;
+	MyTableCellRenderer tcr;
 	ReleasedMgr rsl;
 	ReleaseAWT2 awt;
 	private Object[][] tableContent=new Object[0][6];
@@ -137,7 +138,18 @@ public class ReleasedAWT {
 				for(int i=l-1;i>=0;i--)
 					dtm.removeRow(i);
 				System.out.println(searchResult);
-				dtm.addRow(searchResult);
+				for(int i=0;i<searchResult.size();i++)
+				{
+					ProductBean bean=searchResult.elementAt(i);
+					Vector<Object> vlist=new Vector<Object>();
+					vlist.addElement(bean.getProdCode());
+					vlist.addElement(bean.getCategory());
+					vlist.addElement(bean.getProdName());
+					vlist.addElement(bean.getProdSize());
+					vlist.addElement(bean.getProdColor());
+					vlist.addElement(bean.getProdStock());
+					dtm.addRow(vlist);
+				}
 				//String[][] tableContents=new String[][6]();
 				//while() {}
 			}
@@ -150,6 +162,7 @@ public class ReleasedAWT {
 		
 		table = new JTable(dtm);
 		table.setRowSelectionAllowed(true);
+		tcr= new MyTableCellRenderer(table);
 		tableScroll=new JScrollPane(table);
 		tableScroll.setBounds(12, 73, 503, 233);
 		panel.add(tableScroll);
