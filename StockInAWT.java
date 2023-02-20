@@ -29,17 +29,17 @@ public class StockInAWT extends JFrame implements ActionListener{
 	static JTextField pf[] = new JTextField[7];
 	static JLabel pl[] = new JLabel[7];
 	JTextField searchField;
-	Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
+	Font myFont1 = new Font("留묒� 怨좊뵓", Font.BOLD, 15);
 	//JTable stockinTable;
 	int menuCheck = 0;
 	
 	int num[] = new int[7];
 	DefaultTableModel model;
 	
-	class imgPanel extends JPanel{ //입고하기 안에 있는 패널
+	class imgPanel extends JPanel{ //�엯怨좏븯湲� �븞�뿉 �엳�뒗 �뙣�꼸
 		Image background=new ImageIcon(StockInAWT.class.getResource("/warehouse/images/releaseBox.png")).getImage();
-		public void paint(Graphics g) {//그리는 함수
-				g.drawImage(background, 0, 0, null);//background를 그려줌		
+		public void paint(Graphics g) {//洹몃━�뒗 �븿�닔
+				g.drawImage(background, 0, 0, null);//background瑜� 洹몃젮以�		
 		}
 	};
 	
@@ -89,7 +89,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		
 		b3 = new JButton("");
 		b3.setBounds(20, 350, 100, 100);
-		b3.setIcon(new ImageIcon(test.class.getResource("/warehouse/images/homeBtn.png")));
+//		b3.setIcon(new ImageIcon(test.class.getResource("/warehouse/images/homeBtn.png")));
 		b3.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn2.png")));
 		b3.setBorderPainted(false);
 		b3.setContentAreaFilled(false);
@@ -98,17 +98,17 @@ public class StockInAWT extends JFrame implements ActionListener{
 		p1.add(b3);
 		add(p1);
 		
-		//테이블 미리 선언
-//		String header[] = {"물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
-//		Object data[][] = {{"A01", "옷", "바지", "34", "black", "50"}};
+		//�뀒�씠釉� 誘몃━ �꽑�뼵
+//		String header[] = {"臾쇳뭹肄붾뱶","移댄뀒怨좊━", "臾쇳뭹�씠由�", "�궗�씠利�", "�깋�긽", "�엯怨좎닔�웾"};
+//		Object data[][] = {{"A01", "�샆", "諛붿�", "34", "black", "50"}};
 //		model = new DefaultTableModel(data, header);
 //		stockinTable = new JTable(model);
 		
 		
-		rightPanel();	//입고하기 페이지 실행
+		rightPanel();	//�엯怨좏븯湲� �럹�씠吏� �떎�뻾
 	}
 
-	public void rightPanel(){ //입고하기
+	public void rightPanel(){ //�엯怨좏븯湲�
 		
 		
 		JLabel bar[] = new JLabel[7];
@@ -133,13 +133,13 @@ public class StockInAWT extends JFrame implements ActionListener{
 		startP.setBounds(50, 130, 450, 300);
 		p2.add(startP);
 		
-		pl[0] = new JLabel("물품코드 : ");
-		pl[1] = new JLabel("카테고리 : ");
-		pl[2] = new JLabel("물품명 : ");
-		pl[3] = new JLabel("사이즈 : ");
-		pl[4] = new JLabel("색상 : ");
-		pl[5] = new JLabel("입고수량 : ");
-		pl[6] = new JLabel("고객번호 : ");
+		pl[0] = new JLabel("臾쇳뭹肄붾뱶 : ");
+		pl[1] = new JLabel("移댄뀒怨좊━ : ");
+		pl[2] = new JLabel("臾쇳뭹紐� : ");
+		pl[3] = new JLabel("�궗�씠利� : ");
+		pl[4] = new JLabel("�깋�긽 : ");
+		pl[5] = new JLabel("�엯怨좎닔�웾 : ");
+		pl[6] = new JLabel("怨좉컼踰덊샇 : ");
 		
 		for (int i = 0; i < 7; i++) {
 			if(i%2 == 1) {
@@ -187,7 +187,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		
 	}
 	
-	public void rightPanel2() { //입고현황
+	public void rightPanel2() { //�엯怨좏쁽�솴
 		p3 = new JPanel();
 		p3.setLayout(null); 
 		p3.setBackground(new Color(0,32,96));
@@ -205,7 +205,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		search.setFocusable(false);
 		p3.add(search);
 		
-		searchField = new JTextField("검색창");
+		searchField = new JTextField("寃��깋李�");
 		searchField.setBounds(200, 100, 200, 25);
 		p3.add(searchField);
 		
@@ -254,7 +254,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 				repaint();
 				menuCheck = 0;
 			}
-			System.out.println("1번 버튼!!!!!!!!!" + menuCheck);
+			System.out.println("1踰� 踰꾪듉!!!!!!!!!" + menuCheck);
 		}else if(obj==b2){
 			if(menuCheck == 0) {
 				p2.setVisible(false);
@@ -264,7 +264,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 				menuCheck = 1;
 			} else if(menuCheck == 1) {
 			}
-			System.out.println("2번 버튼!!!!!!!!!" + menuCheck);
+			System.out.println("2踰� 踰꾪듉!!!!!!!!!" + menuCheck);
 		}else if(obj==b3) {
 			for (int i = 0; i < 6; i++) {
 				str[i] = pf[i].getText();
@@ -274,21 +274,21 @@ public class StockInAWT extends JFrame implements ActionListener{
 		}else if(obj == regBtn){
 			for (int i = 0; i < 6; i++) {
 				str[i] = pf[i].getText();
-				if(str[i].isEmpty()) { //빈값 체크
-					System.out.println("빈값");
-					JOptionPane.showMessageDialog(null, pl[i].getText() + "에 빈값이 있습니다");
+				if(str[i].isEmpty()) { //鍮덇컪 泥댄겕
+					System.out.println("鍮덇컪");
+					JOptionPane.showMessageDialog(null, pl[i].getText() + "�뿉 鍮덇컪�씠 �엳�뒿�땲�떎");
 					check++;
 				}
 			}
 			
-			if(check == 0) { //빈값 없으면 테이블 추가
+			if(check == 0) { //鍮덇컪 �뾾�쑝硫� �뀒�씠釉� 異붽�
 //				DefaultTableModel model = (DefaultTableModel)stockinTable.getModel();
 				//model.addRow(str);
 				new startStockIn(model,str);
 			}
 			for (int i = 0; i < 6; i++) {
 				pf[i].setText("");
-			} //값비우기
+			} //媛믩퉬�슦湲�
 			check = 0;
 		}
 	}
