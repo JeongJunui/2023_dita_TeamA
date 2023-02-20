@@ -89,7 +89,7 @@ public class ReleaseAWT2 {
 		mainPanel.add(codePanel);
 		codePanel.setBackground(new Color(255,255,255));
 		
-		JLabel codeLabel = new JLabel("* ¹°Ç°ÄÚµå");
+		JLabel codeLabel = new JLabel("* ë¬¼í’ˆì½”ë“œ");
 		codePanel.add(codeLabel);
 		codeLabel.setSize(300, 50);
 		codeLabel.setPreferredSize(new Dimension(80,20));
@@ -105,7 +105,7 @@ public class ReleaseAWT2 {
 		mainPanel.add(amountPanel);
 		amountPanel.setBackground(new Color(255,255,255));
 		
-		JLabel amountLabel = new JLabel("* ¼ö  ·®");
+		JLabel amountLabel = new JLabel("* ìˆ˜  ëŸ‰");
 		amountPanel.add(amountLabel);
 		amountLabel.setPreferredSize(new Dimension(80,20));
 		
@@ -120,7 +120,7 @@ public class ReleaseAWT2 {
 		memberPanel.setBackground(new Color(255, 255, 255));
 		mainPanel.add(memberPanel);
 		
-		JLabel memberLabel = new JLabel("* °Å·¡Ã³");
+		JLabel memberLabel = new JLabel("* ê±°ë˜ì²˜");
 		memberPanel.add(memberLabel);
 		memberLabel.setPreferredSize(new Dimension(80,20));
 		
@@ -135,7 +135,7 @@ public class ReleaseAWT2 {
 		addressPanel.setBackground(new Color(255, 255, 255));
 		mainPanel.add(addressPanel);
 		
-		JLabel addressLabel = new JLabel("* ÁÖ ¼Ò ");
+		JLabel addressLabel = new JLabel("* ì£¼ ì†Œ ");
 		addressPanel.add(addressLabel);
 		addressLabel.setPreferredSize(new Dimension(80,20));
 		
@@ -159,7 +159,7 @@ public class ReleaseAWT2 {
 		roadAddressPanel.setBackground(new Color(255, 255, 255));
 		mainPanel.add(roadAddressPanel);
 		
-		JLabel roadAddressLabel = new JLabel("µµ·Î¸íÁÖ¼Ò");
+		JLabel roadAddressLabel = new JLabel("ë„ë¡œëª…ì£¼ì†Œ");
 		roadAddressPanel.add(roadAddressLabel);
 		roadAddressLabel.setPreferredSize(new Dimension(80,20));
 		
@@ -167,7 +167,7 @@ public class ReleaseAWT2 {
 		roadAddressPanel.add(roadAddressTextField);
 		roadAddressTextField.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("* Ç¥½Ã´Â ÇÊ¼ö ÀÔ·Â ");
+		JLabel lblNewLabel = new JLabel("* í‘œì‹œëŠ” í•„ìˆ˜ ì…ë ¥ ");
 		mainPanel.add(lblNewLabel);
 		
 		JButton releaseButton = new JButton("");
@@ -177,38 +177,38 @@ public class ReleaseAWT2 {
 				String prodCode=codeTextField.getText();
 				if(prodCode.length()==0)
 				{
-					JOptionPane.showMessageDialog(null,"¹°Ç°ÄÚµå¶õÀÌ ºñ¾î ÀÖ½À´Ï´Ù.","°æ°í",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"ë¬¼í’ˆì½”ë“œë€ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				String amountSt=amountTextField.getText();
 				if(amountSt.length()==0 || amountSt.equals("0"))
 				{
-					JOptionPane.showMessageDialog(null,"¼ö·®ÀÌ ºñ¾î ÀÖ½À´Ï´Ù.","°æ°í",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"ìˆ˜ëŸ‰ì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				int amount=Integer.parseInt(amountSt);
 				String member=memberTextField.getText();
 				if(member.length()==0)
 				{
-					JOptionPane.showMessageDialog(null,"È¸»ç¹øÈ£°¡ ºñ¾î ÀÖ½À´Ï´Ù.","°æ°í",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"íšŒì‚¬ë²ˆí˜¸ê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				int memberIdx=Integer.parseInt(member);
 				String addr=roadAddressTextField.getText();
 				if(addr.length()==0)
 				{
-					JOptionPane.showMessageDialog(null,"ÁÖ¼Ò°¡ ºñ¾î ÀÖ½À´Ï´Ù.","°æ°í",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"ì£¼ì†Œê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				if(rsl.releasedStart(prodCode, memberIdx, amount, ""))
 				{
-					JOptionPane.showMessageDialog(null,"Ãâ°í°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.","¾Ë¸²",JOptionPane.INFORMATION_MESSAGE);
-					//Ãâ°í ¿Ï·á
+					JOptionPane.showMessageDialog(null,"ì¶œê³ ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.","ì•Œë¦¼",JOptionPane.INFORMATION_MESSAGE);
+					//ì¶œê³  ì™„ë£Œ
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null,"Ãâ°í ÀÛ¾÷ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.\nÀç°í°¡ ºÎÁ·ÇÕ´Ï´Ù.","¿À·ù",JOptionPane.ERROR_MESSAGE);
-					//¹®Á¦ ¹ß»ı, º¸ÅëÀº Àç°í µş·Á¼­ ÀÌ°Ô ³ª¿Ã °Í
+					JOptionPane.showMessageDialog(null,"ì¶œê³  ì‘ì—… ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.\nì¬ê³ ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.","ì˜¤ë¥˜",JOptionPane.ERROR_MESSAGE);
+					//ë¬¸ì œ ë°œìƒ, ë³´í†µì€ ì¬ê³  ë”¸ë ¤ì„œ ì´ê²Œ ë‚˜ì˜¬ ê²ƒ
 				}
 			}
 		});

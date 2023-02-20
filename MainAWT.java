@@ -60,6 +60,7 @@ public class MainAWT extends JFrame implements ActionListener {
 		mainStatisticsBtn.setFocusable(false);
 		mainStatisticsBtn.setContentAreaFilled(false);
 		mainStatisticsBtn.addActionListener(this);
+		
 
 		mainPanel.add(mainReceivingBtn);
 		mainPanel.add(mainReleaseBtn);
