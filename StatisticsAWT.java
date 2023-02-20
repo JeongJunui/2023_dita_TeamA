@@ -34,6 +34,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 	JTextField textField, textField2;
 	String cbText, tfText;
 	String cbText2, tfText2;
+	String[] cbText2_1;
 	String cbText3;
 	JTable table;
 	JScrollPane scrollpane;
@@ -220,7 +221,8 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		comboBox2 = new JComboBox<String>(list2.toArray(new String[list2.size()]));
 		comboBox2.setBounds(96, 123, 65, 27);
 		comboBox2.addActionListener(this);
-		cbText2 = "¿Ê3";
+		cbText2_1 = list2.toArray(new String[list2.size()]);	
+		cbText2 = cbText2_1[0];
 		
 		textField2 = new JTextField("");
 		textField2.setBounds(161, 123, 130, 27);
@@ -275,7 +277,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		p5.setBounds(132, 135, 552, 326);
 
 		if (inventoryStatusSearchCheck) {
-			new InventoryStatusSearchMgr(this, cbText2, tfText2);
+			new InventoryStatusSearchMgr(this, cbText2, cbText2_1, tfText2);
 			mainAWT.mainPanel.add(p5);
 		} else {
 			new InventoryStatusMgr(this);

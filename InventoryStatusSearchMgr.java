@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Iterator;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -22,13 +23,16 @@ public class InventoryStatusSearchMgr extends JPanel {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	private DBConnectionMgr pool;
-	private String cbText, tfText;
+	private String tfText;
+	private String cbText;
+	private String[] cbText2;
 	StatisticsAWT statisticsAWT;
 
 	// Àç°í ÇöÈ² Å×ÀÌºí
-	public InventoryStatusSearchMgr(StatisticsAWT statisticsAWT, String cbText, String tfText) {
+	public InventoryStatusSearchMgr(StatisticsAWT statisticsAWT, String cbText, String[] cbText2, String tfText) {
 		this.statisticsAWT = statisticsAWT;
 		this.cbText = cbText;
+		this.cbText2 = cbText2;
 		this.tfText = tfText;
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -46,7 +50,7 @@ public class InventoryStatusSearchMgr extends JPanel {
 		};
 
 		table = new JTable(model);
-	
+
 		TableCellRenderer renderer = new MyTableCellRenderer(table);
 		try {
 			table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
@@ -67,20 +71,11 @@ public class InventoryStatusSearchMgr extends JPanel {
 			sql = "SELECT PROD_CODE, CATEGORY, PROD_NAME, PROD_SIZE, PROD_COLOR, PROD_STOCK\r\n" + "FROM product\r\n"
 					+ "where CATEGORY like";
 
-			if (cbText.equals("¹ÙÁö")) {
-				pstmt = con.prepareStatement(
-						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
-			} else if (cbText.equals("¿Ê3")) {
-				pstmt = con.prepareStatement(
-						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
-
-			} else if (cbText.equals("¿Ê2")) {
-				pstmt = con.prepareStatement(
-						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
-
-			} else if (cbText.equals("¿Ê1")) {
-				pstmt = con.prepareStatement(
-						sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
+			for (int i = 0; i < cbText2.length; i++) {
+				if (cbText.equals(cbText2[i])) {
+					pstmt = con.prepareStatement(
+							sql + " '" + cbText + "' and PROD_NAME LIKE '" + tfText + "' ORDER BY PROD_CODE DESC");
+				}
 			}
 
 			rs = pstmt.executeQuery();
@@ -90,7 +85,9 @@ public class InventoryStatusSearchMgr extends JPanel {
 						new Object[] { rs.getString("PROD_CODE"), rs.getString("CATEGORY"), rs.getString("PROD_NAME"),
 								rs.getString("PROD_SIZE"), rs.getString("PROD_COLOR"), rs.getInt("PROD_STOCK") });
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
 			try {
