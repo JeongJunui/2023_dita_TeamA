@@ -47,5 +47,4 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
 		}
 		return cell;
 	}
-
 }
