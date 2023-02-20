@@ -1,5 +1,7 @@
 package warehouse;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class loadStockin extends JPanel{
 	JTable stockinTable;
-	static String header[] = {"물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
+	static String header[] = {"입고번호","물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
 	DefaultTableModel model = new DefaultTableModel(header, 0);
 	StockInAWT stockInAWT;
 	
@@ -39,17 +41,17 @@ public class loadStockin extends JPanel{
 		String sql = null;
 		try {
 			con = pool.getConnection();
-			sql = "SELECT p.PROD_CODE, p.CATEGORY, p.PROD_NAME, p.PROD_SIZE, p.PROD_COLOR, l.STORED_STOCK\r\n"
+			sql = "SELECT l.STORED_IDX, p.PROD_CODE, p.CATEGORY, p.PROD_NAME, p.PROD_SIZE, p.PROD_COLOR, l.STORED_STOCK\r\n"
 					+ "FROM stored_log l, product p\r\n"
 					+ "WHERE l.PROD_CODE = p.PROD_CODE\r\n"
-					+ "ORDER BY PROD_CODE DESC";
+					+ "ORDER BY l.STORED_IDX";
 			pstmt = con.prepareStatement(sql);
 		
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				model.addRow(
-						new Object[] { rs.getString("PROD_CODE"), rs.getString("CATEGORY"), rs.getString("PROD_NAME"),
+						new Object[] { rs.getString("STORED_IDX"), rs.getString("PROD_CODE"), rs.getString("CATEGORY"), rs.getString("PROD_NAME"),
 								rs.getString("PROD_SIZE"), rs.getString("PROD_COLOR"), rs.getInt("STORED_STOCK") });
 			}
 		} catch (Exception e) {
@@ -66,4 +68,32 @@ public class loadStockin extends JPanel{
 		}
 		StockInAWT.p4.add(this);
 	}
+	
+	private class mouseListener implements MouseListener{
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = stockinTable.getSelectedRow();
+				int col = stockinTable.getSelectedColumn();
+				
+				model.getValueAt(row, col);
+			}
+	
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+	
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+	
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+	
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+		}
 }
