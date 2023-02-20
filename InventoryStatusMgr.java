@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -83,5 +85,49 @@ public class InventoryStatusMgr extends JPanel {
 			}
 		}
 		statisticsAWT.p5.add(this);
+	}
+}
+
+// 현 재고 현황 카테고리 리스트 클래스
+class GetCategory {
+	private DefaultTableModel model;
+	private Connection con = null;
+	private PreparedStatement pstmt = null;
+	private ResultSet rs = null;
+	private DBConnectionMgr pool;
+
+	public GetCategory() {
+		getCategory();
+	}
+
+	public List<String> getCategory() {
+
+		List<String> list2 = new ArrayList<String>();
+
+		String sql = null;
+
+		try {
+			pool = DBConnectionMgr.getInstance();
+			sql = "SELECT distinct CATEGORY\r\n" + "FROM product\r\n" + "ORDER BY CATEGORY DESC";
+			con = pool.getConnection();
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list2.add(rs.getString("CATEGORY"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				con.close();
+			} catch (Exception e2) {
+
+			}
+		}
+
+		return list2;
 	}
 }

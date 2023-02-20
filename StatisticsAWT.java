@@ -3,12 +3,16 @@ package warehouse;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,7 +29,8 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 	JButton p3_btn1, p3_btn2;
 	JButton p4_btn1, p4_btn2, p4_btn3;
 	JButton p6_btn1;
-	JComboBox comboBox, comboBox2, comboBox3;
+	JComboBox comboBox, comboBox3;
+	JComboBox<String> comboBox2;
 	JTextField textField, textField2;
 	String cbText, tfText;
 	String cbText2, tfText2;
@@ -33,7 +38,10 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 	JTable table;
 	JScrollPane scrollpane;
 	Vector<Object> list;
+	List<String> list2;
+	List<String> list3;
 	MainAWT mainAWT;
+	GetCategory getCategory;
 	int menuCheck = 0; // 상황에 따른 메뉴 카테고리 버튼 패널 변환 확인
 	int reciept_releaseCheck = 0; // 상항에 따른 입고 출고 버튼 패널 변환 확인
 	boolean historySeacrhCheck, inventoryStatusSearchCheck;
@@ -205,17 +213,15 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		categoryName = new JLabel(image);
 		categoryName.setBounds(85, 85, 210, 48);
 
-		list = new Vector<>();
-		list.add("바지");
-		list.add("옷3");
-		list.add("옷2");
-		list.add("옷1");
-
-		comboBox2 = new JComboBox(list);
+		getCategory = new GetCategory();
+		list3 = getCategory.getCategory(); // comboBox2 카테고리 담는 리스트 
+		list2 = new ArrayList<String>(list3);
+		
+		comboBox2 = new JComboBox<String>(list2.toArray(new String[list2.size()]));
 		comboBox2.setBounds(96, 123, 65, 27);
 		comboBox2.addActionListener(this);
-		cbText2 = "바지";
-
+		cbText2 = "옷3";
+		
 		textField2 = new JTextField("");
 		textField2.setBounds(161, 123, 130, 27);
 		textField2.setColumns(10);
