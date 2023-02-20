@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,8 +16,10 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -34,6 +37,7 @@ public class SaveExcelFile extends JFrame implements ActionListener{
 	private JLabel title;
 	private JScrollPane scrollPane;
 	private JButton saveBtn;
+	File selectedFile;
 	public SaveExcelFile() {
 		setTitle("현 재고 리스트 저장하기");
 		setSize(400, 400);// 프레임의 크기
@@ -71,14 +75,18 @@ public class SaveExcelFile extends JFrame implements ActionListener{
 		showDataFile();
 		// excelMgr();
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-
-		if (obj == saveBtn) {
-			excelMgr();
+		JFileChooser fs = new JFileChooser(new File("c:\\"));
+		int result = fs.showSaveDialog(null);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			selectedFile = fs.getSelectedFile();
 		}
+		excelMgr(selectedFile);
 	}
+	
 	public void showDataFile() {
 		String sql = null;
 		
@@ -117,7 +125,9 @@ public class SaveExcelFile extends JFrame implements ActionListener{
 		}	
 	}
 
-	public void excelMgr() {
+	public void excelMgr(File selectedFile) {
+		this.selectedFile = selectedFile;
+		
 		String sql = null;
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -139,7 +149,7 @@ public class SaveExcelFile extends JFrame implements ActionListener{
 
 			rs = pstmt.executeQuery();
 			String currentDate = date.format(new Date());
-			FileOutputStream fileoutputstream = new FileOutputStream(".\\현 재고 리스트(" + currentDate + ").xls");
+			FileOutputStream fileoutputstream = new FileOutputStream(selectedFile+"("+ currentDate + ").xls");
 
 			int i = 0;
 			xRow = sheet.createRow(0);
@@ -198,9 +208,7 @@ public class SaveExcelFile extends JFrame implements ActionListener{
 
 			}
 		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		SaveExcelFile main = new SaveExcelFile();
+		setVisible(false);
+		JOptionPane.showMessageDialog(null, "파일 저장 완료!", "Success", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
