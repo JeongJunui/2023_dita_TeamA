@@ -7,7 +7,10 @@ import java.awt.Image;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,20 +22,22 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
+import warehouse.startStockIn;
 
 public class StockInAWT extends JFrame implements ActionListener{
 
 	JPanel p1,p2,p3;
 	static JPanel p4;
-	JButton b1,b2,b3,regBtn, search;
+	JButton b1,b2,b3,regBtn, search, correct, delete, searchBtn;
 	JLabel label, label2, l3,label3;
 	static JTextField pf[] = new JTextField[7];
 	static JLabel pl[] = new JLabel[7];
 	JTextField searchField;
 	Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
-	//JTable stockinTable;
 	int menuCheck = 0;
-	
 	int num[] = new int[7];
 	DefaultTableModel model;
 	
@@ -89,7 +94,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		
 		b3 = new JButton("");
 		b3.setBounds(20, 350, 100, 100);
-		b3.setIcon(new ImageIcon(test.class.getResource("/warehouse/images/homeBtn.png")));
+		b3.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn.png")));
 		b3.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn2.png")));
 		b3.setBorderPainted(false);
 		b3.setContentAreaFilled(false);
@@ -209,29 +214,33 @@ public class StockInAWT extends JFrame implements ActionListener{
 		searchField.setBounds(200, 100, 200, 25);
 		p3.add(searchField);
 		
-		JButton searchBtn = new JButton();
+		searchBtn = new JButton();
 		searchBtn.setBounds(400, 100, 30, 25);
 		searchBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/searchBtn.png")));
 		searchBtn.setFocusable(false);
+		searchBtn.addActionListener(this);
 		p3.add(searchBtn);
 		
-		JButton correct = new JButton();
+		correct = new JButton();
 		correct.setBounds(350, 400, 50, 25);
 		correct.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
 		correct.setFocusable(false);
+		correct.addActionListener(this);
 		p3.add(correct);
 		
-		JButton delete = new JButton();
+		delete = new JButton();
 		delete.setBounds(420, 400, 50, 25);
 		delete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
 		delete.setFocusable(false);
+		delete.addActionListener(this);
 		p3.add(delete);
 		
 		p4 = new JPanel();
 		p4.setBounds(25, 160, 505, 230);
-		p3.add(p4);
+		
 		
 		new loadStockin(this);
+		p3.add(p4);
 //		JScrollPane scrollPane = new JScrollPane(stockinTable);
 //		p4.add(scrollPane);
 	}
@@ -282,16 +291,24 @@ public class StockInAWT extends JFrame implements ActionListener{
 			}
 			
 			if(check == 0) { //빈값 없으면 테이블 추가
-//				DefaultTableModel model = (DefaultTableModel)stockinTable.getModel();
-				//model.addRow(str);
-				new startStockIn(model,str);
+				new startStockIn(model,str); //입고하기
 			}
 			for (int i = 0; i < 6; i++) {
 				pf[i].setText("");
 			} //값비우기
 			check = 0;
+		}else if(obj == searchBtn){
+			System.out.println("검색 버튼 클릭");
+			
+		}else if(obj == correct){
+			System.out.println("수정 버튼 클릭");
+			
+		}else if(obj == delete){
+			System.out.println("삭제 버튼 클릭");
+			
 		}
 	}
+	
 	
 	public static void main(String[] args) {
 		new StockInAWT();
