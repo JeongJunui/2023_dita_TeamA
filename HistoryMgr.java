@@ -110,7 +110,6 @@ public class HistoryMgr extends JPanel {
 				} catch (Exception e2) {
 
 				}
-
 			}
 			statisticsAWT.p3.add(this);
 		} else if (reciept_releaseCheck == 1) { // 출고 내역
@@ -138,7 +137,6 @@ public class HistoryMgr extends JPanel {
 				} catch (Exception e2) {
 
 				}
-
 			}
 			statisticsAWT.p3.add(this);
 		}

@@ -96,8 +96,8 @@ public class GanttChartMgr extends JPanel {
 		}
 		statisticsAWT.p7.add(this);
 	}
-
-	public CategoryDataset createDataset() { // 입력 차트 데이터
+	// 입력 차트 데이터
+	public CategoryDataset createDataset() { 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		String sql = null;
 		pool = DBConnectionMgr.getInstance();
@@ -124,8 +124,8 @@ public class GanttChartMgr extends JPanel {
 		}
 		return dataset;
 	}
-	
-	public CategoryDataset createDataset2() { // 출력 차트 데이터
+	// 출력 차트 데이터
+	public CategoryDataset createDataset2() { 
 		DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
 		String sql = null;
 		pool = DBConnectionMgr.getInstance();

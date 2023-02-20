@@ -19,7 +19,6 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
 		this.setHorizontalAlignment(SwingConstants.CENTER); // 테이블 중앙 정렬
 		
 		table.setIntercellSpacing(new Dimension(0,0));
-
 	    table.setShowGrid(false);
 		table.setShowVerticalLines(false); // 셀 세로줄 안보이게
 		table.setShowHorizontalLines(false); // 셀 가로줄 안보이게
@@ -31,7 +30,7 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
 		Header.setForeground(new Color(82,82,82));
 		Header.setFont(new Font("", Font.PLAIN,14));
 	}
-
+	// 테이블 짝수, 홀수 라인마다 글꼴 및 색상 변경
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
@@ -47,5 +46,4 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
 		}
 		return cell;
 	}
-
 }

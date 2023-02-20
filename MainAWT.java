@@ -41,6 +41,7 @@ public class MainAWT extends JFrame implements ActionListener {
 		mainReceivingBtn.setBounds(100, 170, 188, 188);
 		mainReceivingBtn.setFocusPainted(false);
 		mainReceivingBtn.setBorderPainted(false);
+		mainReceivingBtn.setContentAreaFilled(false);
 		mainReceivingBtn.addActionListener(this);
 		// 출고
 		mainReleaseBtn = new JButton(new ImageIcon(".\\images\\mainReleaseBtn.png"));
@@ -48,6 +49,7 @@ public class MainAWT extends JFrame implements ActionListener {
 		mainReleaseBtn.setBounds(400, 170, 188, 188);
 		mainReleaseBtn.setBorderPainted(false);
 		mainReleaseBtn.setFocusPainted(false);
+		mainReleaseBtn.setContentAreaFilled(false);
 		mainReleaseBtn.addActionListener(this);
 		// 통계
 		mainStatisticsBtn = new JButton(new ImageIcon(".\\images\\mainStatisticsBtn.png"));
@@ -56,8 +58,9 @@ public class MainAWT extends JFrame implements ActionListener {
 		mainStatisticsBtn.setBorderPainted(false);
 		mainStatisticsBtn.setContentAreaFilled(false);
 		mainStatisticsBtn.setFocusable(false);
+		mainStatisticsBtn.setContentAreaFilled(false);
 		mainStatisticsBtn.addActionListener(this);
-
+		
 		mainPanel.add(mainReceivingBtn);
 		mainPanel.add(mainReleaseBtn);
 		mainPanel.add(mainStatisticsBtn);
