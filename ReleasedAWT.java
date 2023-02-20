@@ -33,7 +33,7 @@ public class ReleasedAWT {
 	ReleasedMgr rsl;
 	ReleaseAWT2 awt;
 	private Object[][] tableContent=new Object[0][6];
-	String[] tableCol= {"ë¬¼í’ˆì½”ë“œ","ì¹´í…Œê³ ë¦¬","ë¬¼í’ˆëª…","ì‚¬ì´ì¦ˆ","ìƒ‰ìƒ","ì¬ê³ ëŸ‰"};
+	String[] tableCol= {"¹°Ç°ÄÚµå","Ä«Å×°í¸®","¹°Ç°¸í","»çÀÌÁî","»ö»ó","Àç°í·®"};
 	DefaultTableModel dtm; 
 	JScrollPane tableScroll;
 
@@ -129,7 +129,7 @@ public class ReleasedAWT {
 				String keyword=searchTextField.getText();
 				if(keyword.length()==0)
 				{
-					JOptionPane.showMessageDialog(null,"ê²€ìƒ‰í•  í‚¤ì›Œë“œë¥¼ ì…ë ¥í•˜ì‹­ì‹œì˜¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"°Ë»öÇÒ Å°¿öµå¸¦ ÀÔ·ÂÇÏ½Ã¿À.","°æ°í",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				Vector<ProductBean> searchResult=rsl.loadWarehouseOut(keyword);
@@ -138,6 +138,7 @@ public class ReleasedAWT {
 				for(int i=l-1;i>=0;i--)
 					dtm.removeRow(i);
 				System.out.println(searchResult);
+				dtm.setRowCount(searchResult.size());
 				for(int i=0;i<searchResult.size();i++)
 				{
 					ProductBean bean=searchResult.elementAt(i);
@@ -162,7 +163,6 @@ public class ReleasedAWT {
 		
 		table = new JTable(dtm);
 		table.setRowSelectionAllowed(true);
-		tcr= new MyTableCellRenderer(table);
 		tableScroll=new JScrollPane(table);
 		tableScroll.setBounds(12, 73, 503, 233);
 		panel.add(tableScroll);
@@ -172,7 +172,7 @@ public class ReleasedAWT {
 			public void actionPerformed(ActionEvent e) {
 				if(table.getSelectedRowCount()==0)
 				{
-					JOptionPane.showMessageDialog(null,"ì¶œê³ ë¥¼ ì§„í–‰í•  ì œí’ˆì„ ì„ íƒí•˜ì‹­ì‹œì˜¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Ãâ°í¸¦ ÁøÇàÇÒ ¹°Ç°À» ¼±ÅÃÇÏ½Ã¿À.","°æ°í",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				String s=dtm.getDataVector().elementAt(table.getSelectedRow()).toString();
