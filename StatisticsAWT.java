@@ -28,6 +28,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 	JButton p2_btn1, p2_btn2;
 	JButton p3_btn1, p3_btn2;
 	JButton p4_btn1, p4_btn2, p4_btn3;
+	JButton mailBtn;
 	JButton p6_btn1;
 	JComboBox comboBox, comboBox3;
 	JComboBox<String> comboBox2;
@@ -151,12 +152,22 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		p2_btn2.setContentAreaFilled(false);
 		p2_btn2.setFocusable(false);
 		p2_btn2.addActionListener(this);
-
-		p2.add(history);
+		// 메일 보내기 버튼
+		mailBtn = new JButton();
+		mailBtn.setIcon(new ImageIcon(".\\images\\mail.png"));
+		mailBtn.setRolloverIcon(new ImageIcon(".\\images\\mail2.png"));
+		mailBtn.setBounds(490, 40, 40, 25);
+		mailBtn.setBorderPainted(false);
+		mailBtn.setContentAreaFilled(false);
+		mailBtn.setFocusable(false);
+		mailBtn.addActionListener(this);
+		
+		p2.add(history);	
 		p2.add(comboBox);
 		p2.add(textField);
 		p2.add(p2_btn1);
 		p2.add(p2_btn2);
+		p2.add(mailBtn);
 
 		mainAWT.mainPanel.add(p2);
 		historyTablePanel();
@@ -256,7 +267,16 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		p4_btn3.setContentAreaFilled(false);
 		p4_btn3.setFocusable(false);
 		p4_btn3.addActionListener(this);
-
+		// 메일 보내기 버튼
+		mailBtn = new JButton();
+		mailBtn.setIcon(new ImageIcon(".\\images\\mail.png"));
+		mailBtn.setRolloverIcon(new ImageIcon(".\\images\\mail2.png"));
+		mailBtn.setBounds(490, 40, 40, 25);
+		mailBtn.setBorderPainted(false);
+		mailBtn.setContentAreaFilled(false);
+		mailBtn.setFocusable(false);
+		mailBtn.addActionListener(this);
+		
 		p4.add(invenStatus);
 		p4.add(categoryName);
 		p4.add(comboBox2);
@@ -264,6 +284,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		p4.add(p4_btn1);
 		p4.add(p4_btn2);
 		p4.add(p4_btn3);
+		p4.add(mailBtn);
 
 		mainAWT.mainPanel.add(p4);
 		inventoryStatusTablePanel();
@@ -450,6 +471,8 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		} else if (obj == p6_btn1) { // 기가별 차트 조회하기 버튼
 			p7.setVisible(false);
 			chartInputPanel();
+		} else if (obj == mailBtn) {
+			//TODO
 		}
 	}
 }
