@@ -27,9 +27,10 @@ import ch08.interfaceEx2;
 @SuppressWarnings("serial")
 public class StockInAWT extends JFrame implements ActionListener{
 
-	JPanel p1,p2,p3;
+	JPanel p1,p2,p3 , pp;
+	static JPanel pp1;
 	static JPanel p4;
-	JButton b1,b2,b3,regBtn, search, correct, delete, searchBtn;
+	JButton b1,b2,b3,regBtn, search, correct, delete, searchBtn, proddelete, prodcorrect;
 	JLabel label, label2, l3,label3;
 	static JTextField pf[] = new JTextField[7];
 	static JLabel pl[] = new JLabel[7];
@@ -44,8 +45,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 	int num[] = new int[7];
 	DefaultTableModel model;
 	LoadStockin loadStockin;
-	
-	GetCategory getCategory;
+	LoadProduct loadProduct;
 	
 	class imgPanel extends JPanel{ //입고하기 안에 있는 패널
 		Image background=new ImageIcon(StockInAWT.class.getResource("/warehouse/images/releaseBox.png")).getImage();
@@ -107,8 +107,9 @@ public class StockInAWT extends JFrame implements ActionListener{
 		b3.addActionListener(this);
 		p1.add(b3);
 		add(p1);
-	
-		rightPanel();	//입고하기 페이지 실행
+		
+		productPanel();
+//		rightPanel();	//입고하기 페이지 실행
 	}
 
 	public void rightPanel(){ //입고하기
@@ -241,6 +242,39 @@ public class StockInAWT extends JFrame implements ActionListener{
 		loadStockin = new LoadStockin(this);
 	}
 	
+	public void productPanel() {
+		pp = new JPanel();
+		pp.setLayout(null); 
+		pp.setBackground(new Color(0,32,96));
+		pp.setBounds(132, 0, 552, 461);
+		add(pp);
+		
+		label2 = new JLabel();
+		label2.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/receiving.png")));
+		label2.setBounds(28, 34, 150, 50);
+		pp.add(label2);
+		
+		prodcorrect = new JButton();
+		prodcorrect.setBounds(350, 400, 50, 25);
+		prodcorrect.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
+		prodcorrect.addActionListener(this);
+		prodcorrect.setFocusable(false);
+		pp.add(prodcorrect);
+		
+		proddelete = new JButton();
+		proddelete.setBounds(420, 400, 50, 25);
+		proddelete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
+		proddelete.addActionListener(this);
+		proddelete.setFocusable(false);
+		pp.add(proddelete);
+		
+		pp1 = new JPanel();
+		pp1.setBounds(25, 160, 505, 230);
+		loadProduct = new LoadProduct(this);
+		pp.add(pp1);
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -308,6 +342,22 @@ public class StockInAWT extends JFrame implements ActionListener{
 		}else if(obj==searchBtn) {		//검색 버튼
 			System.out.println("검색 버튼");
 			String cString = comboBox.getSelectedItem().toString();
+		
+		}else if(obj==proddelete) {		//삭제 버튼
+			int row = loadProduct.mrow;
+			loadProduct.delete(row);
+			pp.setVisible(false);
+			productPanel();
+			revalidate();
+			repaint();
+			System.out.println(row + "행 삭제 완료");
+			
+		}else if(obj==prodcorrect) {	//수정 버튼
+			int row = loadProduct.row;
+			int col = loadProduct.col;
+			loadProduct.correct(row,col);
+			System.out.println(row + "행 수정 완료");
+			
 		}
 	}
 
