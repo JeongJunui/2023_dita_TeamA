@@ -1,7 +1,6 @@
 package warehouse;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -18,6 +17,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -31,6 +31,7 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	private DBConnectionMgr pool;
+	private JPanel p1;
 	private JTextArea textArea;
 	private JLabel title;
 	private JScrollPane scrollPane;
@@ -41,35 +42,39 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 		setTitle("현 재고 리스트 저장하기");
 		setSize(400, 400);// 프레임의 크기
 		setResizable(false);// 창의 크기를 변경하지 못하게
-		getContentPane().setBackground(new Color(0, 32, 96));
+		getContentPane().setBackground(new Color(255, 255, 255));
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
+		
+		
+		title = new JLabel("");
+		title.setIcon(new ImageIcon(".\\images\\preViewTitle.png"));
+		title.setBounds(108, 17, 170, 43);
+		
+		p1 = new JPanel();
+		p1.setLayout(null);
+		p1.setBounds(0, 70, 384, 291);
+		
 		textArea = new JTextArea(10, 20);
 		textArea.setEditable(false);
 
 		scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(WIDTH + 12, 53, 360, 247);
-
-		title = new JLabel("현 재고 리스트 ");
-		title.setForeground(new Color(137, 191, 220));
-		title.setFont(new Font("맑은 고딕", Font.BOLD, 22));
-		title.setBounds(120, 10, 156, 33);
+		scrollPane.setBounds(WIDTH + 12, 10, 360, 230);
 
 		saveBtn = new JButton();
 		saveBtn.setIcon(new ImageIcon(".\\images\\fileSaveBtn.png"));
 		saveBtn.setRolloverIcon(new ImageIcon(".\\images\\fileSaveBtn2.png"));
-		saveBtn.setBounds(263, 308, 115, 50);
+		saveBtn.setBounds(263, 242, 115, 50);
 		saveBtn.setBorderPainted(false);
 		saveBtn.setContentAreaFilled(false);
 		saveBtn.setFocusable(false);
 		saveBtn.addActionListener(this);
 
-		add(scrollPane);
-		add(scrollPane);
 		add(title);
-		add(saveBtn);
-
+		p1.add(scrollPane);
+		p1.add(saveBtn);
+		add(p1);
 		setVisible(true);
 		showDataFile();
 	}
