@@ -136,7 +136,6 @@ public class ReleasedAWT {
 				int l=dtm.getRowCount();
 				for(int i=l-1;i>=0;i--)
 					dtm.removeRow(i);
-				//dtm.setRowCount(searchResult.size());
 				for(int i=0;i<searchResult.size();i++)
 				{
 					ProductBean bean=searchResult.elementAt(i);
@@ -174,8 +173,8 @@ public class ReleasedAWT {
 					return;
 				}
 				String s=dtm.getDataVector().elementAt(table.getSelectedRow()).elementAt(0).toString();
-				System.out.println(s);
-				awt=new ReleaseAWT2(s);
+				int n=Integer.parseInt(dtm.getDataVector().elementAt(table.getSelectedRow()).elementAt(5).toString());
+				awt=new ReleaseAWT2(s,n);
 			}
 		});
 		releaseButton.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/releaseBtn.png")));

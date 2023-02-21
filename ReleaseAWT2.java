@@ -30,6 +30,7 @@ public class ReleaseAWT2 {
 	private JTextField amountTextField;
 	private JTextField memberTextField;
 	private JTextField roadAddressTextField;
+	private int n;
 	ZipcodeAWT za;
 
 	ReleasedMgr rsl;
@@ -52,9 +53,10 @@ public class ReleaseAWT2 {
 	/**
 	 * Create the application.
 	 */
-	public ReleaseAWT2(String s) {
+	public ReleaseAWT2(String s,int n) {
 		initialize();
 		this.codeTextField.setText(s);
+		this.n=n;
 		this.frame.setVisible(true);
 	}
 	public void setAddress(String Addr) {
@@ -187,6 +189,11 @@ public class ReleaseAWT2 {
 					return;
 				}
 				int amount=Integer.parseInt(amountSt);
+				if(n<amount)
+				{
+					JOptionPane.showMessageDialog(null,"재고량이 부족합니다.","경고",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 				String member=memberTextField.getText();
 				if(member.length()==0)
 				{
