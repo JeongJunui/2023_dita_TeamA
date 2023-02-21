@@ -57,9 +57,11 @@ public class SendMailSMTP {
 			// 각각의 헤더 및 바디 multipart에 추가
 			Multipart messageMulti = new MimeMultipart();
 			messageMulti.addBodyPart(mbp1);
-			messageMulti.addBodyPart(mbp2);
-		
+			if(!filePath.equals("")){
+			messageMulti.addBodyPart(mbp2);	
+			}
 			message.setContent(messageMulti);
+			
 			// 첨부할 파일 확장자 정의
 			MailcapCommandMap MailcapCmdMap = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
 			MailcapCmdMap.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");

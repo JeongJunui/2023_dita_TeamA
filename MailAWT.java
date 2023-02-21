@@ -36,7 +36,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	private JTextField recieveTextField, titleTextField;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
-	String fileName1_1;
+	String fileName1_1 = "";
 
 	public MailAWT() {
 		setTitle("메일");
@@ -186,7 +186,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		JFileChooser chooser = new JFileChooser(); // 파일 다이얼로그 생성
+		JFileChooser chooser = new JFileChooser(new File("c:\\")); // 파일 다이얼로그 생성
 		if (obj == myPCBtn) {
 			// FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF
 			// Images", // 파일 이름에 창에 출력될 문자열
@@ -203,18 +203,20 @@ public class MailAWT extends JFrame implements ActionListener {
 			fileName1_1 = chooser.getSelectedFile().getAbsolutePath();
 			System.out.println(fileName1_1);
 			attachTextArea.setText(fileName1 + " ");
-		} else if (obj == sendBtn) {
-			if (attachTextArea.getText() != "" && textArea.getText() != "") {
+		} else if (obj == sendBtn) {	
+			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
 				String toEmail = recieveTextField.getText();
 				String toTitle = titleTextField.getText();
 				String setMessage = "<html><head><meta charset='ms949'/></head><body><font color = 'blue'><h2>창고프로그램<h2><br><br></font><br /><hr><img src='https://ssl.pstatic.net/tveta/libs/1313/1313466/5f5d81fa7f2d6adb4704_20201211101154645.jpg'></body></html>"
 						+ textArea.getText();
 
 				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
-
+				fileName1_1 = "";
 				attachTextArea.setText("");
 				textArea.setText("");
-				JOptionPane.showMessageDialog(null, "메일 보내기 성공!", "성공", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null, "메일 보내기 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
+			}else {
+				JOptionPane.showMessageDialog(null, "메일 보내기 실패!", "실패", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
