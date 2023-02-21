@@ -39,10 +39,6 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 	File selectedFile;
 
 	public SaveExcelFile() {
-<<<<<<< HEAD
-=======
-		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
->>>>>>> dbf827724e3dda7a989a7587b10410202e2cd3e0
 		setTitle("현 재고 리스트 저장하기");
 		setSize(400, 400);// 프레임의 크기
 		setResizable(false);// 창의 크기를 변경하지 못하게

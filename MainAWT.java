@@ -18,10 +18,6 @@ public class MainAWT extends JFrame implements ActionListener {
 	JButton mainReceivingBtn, mainReleaseBtn, mainStatisticsBtn;
 
 	public MainAWT() {
-<<<<<<< HEAD
-=======
-		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
->>>>>>> dbf827724e3dda7a989a7587b10410202e2cd3e0
 		setTitle("창고 관리 프로그램");
 		setSize(700, 500);// 프레임의 크기
 		setResizable(false);// 창의 크기를 변경하지 못하게

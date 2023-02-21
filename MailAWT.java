@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -24,7 +25,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MailAWT extends JFrame implements ActionListener {
 	private JPanel p1;
@@ -36,9 +36,9 @@ public class MailAWT extends JFrame implements ActionListener {
 	private JTextField recieveTextField, titleTextField;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
+	String fileName1_1;
 
 	public MailAWT() {
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("메일");
 		setSize(450, 650);// 프레임의 크기
 		setResizable(false);// 창의 크기를 변경하지 못하게
@@ -199,24 +199,24 @@ public class MailAWT extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다", "경고", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			String fileName = chooser.getSelectedFile().getName();
-			attachTextArea.setText(fileName + " ");
+			String fileName1 = chooser.getSelectedFile().getName();
+			fileName1_1 = chooser.getSelectedFile().getAbsolutePath();
+			System.out.println(fileName1_1);
+			attachTextArea.setText(fileName1 + " ");
 		} else if (obj == sendBtn) {
-			if(attachTextArea.getText() != null && textArea.getText()!=null) {
+			if (attachTextArea.getText() != "" && textArea.getText() != "") {
 				String toEmail = recieveTextField.getText();
 				String toTitle = titleTextField.getText();
-				String setMessage = textArea.getText();
-				new SendMailSMTP(toEmail, toTitle, setMessage);
-				
+				String setMessage = "<html><head><meta charset='ms949'/></head><body><font color = 'blue'><h2>창고프로그램<h2><br><br></font><br /><hr><img src='https://ssl.pstatic.net/tveta/libs/1313/1313466/5f5d81fa7f2d6adb4704_20201211101154645.jpg'></body></html>"
+						+ textArea.getText();
+
+				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
+
 				attachTextArea.setText("");
-				textArea.setText("");	
+				textArea.setText("");
 				JOptionPane.showMessageDialog(null, "메일 보내기 성공!", "성공", JOptionPane.OK_OPTION);
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		MailAWT mailAWT = new MailAWT();
 	}
 }
 

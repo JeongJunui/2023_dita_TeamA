@@ -472,7 +472,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 			p7.setVisible(false);
 			chartInputPanel();
 		} else if (obj == mailBtn) {
-			//TODO
+			new MailAWT();
 		}
 	}
 }
