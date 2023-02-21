@@ -1,5 +1,6 @@
 package warehouse;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.activation.CommandMap;
@@ -20,7 +21,7 @@ import javax.mail.internet.MimeMultipart;
 public class SendMailSMTP {
 	String host = "smtp.naver.com";
 	private String user = "deuackr2017@naver.com"; // 발신자 아이디
-	private String password = "deu@2017"; // 발신자 비밀번호
+	private String password = "deu@2023"; // 발신자 비밀번호
 
 	public SendMailSMTP(String toEmail, String toTitle, String filePath, String setMessage) {
 		SMTP(toEmail, toTitle, filePath, setMessage);
@@ -42,7 +43,12 @@ public class SendMailSMTP {
 		try {
 			// 메일 헤더
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
+			try {
+				message.setFrom(new InternetAddress(user,"자바창고(주)","UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 			message.setSubject(toTitle);// 메일 주제
 		

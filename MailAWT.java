@@ -40,7 +40,7 @@ public class MailAWT extends JFrame implements ActionListener {
 
 	public MailAWT() {
 		setTitle("메일");
-		setSize(450, 650);// 프레임의 크기
+		setSize(450, 700);// 프레임의 크기
 		setResizable(false);// 창의 크기를 변경하지 못하게
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
@@ -53,7 +53,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		p1 = new JPanel();
 		p1.setBackground(Color.white);
 		p1.setLayout(null);
-		p1.setBounds(0, 0, 434, 611);
+		p1.setBounds(0, 0, 434, 661);
 		// 타이틀 라벨
 		mailTitle = new JLabel();
 		mailTitle.setIcon(new ImageIcon(".\\images\\mailTitle.png"));
@@ -109,35 +109,35 @@ public class MailAWT extends JFrame implements ActionListener {
 		statisticsFile.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		statisticsFile.setForeground(new Color(118, 118, 120));
 		statisticsFile.setBounds(20, 188, 60, 28);
-
+		// 입고내역 라벨
 		statistics1 = new JLabel("입고내역");
 		statistics1.setFont(new Font("", Font.PLAIN, 12));
 		statistics1.setForeground(new Color(118, 118, 120));
 		statistics1.setBounds(90, 190, 60, 28);
-
+		// 입고내역 체크박스
 		checkBox1 = new JCheckBox();
 		checkBox1.setBounds(150, 193, 20, 20);
-
+		// 출고내역 라벨
 		statistics2 = new JLabel("출고내역");
 		statistics2.setFont(new Font("", Font.PLAIN, 12));
 		statistics2.setForeground(new Color(118, 118, 120));
 		statistics2.setBounds(195, 190, 60, 28);
-
+		// 출고내역 체크박스
 		checkBox2 = new JCheckBox();
 		checkBox2.setBounds(255, 193, 20, 20);
-
+		// 재고내역 라벨
 		statistics3 = new JLabel("재고내역");
 		statistics3.setFont(new Font("", Font.PLAIN, 12));
 		statistics3.setForeground(new Color(118, 118, 120));
 		statistics3.setBounds(300, 190, 60, 28);
-
+		// 재고내역 체크박스
 		checkBox3 = new JCheckBox();
 		checkBox3.setBounds(360, 193, 20, 20);
 		// 메일 입력 textArea
 		textArea = new JTextArea(10, 20);
 		scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(WIDTH + -2, 290, 452, 260);
+		scrollPane.setBounds(WIDTH + -2, 340, 452, 260);
 		// 파일첨부 삭제 버튼
 		closeBtn = new JButton("x");
 		closeBtn.setBounds(54, 189, 100, 100);
@@ -149,7 +149,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		// 메일 보내기 버튼
 		sendBtn = new JButton(new ImageIcon(".\\images\\sendBtn.png"));
 		sendBtn.setRolloverIcon(new ImageIcon(".\\images\\sendBtn2.png"));
-		sendBtn.setBounds(340, 557, 83, 50);
+		sendBtn.setBounds(340, 607, 83, 50);
 		sendBtn.setFocusPainted(false);
 		sendBtn.setBorderPainted(false);
 		sendBtn.setContentAreaFilled(false);
@@ -176,6 +176,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		p1.add(scrollPane);
 		p1.add(sendBtn);
 		add(closeBtn);
+		// 버튼 비활성화 추가  closeBtn.setEnabled(false);
 		add(p1);
 	}
 
@@ -188,11 +189,6 @@ public class MailAWT extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 		JFileChooser chooser = new JFileChooser(new File("c:\\")); // 파일 다이얼로그 생성
 		if (obj == myPCBtn) {
-			// FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF
-			// Images", // 파일 이름에 창에 출력될 문자열
-			// "jpg", "gif"); // 파일 필터로 사용되는 확장자. *.jpg. *.gif만 나열됨
-			// chooser.setFileFilter(filter); // 파일 다이얼로그에 파일 필터 설정
-
 			// 파일 다이얼로그 출력
 			int ret = chooser.showOpenDialog(null);
 			if (ret != JFileChooser.APPROVE_OPTION) { // 사용자가 창을 강제로 닫았거나 취소 버튼을 누른 경우
@@ -207,9 +203,37 @@ public class MailAWT extends JFrame implements ActionListener {
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
 				String toEmail = recieveTextField.getText();
 				String toTitle = titleTextField.getText();
-				String setMessage = "<html><head><meta charset='ms949'/></head><body><font color = 'blue'><h2>창고프로그램<h2><br><br></font><br /><hr><img src='https://ssl.pstatic.net/tveta/libs/1313/1313466/5f5d81fa7f2d6adb4704_20201211101154645.jpg'></body></html>"
-						+ textArea.getText();
-
+//				String setMessage = "<html><head><meta charset='ms949'/></head><body><font color = 'blue'><h2>창고프로그램<h2><br><br></font><br /><hr><img src='https://sominhwan.github.io/myPage_html/images/escape.png'></body></html>"
+//						+ textArea.getText();
+				String setMessage = "<html><head><meta charset='ms949'/></head><body><div class=\"container\">\r\n"
+						+ "      <div\r\n"
+						+ "        class=\"jumbotron\"\r\n"
+						+ "        style=\"\r\n"
+						+ "          background-image: url(https://cdn.pixabay.com/photo/2020/11/22/05/06/message-5765634_960_720.png);\r\n"
+						+ "          background-size: cover;\r\n"
+						+ "          height: 1200px;\r\n"
+						+ "          text-align: center;\r\n"
+						+ "          text-shadow: black 0.2em 0.2em 0.2em;\r\n"
+						+ "          color: white;\r\n"
+						+ "          border-radius: 1ch;\r\n"
+						+ "        \"\r\n"
+						+ "      >\r\n"
+						+ "        <h1 class=\"display-4\"><br />창고관리 프로그램 메시지.</h1>\r\n"
+						+ "        <p class=\"lead\">\r\n"
+						+ "          소민환의 개인페이지입니다. 다양한 자기소개 및 작성글이 존재합니다.\r\n"
+						+ "        </p>\r\n"
+						+ "        <p class=\"lead\">\r\n"
+						+ "          <a\r\n"
+						+ "            class=\"btn btn-primary btn-lg\"\r\n"
+						+ "            href=\"javaLecture.html\"\r\n"
+						+ "            role=\"button\"\r\n"
+						+ "          >\r\n"
+						+ "            강의 들으러 가기\r\n"
+						+ "          </a>\r\n"
+						+ "          <br /><br /><br />\r\n"
+						+ "        </p>\r\n"
+						+ "      </div>\r\n"
+						+ "    </div>   </body></html>" + textArea.getText();
 				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
 				fileName1_1 = "";
 				attachTextArea.setText("");
@@ -218,6 +242,8 @@ public class MailAWT extends JFrame implements ActionListener {
 			}else {
 				JOptionPane.showMessageDialog(null, "메일 보내기 실패!", "실패", JOptionPane.ERROR_MESSAGE);
 			}
+		} else if(obj == closeBtn) {
+			attachTextArea.setText("");
 		}
 	}
 }
