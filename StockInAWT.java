@@ -7,39 +7,50 @@ import java.awt.Image;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
+import ch08.interfaceEx2;
+
+@SuppressWarnings("serial")
 public class StockInAWT extends JFrame implements ActionListener{
 
 	JPanel p1,p2,p3;
 	static JPanel p4;
-	JButton b1,b2,b3,regBtn, search;
+	JButton b1,b2,b3,regBtn, search, correct, delete, searchBtn;
 	JLabel label, label2, l3,label3;
 	static JTextField pf[] = new JTextField[7];
 	static JLabel pl[] = new JLabel[7];
 	JTextField searchField;
-	Font myFont1 = new Font("ï§ë¬’ï¿½ æ€¨ì¢Šëµ“", Font.BOLD, 15);
-	//JTable stockinTable;
+	Font myFont1 = new Font("¸¼Àº °íµñ", Font.BOLD, 15);
 	int menuCheck = 0;
+	List<String> list;
+	
+	
+	JComboBox<?> comboBox;
 	
 	int num[] = new int[7];
 	DefaultTableModel model;
+	LoadStockin loadStockin;
 	
-	class imgPanel extends JPanel{ //ï¿½ì—¯æ€¨ì¢ë¸¯æ¹²ï¿½ ï¿½ë¸ï¿½ë¿‰ ï¿½ì—³ï¿½ë’— ï¿½ë™£ï¿½ê¼¸
+	GetCategory getCategory;
+	
+	class imgPanel extends JPanel{ //ÀÔ°íÇÏ±â ¾È¿¡ ÀÖ´Â ÆĞ³Î
 		Image background=new ImageIcon(StockInAWT.class.getResource("/warehouse/images/releaseBox.png")).getImage();
-		public void paint(Graphics g) {//æ´¹ëªƒâ”ï¿½ë’— ï¿½ë¸¿ï¿½ë‹”
-				g.drawImage(background, 0, 0, null);//backgroundç‘œï¿½ æ´¹ëªƒì ®ä»¥ï¿½		
+		public void paint(Graphics g) {//±×¸®´Â ÇÔ¼ö
+				g.drawImage(background, 0, 0, null);//background¸¦ ±×·ÁÁÜ		
 		}
 	};
 	
@@ -51,7 +62,6 @@ public class StockInAWT extends JFrame implements ActionListener{
 		
 		menuPanel();
 		setVisible(true);
-//		setVisible(true);
 //		validate();
 	}
 	
@@ -89,7 +99,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		
 		b3 = new JButton("");
 		b3.setBounds(20, 350, 100, 100);
-//		b3.setIcon(new ImageIcon(test.class.getResource("/warehouse/images/homeBtn.png")));
+		b3.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn.png")));
 		b3.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn2.png")));
 		b3.setBorderPainted(false);
 		b3.setContentAreaFilled(false);
@@ -97,18 +107,11 @@ public class StockInAWT extends JFrame implements ActionListener{
 		b3.addActionListener(this);
 		p1.add(b3);
 		add(p1);
-		
-		//ï¿½ë€’ï¿½ì” é‡‰ï¿½ èª˜ëªƒâ” ï¿½ê½‘ï¿½ë¼µ
-//		String header[] = {"è‡¾ì‡³ë­¹è‚„ë¶¾ë±¶","ç§»ëŒ„ë€’æ€¨ì¢Šâ”", "è‡¾ì‡³ë­¹ï¿½ì” ç”±ï¿½", "ï¿½ê¶—ï¿½ì” ï§ï¿½", "ï¿½ê¹‹ï¿½ê¸½", "ï¿½ì—¯æ€¨ì¢ë‹”ï¿½ì›¾"};
-//		Object data[][] = {{"A01", "ï¿½ìƒ†", "è«›ë¶¿ï¿½", "34", "black", "50"}};
-//		model = new DefaultTableModel(data, header);
-//		stockinTable = new JTable(model);
-		
-		
-		rightPanel();	//ï¿½ì—¯æ€¨ì¢ë¸¯æ¹²ï¿½ ï¿½ëŸ¹ï¿½ì” ï§ï¿½ ï¿½ë–ï¿½ë»¾
+	
+		rightPanel();	//ÀÔ°íÇÏ±â ÆäÀÌÁö ½ÇÇà
 	}
 
-	public void rightPanel(){ //ï¿½ì—¯æ€¨ì¢ë¸¯æ¹²ï¿½
+	public void rightPanel(){ //ÀÔ°íÇÏ±â
 		
 		
 		JLabel bar[] = new JLabel[7];
@@ -125,21 +128,19 @@ public class StockInAWT extends JFrame implements ActionListener{
 		label2.setBounds(28, 34, 150, 50);
 		p2.add(label2);
 
-		//imgPanel startP = new imgPanel();
 		Panel startP = new Panel();
 		startP.setBackground(Color.white);
-		//startP.getRootPane();
 		startP.setLayout(null);
 		startP.setBounds(50, 130, 450, 300);
 		p2.add(startP);
 		
-		pl[0] = new JLabel("è‡¾ì‡³ë­¹è‚„ë¶¾ë±¶ : ");
-		pl[1] = new JLabel("ç§»ëŒ„ë€’æ€¨ì¢Šâ” : ");
-		pl[2] = new JLabel("è‡¾ì‡³ë­¹ï§ï¿½ : ");
-		pl[3] = new JLabel("ï¿½ê¶—ï¿½ì” ï§ï¿½ : ");
-		pl[4] = new JLabel("ï¿½ê¹‹ï¿½ê¸½ : ");
-		pl[5] = new JLabel("ï¿½ì—¯æ€¨ì¢ë‹”ï¿½ì›¾ : ");
-		pl[6] = new JLabel("æ€¨ì¢‰ì»¼è¸°ëŠìƒ‡ : ");
+		pl[0] = new JLabel("¹°Ç°ÄÚµå : ");
+		pl[1] = new JLabel("Ä«Å×°í¸® : ");
+		pl[2] = new JLabel("¹°Ç°¸í : ");
+		pl[3] = new JLabel("»çÀÌÁî : ");
+		pl[4] = new JLabel("»ö»ó : ");
+		pl[5] = new JLabel("ÀÔ°í¼ö·® : ");
+		pl[6] = new JLabel("°í°´¹øÈ£ : ");
 		
 		for (int i = 0; i < 7; i++) {
 			if(i%2 == 1) {
@@ -150,8 +151,6 @@ public class StockInAWT extends JFrame implements ActionListener{
 			pl[i].setFont(myFont1);
 			startP.add(pl[i]);
 		}
-		
-		
 		
 		for (int i = 0; i < 7; i++) {
 			pf[i] = new JTextField("");
@@ -187,7 +186,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		
 	}
 	
-	public void rightPanel2() { //ï¿½ì—¯æ€¨ì¢ì½ï¿½ì†´
+	public void rightPanel2() { //ÀÔ°íÇöÈ²
 		p3 = new JPanel();
 		p3.setLayout(null); 
 		p3.setBackground(new Color(0,32,96));
@@ -199,31 +198,39 @@ public class StockInAWT extends JFrame implements ActionListener{
 		label3.setBounds(28, 34, 150, 50);
 		p3.add(label3);
 		
-		JButton search = new JButton();
-		search.setBounds(120, 100, 50, 25);
-		search.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/search.png")));
-		search.setFocusable(false);
-		p3.add(search);
+//		JButton search = new JButton();
+//		search.setBounds(120, 100, 50, 25);
+//		search.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/search.png")));
+//		search.setFocusable(false);
+		//p3.add(search);
 		
-		searchField = new JTextField("å¯ƒï¿½ï¿½ê¹‹ï§¡ï¿½");
+		searchField = new JTextField("°Ë»öÃ¢");
 		searchField.setBounds(200, 100, 200, 25);
 		p3.add(searchField);
 		
-		JButton searchBtn = new JButton();
+		//°Ë»ö ÄŞº¸¹Ú½º
+		comboBox = new JComboBox<Object>(loadStockin.header);
+		comboBox.setBounds(100, 100, 80, 30);
+		comboBox.addActionListener(this);
+		p3.add(comboBox);
+		
+		searchBtn = new JButton();
 		searchBtn.setBounds(400, 100, 30, 25);
 		searchBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/searchBtn.png")));
 		searchBtn.setFocusable(false);
 		p3.add(searchBtn);
 		
-		JButton correct = new JButton();
+		correct = new JButton();
 		correct.setBounds(350, 400, 50, 25);
 		correct.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
+		correct.addActionListener(this);
 		correct.setFocusable(false);
 		p3.add(correct);
 		
-		JButton delete = new JButton();
+		delete = new JButton();
 		delete.setBounds(420, 400, 50, 25);
 		delete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
+		delete.addActionListener(this);
 		delete.setFocusable(false);
 		p3.add(delete);
 		
@@ -231,22 +238,17 @@ public class StockInAWT extends JFrame implements ActionListener{
 		p4.setBounds(25, 160, 505, 230);
 		p3.add(p4);
 		
-		new loadStockin(this);
-//		JScrollPane scrollPane = new JScrollPane(stockinTable);
-//		p4.add(scrollPane);
+		loadStockin = new LoadStockin(this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		String str[] = new String[6];
+		
 		int check = 0;
 		if(obj == b1) {
 			if(menuCheck == 0) {
-//				p2.setVisible(false);
-//				rightPanel();
-//				revalidate();
-//				repaint();
 			} else if(menuCheck == 1) {
 				p3.setVisible(false);
 				rightPanel();
@@ -254,7 +256,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 				repaint();
 				menuCheck = 0;
 			}
-			System.out.println("1è¸°ï¿½ è¸°ê¾ªë“‰!!!!!!!!!" + menuCheck);
+			System.out.println("1¹ø ¹öÆ°!!!!!!!!!" + menuCheck);
 		}else if(obj==b2){
 			if(menuCheck == 0) {
 				p2.setVisible(false);
@@ -264,35 +266,51 @@ public class StockInAWT extends JFrame implements ActionListener{
 				menuCheck = 1;
 			} else if(menuCheck == 1) {
 			}
-			System.out.println("2è¸°ï¿½ è¸°ê¾ªë“‰!!!!!!!!!" + menuCheck);
-		}else if(obj==b3) {
+			System.out.println("2¹ø ¹öÆ°!!!!!!!!!" + menuCheck);
+		}else if(obj==b3) {			
 			for (int i = 0; i < 6; i++) {
 				str[i] = pf[i].getText();
 				System.out.println(str[i]);
 			}
 			
-		}else if(obj == regBtn){
+		}else if(obj == regBtn){	//µî·Ï ¹öÆ°
 			for (int i = 0; i < 6; i++) {
 				str[i] = pf[i].getText();
-				if(str[i].isEmpty()) { //é®ë‡ì»ª ï§£ëŒ„ê²•
-					System.out.println("é®ë‡ì»ª");
-					JOptionPane.showMessageDialog(null, pl[i].getText() + "ï¿½ë¿‰ é®ë‡ì»ªï¿½ì”  ï¿½ì—³ï¿½ë’¿ï¿½ë•²ï¿½ë–");
+				if(str[i].isEmpty()) { //ºó°ª Ã¼Å©
+					System.out.println("ºó°ª");
+					JOptionPane.showMessageDialog(null, pl[i].getText() + "¿¡ ºó°ªÀÌ ÀÖ½À´Ï´Ù");
 					check++;
 				}
 			}
 			
-			if(check == 0) { //é®ë‡ì»ª ï¿½ë¾¾ï¿½ì‘ï§ï¿½ ï¿½ë€’ï¿½ì” é‡‰ï¿½ ç•°ë¶½ï¿½
-//				DefaultTableModel model = (DefaultTableModel)stockinTable.getModel();
-				//model.addRow(str);
+			if(check == 0) { //ºó°ª ¾øÀ¸¸é Å×ÀÌºí Ãß°¡
 				new startStockIn(model,str);
 			}
 			for (int i = 0; i < 6; i++) {
 				pf[i].setText("");
-			} //åª›ë¯©í‰¬ï¿½ìŠ¦æ¹²ï¿½
+			} //°ªºñ¿ì±â
 			check = 0;
+		}else if(obj==correct) {	//¼öÁ¤ ¹öÆ°
+			int row = loadStockin.row;
+			int col = loadStockin.col;
+			loadStockin.correct(row,col);
+			System.out.println(row + "Çà ¼öÁ¤ ¿Ï·á");
+			
+		}else if(obj==delete) {		//»èÁ¦ ¹öÆ°
+			int row = loadStockin.mrow;
+			loadStockin.delete(row);
+			p3.setVisible(false);
+			rightPanel2();
+			revalidate();
+			repaint();
+			System.out.println(row + "Çà »èÁ¦ ¿Ï·á");
+			
+		}else if(obj==searchBtn) {		//°Ë»ö ¹öÆ°
+			System.out.println("°Ë»ö ¹öÆ°");
+			String cString = comboBox.getSelectedItem().toString();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new StockInAWT();
 	}
