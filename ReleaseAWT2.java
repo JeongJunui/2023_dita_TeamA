@@ -210,11 +210,12 @@ public class ReleaseAWT2 {
 				if(rsl.releasedStart(prodCode, memberIdx, amount, ""))
 				{
 					JOptionPane.showMessageDialog(null,"출고가 완료되었습니다.","알림",JOptionPane.INFORMATION_MESSAGE);
+					releaseButton.setEnabled(false);
 					//출고 완료
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null,"출고 작업 중 오류가 발생했습니다.\n재고가 부족합니다.","오류",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"출고 작업 중 오류가 발생했습니다.\n물품코드나 회사번호를 확인해 주십시오.","오류",JOptionPane.ERROR_MESSAGE);
 					//문제 발생, 보통은 재고 딸려서 이게 나올 것
 				}
 			}
