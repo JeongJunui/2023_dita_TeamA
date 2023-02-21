@@ -11,7 +11,7 @@ public class ReleasedMgr {
 	{
 		pool=DBConnectionMgr.getInstance();
 	}
-	public Vector<ProductBean> loadWarehouseOut(String keyword)//ì¶œê³  í…Œì´ë¸” ë¶€ë¥´ê¸°
+	public Vector<ProductBean> loadWarehouseOut(String keyword)//Ãâ°íÇÒ ¹°Ç° °Ë»ö
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -22,9 +22,8 @@ public class ReleasedMgr {
 			con = pool.getConnection();
 			sql = "select * from product where PROD_CODE like ? OR PROD_NAME like ?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, keyword);
-			pstmt.setString(2, keyword);
-			System.out.println(keyword);
+			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setString(2, "%"+keyword+"%");
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
@@ -41,7 +40,7 @@ public class ReleasedMgr {
 		}
 		return vlist;
 	}
-	public Vector<ReleasedBean> outSearch(String keyword)//ì¶œê³  ê²€ìƒ‰
+	public Vector<ReleasedBean> outSearch(String keyword)//Ãâ°í±â·Ï °Ë»ö
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -50,7 +49,7 @@ public class ReleasedMgr {
 		Vector<ReleasedBean> vlist=new Vector<ReleasedBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from takeout_log where PROD_CODE = ? or MEMBER_IDX = ?";
+			sql = "select * from takeout_log where PROD_CODE like ? or MEMBER_IDX like ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, keyword);
 			pstmt.setString(2, keyword);
@@ -70,7 +69,7 @@ public class ReleasedMgr {
 		}
 		return vlist;
 	}
-	public boolean releasedStart(String prodCode, int memberIdx, int takeoutAmount, String other)//ì¶œê³ í•˜ê¸°
+	public boolean releasedStart(String prodCode, int memberIdx, int takeoutAmount, String other)//Ãâ°í
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -78,7 +77,7 @@ public class ReleasedMgr {
 		boolean flag=false;
 		try {
 			con = pool.getConnection();
-			sql = "insert into takeout_log values (?,?,now(),?,?)";//mysql ì•ˆì—ì„œ í˜„ì¬ì‹œê°„ ë¶ˆëŸ¬ì˜¤ëŠ” ê±´ now()
+			sql = "insert into takeout_log values (?,?,now(),?,?)";//mysql¿¡¼­ ÇöÀç ½Ã°£À» ÀúÀåÇÏ´Â °Ç now()
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, prodCode);
 			pstmt.setInt(2, memberIdx);

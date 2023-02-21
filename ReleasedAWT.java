@@ -119,7 +119,7 @@ public class ReleasedAWT {
 		panel_1.add(searchLabel);
 		
 		searchTextField = new JTextField();
-		searchTextField.setFont(new Font("援대┝", Font.PLAIN, 19));
+		searchTextField.setFont(new Font("Dialog", Font.PLAIN, 19));
 		panel_1.add(searchTextField);
 		searchTextField.setColumns(10);
 		
@@ -134,11 +134,9 @@ public class ReleasedAWT {
 				}
 				Vector<ProductBean> searchResult=rsl.loadWarehouseOut(keyword);
 				int l=dtm.getRowCount();
-				System.out.println(l);
 				for(int i=l-1;i>=0;i--)
 					dtm.removeRow(i);
-				System.out.println(searchResult);
-				dtm.setRowCount(searchResult.size());
+				//dtm.setRowCount(searchResult.size());
 				for(int i=0;i<searchResult.size();i++)
 				{
 					ProductBean bean=searchResult.elementAt(i);
@@ -175,7 +173,8 @@ public class ReleasedAWT {
 					JOptionPane.showMessageDialog(null,"출고를 진행할 물품을 선택하시오.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				String s=dtm.getDataVector().elementAt(table.getSelectedRow()).toString();
+				String s=dtm.getDataVector().elementAt(table.getSelectedRow()).elementAt(0).toString();
+				System.out.println(s);
 				awt=new ReleaseAWT2(s);
 			}
 		});
