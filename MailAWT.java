@@ -179,11 +179,11 @@ public class MailAWT extends JFrame implements ActionListener {
 		add(p1);
 		
 	}
-
+	// textField 테두리 없애는 메소드
 	public void setBorder(Border border) {
 
 	}
-
+	// 버튼 이벤트
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -288,8 +288,8 @@ public class MailAWT extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "메일 보내기 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
 				closeBtn.setVisible(false);
 				p1.setVisible(false);
-				
-				new CompleteMail(this);
+			
+				new CompleteMail(this, toEmail);
 			}else {
 				JOptionPane.showMessageDialog(null, "메일 보내기 실패!", "실패", JOptionPane.ERROR_MESSAGE);
 			}
@@ -298,7 +298,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		}
 	}
 }
-
+// 둥근 버튼 생성 클래스
 class RoundedButton extends JButton {
 	public RoundedButton() {
 		super();

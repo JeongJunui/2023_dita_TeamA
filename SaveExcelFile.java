@@ -46,8 +46,7 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
-		
-		
+				
 		title = new JLabel("");
 		title.setIcon(new ImageIcon(".\\images\\preViewTitle.png"));
 		title.setBounds(108, 17, 170, 43);

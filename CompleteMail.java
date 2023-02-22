@@ -6,17 +6,15 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
+// 패널에 이미지 넣는 
 class CompleteMailPanel extends JPanel {
 	private Image img;
 
@@ -33,28 +31,23 @@ class CompleteMailPanel extends JPanel {
 
 public class CompleteMail extends JFrame implements ActionListener {
 	private JButton writeMailBtn;
-	private JTextField mailAddress;
 	private JLabel textLabel1, textLabel2, textLabel3, textLabel4, textLabel5;
 	private JTextArea mailAddressTA;
+	String toEmail;
 	MailAWT mailAWT;
 
-	public CompleteMail(MailAWT mailAWT) {
+	public CompleteMail(MailAWT mailAWT, String toEmail) {
 		this.mailAWT = mailAWT;
+		this.toEmail = toEmail;
 		setLayout(null);
 		CompleteMailPanel();
 	}
 
+	// 메일 전송 완료 패널
 	public void CompleteMailPanel() {
-//		setTitle("메일");
-//		setSize(450, 700);// 프레임의 크기
-//		setResizable(false);// 창의 크기를 변경하지 못하게
-//		setLocationRelativeTo(null);// 창이 가운데 나오게
-//		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//		getContentPane().setLayout(null);
-
 		CompleteMailPanel panel = new CompleteMailPanel(
 				new ImageIcon(".\\images\\completeMessageFooter.png").getImage());
-
+		// 메일 보내는 gif 아이콘 라벨
 		textLabel1 = new JLabel();
 		textLabel1.setIcon(new ImageIcon(".\\images\\mailSend.gif"));
 		textLabel1.setBounds(120, 85, 160, 160);
@@ -63,7 +56,7 @@ public class CompleteMail extends JFrame implements ActionListener {
 		textLabel2.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
 		textLabel2.setForeground(new Color(48, 48, 56));
 		textLabel2.setBounds(96, 270, 270, 20);
-
+		// 보내기 버튼
 		writeMailBtn = new JButton(new ImageIcon(".\\images\\writeMailBtn.png"));
 		writeMailBtn.setRolloverIcon(new ImageIcon(".\\images\\writeMailBtn2.png"));
 		writeMailBtn.setBounds(171, 320, 110, 40);
@@ -80,8 +73,8 @@ public class CompleteMail extends JFrame implements ActionListener {
 		textLabel4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		textLabel4.setForeground(Color.DARK_GRAY);
 		textLabel4.setBounds(80, 460, 300, 20);
-
-		mailAddressTA = new JTextArea("thalsghks@naver.com");
+		// 받는 사람 이메일 텍스트필드
+		mailAddressTA = new JTextArea(toEmail);
 		mailAddressTA.setBounds(180, 544, 220, 25);
 		mailAddressTA.setFont(new Font("", Font.PLAIN, 14));
 		mailAddressTA.setForeground(Color.LIGHT_GRAY);
@@ -101,23 +94,15 @@ public class CompleteMail extends JFrame implements ActionListener {
 		panel.add(textLabel5);
 		panel.add(writeMailBtn);
 		mailAWT.add(panel);
-		setVisible(true);
-
 	}
 
+	// 메일쓰기 버튼 이벤트
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj == writeMailBtn) {
-			//mailAWT.mailPanel.setVisible(false);
-		//mailAWT.mail
-			mailAWT.removeAll();
-			mailAWT.revalidate();
-			mailAWT.repaint();
-			mailAWT.mailPanel();
-		
-			
+			mailAWT.setVisible(false);
+			new MailAWT();
 		}
 	}
-
 }
