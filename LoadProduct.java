@@ -111,8 +111,6 @@ public class LoadProduct extends JPanel implements MouseListener{
 				str[i] = String.valueOf(model2.getValueAt(row, i));
 			else
 				str[i] = (String)model2.getValueAt(row, i);
-			
-			//System.out.println(str[i]);
 		}
 		
 		try {
