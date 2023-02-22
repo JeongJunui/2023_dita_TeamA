@@ -59,6 +59,13 @@ public class ReleaseAWT2 {
 		this.n=n;
 		this.frame.setVisible(true);
 	}
+	public void resetCode(String s,int n) {
+		initialize();
+		this.codeTextField.setText(s);
+		this.n=n;
+		this.frame.setVisible(true);
+		this.frame.requestFocus();
+	}
 	public void setAddress(String Addr) {
 		roadAddressTextField.setText(Addr);
 	}

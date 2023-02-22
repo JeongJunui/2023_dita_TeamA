@@ -174,7 +174,10 @@ public class ReleasedAWT {
 				}
 				String s=dtm.getDataVector().elementAt(table.getSelectedRow()).elementAt(0).toString();
 				int n=Integer.parseInt(dtm.getDataVector().elementAt(table.getSelectedRow()).elementAt(5).toString());
-				awt=new ReleaseAWT2(s,n);
+				if(awt==null)
+					awt=new ReleaseAWT2(s,n);
+				else
+					awt.resetCode(s, n);
 				int l=dtm.getRowCount();
 				for(int i=l-1;i>=0;i--)
 					dtm.removeRow(i);
