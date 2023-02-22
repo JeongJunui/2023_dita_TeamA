@@ -122,6 +122,19 @@ public class ReleasedAWT {
 		searchTextField.setFont(new Font("Dialog", Font.PLAIN, 19));
 		panel_1.add(searchTextField);
 		searchTextField.setColumns(10);
+		Vector<ProductBean> allResult=rsl.loadWhenOpened();
+		for(int i=0;i<allResult.size();i++)
+		{
+			ProductBean bean=allResult.elementAt(i);
+			Vector<Object> vlist=new Vector<Object>();
+			vlist.addElement(bean.getProdCode());
+			vlist.addElement(bean.getCategory());
+			vlist.addElement(bean.getProdName());
+			vlist.addElement(bean.getProdSize());
+			vlist.addElement(bean.getProdColor());
+			vlist.addElement(bean.getProdStock());
+			dtm.addRow(vlist);
+		}
 		
 		JButton searchButton = new JButton("");
 		searchButton.addActionListener(new ActionListener() {
@@ -178,9 +191,9 @@ public class ReleasedAWT {
 					awt=new ReleaseAWT2(s,n);
 				else
 					awt.resetCode(s, n);
-				int l=dtm.getRowCount();
-				for(int i=l-1;i>=0;i--)
-					dtm.removeRow(i);
+				//int l=dtm.getRowCount();
+				//for(int i=l-1;i>=0;i--)
+				//	dtm.removeRow(i);
 			}
 		});
 		releaseButton.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/releaseBtn.png")));

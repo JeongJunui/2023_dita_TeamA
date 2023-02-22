@@ -11,6 +11,33 @@ public class ReleasedMgr {
 	{
 		pool=DBConnectionMgr.getInstance();
 	}
+	public Vector<ProductBean> loadWhenOpened()
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		Vector<ProductBean> vlist=new Vector<ProductBean>();
+		try {
+			con = pool.getConnection();
+			sql = "select * from product";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				ProductBean bean=new ProductBean(rs.getString("PROD_CODE"), rs.getString("CATEGORY"),
+						rs.getString("PROD_NAME"), rs.getString("PROD_SIZE"), rs.getString("PROD_COLOR"),
+						rs.getInt("PROD_STOCK"));
+				vlist.addElement(bean);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return vlist;
+	}
 	public Vector<ProductBean> loadWarehouseOut(String keyword)//출고할 물품 검색
 	{
 		Connection con = null;
