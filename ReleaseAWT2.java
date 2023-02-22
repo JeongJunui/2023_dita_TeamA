@@ -77,6 +77,7 @@ public class ReleaseAWT2 {
 		frame.setBounds(100, 100, 300, 500);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		rsl=new ReleasedMgr();
 		
 		JPanel mainPanel=new JPanel();
 		FlowLayout flowLayout = (FlowLayout) mainPanel.getLayout();
@@ -213,7 +214,7 @@ public class ReleaseAWT2 {
 					JOptionPane.showMessageDialog(null,"주소가 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				if(rsl.releasedStart(prodCode, memberIdx, amount, ""))
+				if(rsl.releasedStart(prodCode, memberIdx, amount, ".")==true)
 				{
 					JOptionPane.showMessageDialog(null,"출고가 완료되었습니다.","알림",JOptionPane.INFORMATION_MESSAGE);
 					releaseButton.setEnabled(false);

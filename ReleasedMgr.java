@@ -104,7 +104,7 @@ public class ReleasedMgr {
 		boolean flag=false;
 		try {
 			con = pool.getConnection();
-			sql = "insert into takeout_log values (?,?,now(),?,?)";//mysql에서 현재 시간을 저장하는 건 now()
+			sql = "insert into takeout_log values (null,?,?,now(),?,?)";//mysql에서 현재 시간을 저장하는 건 now()
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, prodCode);
 			pstmt.setInt(2, memberIdx);
