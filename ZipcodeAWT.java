@@ -71,7 +71,7 @@ public class ZipcodeAWT {
 			public void actionPerformed(ActionEvent e) {
 				if(searchedList.isSelectionEmpty())
 				{
-					JOptionPane.showMessageDialog(null,"ì£¼ì†Œë¥¼ ì„ íƒí•˜ì‹­ì‹œì˜¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"ÁÖ¼Ò¸¦ ¼±ÅÃÇÏ½Ê½Ã¿À.","°æ°í",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				awt.setAddress(searchedList.getSelectedValue().toString());
@@ -89,8 +89,8 @@ public class ZipcodeAWT {
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
-		
-		JLabel lblNewLabel_1 = new JLabel("ë„ë¡œëª…: ");
+
+		JLabel lblNewLabel_1 = new JLabel("µµ·Î¸í: ");
 		panel_1.add(lblNewLabel_1);
 		
 		textField = new JTextField();
@@ -103,14 +103,14 @@ public class ZipcodeAWT {
 				String keyword=textField.getText();
 				if(keyword.length()==0)
 				{
-					JOptionPane.showMessageDialog(null,"ê²€ìƒ‰í•  í‚¤ì›Œë“œë¥¼ ì…ë ¥í•˜ì‹­ì‹œì˜¤.","ê²½ê³ ",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"°Ë»öÇÒ Å°¿öµå¸¦ ÀÔ·ÂÇÏ½Ê½Ã¿À.","°æ°í",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				searchedList.removeAll();
 				Vector<String> serachResult=mgr.getSearchedResult(keyword);
 				if(serachResult.isEmpty())
 				{
-					JOptionPane.showMessageDialog(null, "ê²€ìƒ‰ ê²°ê³¼ê°€ ì—†ìŠµë‹ˆë‹¤.\nì •í™•í•œ ë„ë¡œëª…ì„ ì…ë ¥í•˜ì˜€ëŠ”ì§€ í™•ì¸í•´ ì£¼ì‹­ì‹œì˜¤.","ì•Œë¦¼",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "°Ë»ö °á°ú°¡ ¾ø½À´Ï´Ù.\nÁ¤È®ÇÑ µµ·Î¸íÀ» ÀÔ·ÂÇÏ¿´´ÂÁö È®ÀÎÇØ ÁÖ½Ê½Ã¿À.","¾Ë¸²",JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 				/*
