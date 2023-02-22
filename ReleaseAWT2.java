@@ -77,6 +77,7 @@ public class ReleaseAWT2 {
 		frame.setBounds(100, 100, 300, 500);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		rsl=new ReleasedMgr();
 		
 		JPanel mainPanel=new JPanel();
 		FlowLayout flowLayout = (FlowLayout) mainPanel.getLayout();
