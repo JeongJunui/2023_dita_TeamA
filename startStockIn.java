@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 import javax.swing.table.DefaultTableModel;
 
+import ch08.interfaceEx2;
+
 public class startStockIn {
 
 	StockInAWT stockInAWT;
@@ -16,9 +18,9 @@ public class startStockIn {
 	
 	private DBConnectionMgr pool;
 	
-	public startStockIn(DefaultTableModel model, String[] str){
+	public startStockIn(DefaultTableModel model, String[] str, int checkRegist){
 		pool = DBConnectionMgr.getInstance();
-		insert(model,str);
+		insert(model,str,checkRegist);
 	}
 	
 	@SuppressWarnings("null")
@@ -60,23 +62,32 @@ public class startStockIn {
 		return index;
 	}
 	
-	void insert(DefaultTableModel model, String[] str){
-		String productsql,storedsql= null;
+	void insert(DefaultTableModel model, String[] str, int checkRegist){
+		String productsql,storedsql,updatesql= null;
 		
 		try {
 			con = pool.getConnection();
-			
-			productsql = "insert into product\r\n"
-					+ " VALUES( '" + str[0] + "', '" + str[1] + "' , '" + str[2] + "' , '" + str[3] + "' , '" + str[4] + "' , '" + str[5] + "') ";
-			storedsql = "insert into stored_log\r\n"
-					+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 1 + " , '2023-02-17' , '" + str[5] + "') ";
-			
-			pstmt = con.prepareStatement(productsql);
-			pstmt1 = con.prepareStatement(storedsql);
-			
-			int rs = pstmt.executeUpdate(productsql);
-			int rs1 = pstmt1.executeUpdate(storedsql);
-			
+			if (checkRegist == 1) {
+				storedsql = "insert into stored_log\r\n"
+						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 1 + " , '2023-02-17' , '" + str[5] + "') ";
+				pstmt1 = con.prepareStatement(storedsql);
+				int rs1 = pstmt1.executeUpdate(storedsql);
+				
+				updatesql = "UPDATE product SET PROD_STOCK = PROD_STOCK + '" + str[5] + "'\r\n"
+						+ "WHERE PROD_CODE = '" + str[0] + "'";
+				pstmt = con.prepareStatement(updatesql);
+				int rs = pstmt.executeUpdate(updatesql);
+			}else {
+				productsql = "insert into product\r\n"
+						+ " VALUES( '" + str[0] + "', '" + str[1] + "' , '" + str[2] + "' , '" + str[3] + "' , '" + str[4] + "' , '" + str[5] + "') ";
+				pstmt = con.prepareStatement(productsql);
+				int rs = pstmt.executeUpdate(productsql);
+				
+				storedsql = "insert into stored_log\r\n"
+						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 1 + " , '2023-02-17' , '" + str[5] + "') ";
+				pstmt1 = con.prepareStatement(storedsql);
+				int rs1 = pstmt1.executeUpdate(storedsql);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {

@@ -14,6 +14,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import ch08.interfaceEx2;
+
 
 public class LoadProduct extends JPanel implements MouseListener{
 	JTable stockinTable;
@@ -53,6 +55,18 @@ public class LoadProduct extends JPanel implements MouseListener{
 		pool = DBConnectionMgr.getInstance();
 		
 		select();
+	}
+	
+	public int checkRegist(String[] str) {
+		int check = 0;
+		model2 = (DefaultTableModel)stockinTable.getModel();
+		
+		for (int i = 0; i < model2.getRowCount(); i++) {
+			if(str[0].equals((String)model2.getValueAt(i, 0)))
+				check = 1;
+			System.out.println("등록되어 있는 값");
+		}
+		return check;
 	}
 	
 	public void select() {

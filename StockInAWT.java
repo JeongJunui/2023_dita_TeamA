@@ -38,7 +38,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 	Font myFont1 = new Font("맑은 고딕", Font.BOLD, 15);
 	int menuCheck = 0;
 	List<String> list;
-	
+	String str[];
 	
 	JComboBox<?> comboBox;
 	
@@ -300,7 +300,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		String str[] = new String[6];
+		str = new String[6];
 		
 		int check = 0;
 		if(obj == b1) {
@@ -364,8 +364,10 @@ public class StockInAWT extends JFrame implements ActionListener{
 				}
 			}
 			
+			//System.out.println("loadProduct.checkRegist() : " + loadProduct.checkRegist(str));
+			
 			if(check == 0) { //빈값 없으면 테이블 추가
-				new startStockIn(model,str);
+				new startStockIn(model,str,loadProduct.checkRegist(str));
 			}
 			for (int i = 0; i < 6; i++) {
 				pf[i].setText("");
@@ -405,12 +407,11 @@ public class StockInAWT extends JFrame implements ActionListener{
 			loadProduct.correct(row,col);
 			System.out.println(row + "행 수정 완료");
 			
-		}else if(obj==registBtn) {	//수정 버튼
+		}else if(obj==registBtn) {	//등록 버튼
 			int row = loadProduct.mrow;
 			String[] reStrings = new String[6];
 			reStrings = loadProduct.regist(row);
 			loadProduct.regist(row);
-			
 			
 			pp.setVisible(false);
 			rightPanel();
