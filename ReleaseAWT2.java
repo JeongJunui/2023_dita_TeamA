@@ -60,7 +60,6 @@ public class ReleaseAWT2 {
 		this.frame.setVisible(true);
 	}
 	public void resetCode(String s,int n) {
-		initialize();
 		this.codeTextField.setText(s);
 		this.n=n;
 		this.frame.setVisible(true);

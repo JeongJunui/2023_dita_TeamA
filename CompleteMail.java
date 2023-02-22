@@ -14,8 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import ch12.RunnableEx1;
-
 // 패널에 이미지 넣는 클래스
 class CompleteMailPanel extends JPanel {
 	private Image img;
@@ -31,13 +29,15 @@ class CompleteMailPanel extends JPanel {
 	}
 }
 
-public class CompleteMail extends JFrame implements ActionListener, Runnable {
+public class CompleteMail extends JFrame implements ActionListener {
 	private JButton writeMailBtn;
 	private JLabel textLabel1, textLabel2, textLabel3, textLabel4, textLabel5;
+	private JLabel threadLabel;
 	private JTextArea mailAddressTA;
 	String toEmail;
 	MailAWT mailAWT;
-
+	//Thread t1; 
+	
 	public CompleteMail(MailAWT mailAWT, String toEmail) {
 		this.mailAWT = mailAWT;
 		this.toEmail = toEmail;
@@ -70,11 +70,17 @@ public class CompleteMail extends JFrame implements ActionListener, Runnable {
 		textLabel3 = new JLabel();
 		textLabel3.setIcon(new ImageIcon(".\\images\\panelBarLong.png"));
 		textLabel3.setBounds(10, 410, 410, 10);
-
+		// 5초후 꺼지는 쓰레드 라벨
+		threadLabel = new JLabel("5초 후 창이 꺼집니다.");
+		threadLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		threadLabel.setForeground(Color.DARK_GRAY);
+		threadLabel.setBounds(80, 430, 300, 20);
+		
 		textLabel4 = new JLabel("메일쓰기를 누를시 다시 메일을 쓸 수 있습니다.");
 		textLabel4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		textLabel4.setForeground(Color.DARK_GRAY);
 		textLabel4.setBounds(80, 460, 300, 20);
+	
 		// 받는 사람 이메일 텍스트필드
 		mailAddressTA = new JTextArea(toEmail);
 		mailAddressTA.setBounds(180, 544, 220, 25);
@@ -88,27 +94,28 @@ public class CompleteMail extends JFrame implements ActionListener, Runnable {
 		textLabel5.setForeground(Color.DARK_GRAY);
 		textLabel5.setBounds(80, 630, 300, 20);
 
-		Thread t1 = new Thread();
-	
-		t1.start();// JVM안에 있는 Thread 스케줄러에게 등록
-
-		
 		panel.add(textLabel1);
 		panel.add(textLabel2);
 		panel.add(textLabel3);
+		panel.add(threadLabel);
 		panel.add(textLabel4);
 		panel.add(mailAddressTA);
 		panel.add(textLabel5);
 		panel.add(writeMailBtn);
 		mailAWT.add(panel);
+		
+		start();
 	}
 	
-	@Override
+	public void start() {
+		run();
+	}
+
 	public void run() {
 		for (int i = 0; i < 5; i++) {
 			try {
 				Thread.sleep(1000);// 1초
-				
+				System.out.println("안녕");
 			} catch (Exception e) {
 
 			}
