@@ -2,6 +2,7 @@ package warehouse;
 
 import java.awt.Color;
 import java.awt.Desktop.Action;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -28,14 +29,17 @@ import javax.swing.border.Border;
 
 public class MailAWT extends JFrame implements ActionListener {
 	private JPanel p1;
+	private JPanel letterEventPanel;
 	private JLabel mailTitle, receiver, sendTitle, mailAttach, statisticsFile, sendAttach;
 	private JLabel statistics1, statistics2, statistics3;
 	private JCheckBox checkBox1, checkBox2, checkBox3;
 	private JLabel mailBar, mailBar2;
 	private JButton myPCBtn, closeBtn, sendBtn;
+	private JButton boldBtn, boldBtn2, italicBtn, italicBtn2;
 	private JTextField recieveTextField, titleTextField;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
+
 	String fileName1_1 = "";
 
 	public MailAWT() {
@@ -175,10 +179,54 @@ public class MailAWT extends JFrame implements ActionListener {
 		p1.add(sendAttach);
 		p1.add(scrollPane);
 		p1.add(sendBtn);
+		
+		letterEventPanel();
+		
 		add(closeBtn);
 		add(p1);
 		
 	}
+	// 글자 글꼴 색상 변경 패널
+		public void letterEventPanel() {
+			letterEventPanel = new JPanel();
+			letterEventPanel.setBounds(0,300, 434, 50);
+			letterEventPanel.setLayout(null);
+			letterEventPanel.setBackground(new Color(246, 246, 246));
+			
+			boldBtn = new JButton(new ImageIcon(".\\images\\bold.png"));
+			boldBtn.setBounds(12, 10, 97, 43);
+			boldBtn.setFocusPainted(false);
+			boldBtn.setBorderPainted(false);
+			//boldBtn.setContentAreaFilled(false);
+			boldBtn.addActionListener(this);
+			
+			boldBtn2 = new JButton(new ImageIcon(".\\images\\bold2.png"));
+			boldBtn2.setBounds(104, 189, 100, 100);
+			boldBtn2.setFocusPainted(false);
+			boldBtn2.setBorderPainted(false);
+			boldBtn2.setContentAreaFilled(false);
+			
+			boldBtn2.addActionListener(this);
+			
+			italicBtn = new JButton(new ImageIcon(".\\images\\italic.png"));
+			italicBtn.setBounds(0, 60, 50, 50);
+			italicBtn.setFocusPainted(false);
+			italicBtn.setBorderPainted(false);
+			italicBtn.setContentAreaFilled(false);
+			italicBtn.addActionListener(this);
+			
+			italicBtn2 = new JButton(new ImageIcon(".\\images\\italic2.png"));
+			italicBtn2.setBounds(54, 189, 100, 100);
+			italicBtn2.setFocusPainted(false);
+			italicBtn2.setBorderPainted(false);
+			italicBtn2.setContentAreaFilled(false);
+			italicBtn2.addActionListener(this);
+			
+			letterEventPanel.add(boldBtn);
+			letterEventPanel.add(italicBtn);
+			p1.add(letterEventPanel);
+			
+		}
 	// textField 테두리 없애는 메소드
 	public void setBorder(Border border) {
 

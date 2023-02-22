@@ -103,6 +103,7 @@ public class CompleteMail extends Thread implements ActionListener {
 
 		start();
 	}
+
 	// 5초 후 프레임 꺼지는 쓰레드 메소드
 	@Override
 	public void run() {
