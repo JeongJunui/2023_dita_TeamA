@@ -14,7 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-// 패널에 이미지 넣는 
+import ch12.RunnableEx1;
+
+// 패널에 이미지 넣는 클래스
 class CompleteMailPanel extends JPanel {
 	private Image img;
 
@@ -29,7 +31,7 @@ class CompleteMailPanel extends JPanel {
 	}
 }
 
-public class CompleteMail extends JFrame implements ActionListener {
+public class CompleteMail extends JFrame implements ActionListener, Runnable {
 	private JButton writeMailBtn;
 	private JLabel textLabel1, textLabel2, textLabel3, textLabel4, textLabel5;
 	private JTextArea mailAddressTA;
@@ -86,6 +88,11 @@ public class CompleteMail extends JFrame implements ActionListener {
 		textLabel5.setForeground(Color.DARK_GRAY);
 		textLabel5.setBounds(80, 630, 300, 20);
 
+		Thread t1 = new Thread();
+	
+		t1.start();// JVM안에 있는 Thread 스케줄러에게 등록
+
+		
 		panel.add(textLabel1);
 		panel.add(textLabel2);
 		panel.add(textLabel3);
@@ -94,6 +101,18 @@ public class CompleteMail extends JFrame implements ActionListener {
 		panel.add(textLabel5);
 		panel.add(writeMailBtn);
 		mailAWT.add(panel);
+	}
+	
+	@Override
+	public void run() {
+		for (int i = 0; i < 5; i++) {
+			try {
+				Thread.sleep(1000);// 1초
+				
+			} catch (Exception e) {
+
+			}
+		}
 	}
 
 	// 메일쓰기 버튼 이벤트
