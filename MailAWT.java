@@ -17,6 +17,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,11 +33,14 @@ public class MailAWT extends JFrame implements ActionListener {
 	private JPanel letterEventPanel;
 	private JLabel mailTitle, receiver, sendTitle, mailAttach, statisticsFile, sendAttach;
 	private JLabel statistics1, statistics2, statistics3;
+	private JLabel fontSize;
 	private JCheckBox checkBox1, checkBox2, checkBox3;
 	private JLabel mailBar, mailBar2;
 	private JButton myPCBtn, closeBtn, sendBtn;
+	private JButton fontSizeUpBtn, fontSizeDownBtn;
 	private JButton boldBtn, boldBtn2, italicBtn, italicBtn2;
 	private JTextField recieveTextField, titleTextField;
+	private JComboBox fontBox;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
 
@@ -192,38 +196,68 @@ public class MailAWT extends JFrame implements ActionListener {
 			letterEventPanel.setBounds(0,300, 434, 50);
 			letterEventPanel.setLayout(null);
 			letterEventPanel.setBackground(new Color(246, 246, 246));
-			
+			// 폰트 콤보박스
+			fontBox = new JComboBox();
+			fontBox.setBounds(0, 1, 95, 39);
+			// 폰트 사이즈
+			fontSize = new JLabel("돋음");
+			fontSize.setFont(new Font("돋음", Font.PLAIN, 15));
+			//fontSize.setOpaque(true); 
+			//fontSize.setBackground(new Color(118, 118, 120));
+			fontSize.setBounds(105, 1, 60, 40);
+			// 폰트 사이즈 업 버튼
+			fontSizeUpBtn = new JButton(new ImageIcon(".\\images\\fontSIzeUpBtn.png"));
+			fontSizeUpBtn.setBounds(166, 4, 16, 16);
+			fontSizeUpBtn.setFocusPainted(false);
+			fontSizeUpBtn.setBorderPainted(false);
+			fontSizeUpBtn.setContentAreaFilled(false);
+			fontSizeUpBtn.addActionListener(this);
+			// 폰트 사이즈 다운 버튼
+			fontSizeDownBtn = new JButton(new ImageIcon(".\\images\\fontSIzeDownBtn.png"));
+			fontSizeDownBtn.setBounds(166, 22, 16, 16);
+			fontSizeDownBtn.setFocusPainted(false);
+			fontSizeDownBtn.setBorderPainted(false);
+			fontSizeDownBtn.setContentAreaFilled(false);
+			fontSizeDownBtn.addActionListener(this);	
+			// 글씨체 Bold 버튼
 			boldBtn = new JButton(new ImageIcon(".\\images\\bold.png"));
-			boldBtn.setBounds(12, 10, 97, 43);
+			boldBtn.setBounds(195, 8, 25, 27);
 			boldBtn.setFocusPainted(false);
 			boldBtn.setBorderPainted(false);
-			//boldBtn.setContentAreaFilled(false);
+			boldBtn.setContentAreaFilled(false);
 			boldBtn.addActionListener(this);
 			
 			boldBtn2 = new JButton(new ImageIcon(".\\images\\bold2.png"));
-			boldBtn2.setBounds(104, 189, 100, 100);
+			boldBtn2.setBounds(195, 8, 25, 27);
 			boldBtn2.setFocusPainted(false);
 			boldBtn2.setBorderPainted(false);
-			boldBtn2.setContentAreaFilled(false);
-			
+			boldBtn2.setContentAreaFilled(false);	
 			boldBtn2.addActionListener(this);
-			
+			// 글씨체 기울임 버튼
 			italicBtn = new JButton(new ImageIcon(".\\images\\italic.png"));
-			italicBtn.setBounds(0, 60, 50, 50);
+			italicBtn.setBounds(225, 8, 25, 27);
 			italicBtn.setFocusPainted(false);
 			italicBtn.setBorderPainted(false);
 			italicBtn.setContentAreaFilled(false);
 			italicBtn.addActionListener(this);
 			
 			italicBtn2 = new JButton(new ImageIcon(".\\images\\italic2.png"));
-			italicBtn2.setBounds(54, 189, 100, 100);
+			italicBtn2.setBounds(225, 8, 25, 27);
 			italicBtn2.setFocusPainted(false);
 			italicBtn2.setBorderPainted(false);
 			italicBtn2.setContentAreaFilled(false);
 			italicBtn2.addActionListener(this);
 			
+			letterEventPanel.add(fontBox);
+			letterEventPanel.add(fontSize);
+			letterEventPanel.add(fontSizeUpBtn);
+			letterEventPanel.add(fontSizeDownBtn);
 			letterEventPanel.add(boldBtn);
+			letterEventPanel.add(boldBtn2);
+			boldBtn2.setVisible(false);
 			letterEventPanel.add(italicBtn);
+			letterEventPanel.add(italicBtn2);
+			italicBtn2.setVisible(false);
 			p1.add(letterEventPanel);
 			
 		}
@@ -247,6 +281,23 @@ public class MailAWT extends JFrame implements ActionListener {
 			fileName1_1 = chooser.getSelectedFile().getAbsolutePath();
 			System.out.println(fileName1_1);
 			attachTextArea.setText(fileName1 + " ");
+			// 텍스트 Bold 버튼
+		} else if (obj == boldBtn) {
+			boldBtn.setVisible(false);
+			boldBtn2.setVisible(true);
+		
+		} else if (obj == boldBtn2) {
+			boldBtn2.setVisible(false);
+			boldBtn.setVisible(true);
+		
+		} else if (obj == italicBtn) {
+			italicBtn.setVisible(false);
+			italicBtn2.setVisible(true);
+		
+		} else if (obj == italicBtn2) {
+			italicBtn2.setVisible(false);
+			italicBtn.setVisible(true);
+		
 		} else if (obj == sendBtn) {	
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
 				String toEmail = recieveTextField.getText();

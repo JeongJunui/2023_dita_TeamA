@@ -72,7 +72,7 @@ public class CompleteMail extends Thread implements ActionListener {
 		threadLabel = new JLabel();
 		threadLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		threadLabel.setForeground(Color.DARK_GRAY);
-		threadLabel.setBounds(80, 430, 300, 20);
+		threadLabel.setBounds(153, 374, 300, 20);
 
 		textLabel4 = new JLabel("메일쓰기를 누를시 다시 메일을 쓸 수 있습니다.");
 		textLabel4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
