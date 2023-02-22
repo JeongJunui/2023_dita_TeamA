@@ -93,14 +93,13 @@ public class LoadStockin extends JPanel implements MouseListener{
 		String sql = null;
 		int rs1 = 0;
 		DefaultTableModel model2 = (DefaultTableModel)stockinTable.getModel();
-		String str1 = (String)model2.getValueAt(row, 1);
+		
 		int str2 = Integer.parseInt((String) model2.getValueAt(row, 6));
 		String str3 = (String)model2.getValueAt(row, 0);
-		System.out.println(str1 + str2 + str3);
 		
 		try {
 			con = pool.getConnection();
-			sql = "UPDATE stored_log SET PROD_CODE = '" + str1 + "', STORED_STOCK = " + str2 + "\r\n"
+			sql = "UPDATE stored_log SET STORED_STOCK = " + str2 + "\r\n"
 					+ "WHERE STORED_IDX = '" + str3 + "'";
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
