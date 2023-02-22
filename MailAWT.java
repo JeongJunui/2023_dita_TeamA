@@ -285,7 +285,6 @@ public class MailAWT extends JFrame implements ActionListener {
 				fileName1_1 = "";
 				attachTextArea.setText("");
 				textArea.setText("");
-				JOptionPane.showMessageDialog(null, "메일 보내기 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
 				closeBtn.setVisible(false);
 				p1.setVisible(false);
 			
