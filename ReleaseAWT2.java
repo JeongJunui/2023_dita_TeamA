@@ -213,7 +213,7 @@ public class ReleaseAWT2 {
 					JOptionPane.showMessageDialog(null,"주소가 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				if(rsl.releasedStart(prodCode, memberIdx, amount, ""))
+				if(rsl.releasedStart(prodCode, memberIdx, amount, ".")==true)
 				{
 					JOptionPane.showMessageDialog(null,"출고가 완료되었습니다.","알림",JOptionPane.INFORMATION_MESSAGE);
 					releaseButton.setEnabled(false);

@@ -51,6 +51,10 @@ public class ZipcodeAWT {
 		initialize();
 		this.frame.setVisible(true);
 	}
+	public void setDisable()
+	{
+		this.frame.setVisible(false);
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -75,6 +79,7 @@ public class ZipcodeAWT {
 					return;
 				}
 				awt.setAddress(searchedList.getSelectedValue().toString());
+				setDisable();
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(ZipcodeAWT.class.getResource("/warehouse/images/selectBtn.png")));
