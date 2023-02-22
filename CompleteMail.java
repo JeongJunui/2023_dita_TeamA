@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -28,27 +27,26 @@ class CompleteMailPanel extends JPanel {
 		g.drawImage(img, 0, 0, null);
 	}
 }
-
-public class CompleteMail extends JFrame implements ActionListener {
+// 메일 전송 완료 클래스
+public class CompleteMail extends Thread implements ActionListener {
 	private JButton writeMailBtn;
 	private JLabel textLabel1, textLabel2, textLabel3, textLabel4, textLabel5;
 	private JLabel threadLabel;
 	private JTextArea mailAddressTA;
+	boolean check = false;
 	String toEmail;
 	MailAWT mailAWT;
-	//Thread t1; 
-	
+	CompleteMailPanel panel;
+
 	public CompleteMail(MailAWT mailAWT, String toEmail) {
 		this.mailAWT = mailAWT;
 		this.toEmail = toEmail;
-		setLayout(null);
 		CompleteMailPanel();
 	}
 
 	// 메일 전송 완료 패널
 	public void CompleteMailPanel() {
-		CompleteMailPanel panel = new CompleteMailPanel(
-				new ImageIcon(".\\images\\completeMessageFooter.png").getImage());
+		panel = new CompleteMailPanel(new ImageIcon(".\\images\\completeMessageFooter.png").getImage());
 		// 메일 보내는 gif 아이콘 라벨
 		textLabel1 = new JLabel();
 		textLabel1.setIcon(new ImageIcon(".\\images\\mailSend.gif"));
@@ -71,16 +69,15 @@ public class CompleteMail extends JFrame implements ActionListener {
 		textLabel3.setIcon(new ImageIcon(".\\images\\panelBarLong.png"));
 		textLabel3.setBounds(10, 410, 410, 10);
 		// 5초후 꺼지는 쓰레드 라벨
-		threadLabel = new JLabel("5초 후 창이 꺼집니다.");
-		threadLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		threadLabel = new JLabel();
+		threadLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		threadLabel.setForeground(Color.DARK_GRAY);
 		threadLabel.setBounds(80, 430, 300, 20);
-		
+
 		textLabel4 = new JLabel("메일쓰기를 누를시 다시 메일을 쓸 수 있습니다.");
 		textLabel4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		textLabel4.setForeground(Color.DARK_GRAY);
 		textLabel4.setBounds(80, 460, 300, 20);
-	
 		// 받는 사람 이메일 텍스트필드
 		mailAddressTA = new JTextArea(toEmail);
 		mailAddressTA.setBounds(180, 544, 220, 25);
@@ -103,22 +100,28 @@ public class CompleteMail extends JFrame implements ActionListener {
 		panel.add(textLabel5);
 		panel.add(writeMailBtn);
 		mailAWT.add(panel);
-		
+
 		start();
 	}
-	
-	public void start() {
-		run();
-	}
-
+	// 5초 후 프레임 꺼지는 쓰레드 메소드
+	@Override
 	public void run() {
-		for (int i = 0; i < 5; i++) {
+		for (int i = 5; i > 0; i--) {
 			try {
-				Thread.sleep(1000);// 1초
-				System.out.println("안녕");
+				threadLabel.setText(i + "초후 창이 꺼집니다");
+				Thread.sleep(250);// 0.25초
+				threadLabel.setText(i + "초후 창이 꺼집니다 .");
+				Thread.sleep(250);// 0.25초
+				threadLabel.setText(i + "초후 창이 꺼집니다 . .");
+				Thread.sleep(250);// 0.25초
+				threadLabel.setText(i + "초후 창이 꺼집니다 . . .");
+				Thread.sleep(250);// 0.25초
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
+		}
+		if (check == false) {
+			mailAWT.setVisible(false);
 		}
 	}
 
@@ -126,9 +129,11 @@ public class CompleteMail extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
+		check = true;
 		if (obj == writeMailBtn) {
-			mailAWT.setVisible(false);
-			new MailAWT();
+			panel.setVisible(false);
+			mailAWT.mailPanel();
+			// new MailAWT();
 		}
 	}
 }
