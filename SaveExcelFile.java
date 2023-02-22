@@ -46,8 +46,7 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
-		
-		
+				
 		title = new JLabel("");
 		title.setIcon(new ImageIcon(".\\images\\preViewTitle.png"));
 		title.setBounds(108, 17, 170, 43);
@@ -86,10 +85,6 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 		Object obj = e.getSource();
 		JFileChooser fs = new JFileChooser(new File("c:\\"));
 		
-		 FileNameExtensionFilter filter = new FileNameExtensionFilter("(*xls)", // 파일 이름에 창에 출력될 문자열
-		 "(*xlsx)"); // 파일 필터로 사용되는 확장자. *.xls. *.xlsx만 나열됨
-		 fs.setFileFilter(filter); // 파일 다이얼로그에 파일 필터 설정
-
 		int result = fs.showSaveDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			selectedFile = fs.getSelectedFile();

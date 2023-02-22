@@ -39,31 +39,31 @@ public class MailAWT extends JFrame implements ActionListener {
 	String fileName1_1 = "";
 
 	public MailAWT() {
-		setTitle("¸ŞÀÏ");
-		setSize(450, 650);// ÇÁ·¹ÀÓÀÇ Å©±â
-		setResizable(false);// Ã¢ÀÇ Å©±â¸¦ º¯°æÇÏÁö ¸øÇÏ°Ô
-		setLocationRelativeTo(null);// Ã¢ÀÌ °¡¿îµ¥ ³ª¿À°Ô
+		setTitle("ë©”ì¼");
+		setSize(450, 700);// í”„ë ˆì„ì˜ í¬ê¸°
+		setResizable(false);// ì°½ì˜ í¬ê¸°ë¥¼ ë³€ê²½í•˜ì§€ ëª»í•˜ê²Œ
+		setLocationRelativeTo(null);// ì°½ì´ ê°€ìš´ë° ë‚˜ì˜¤ê²Œ
 		getContentPane().setLayout(null);
 
-		MailPanel();
+		mailPanel();
 		setVisible(true);
 	}
 
-	public void MailPanel() {
+	public void mailPanel() {
 		p1 = new JPanel();
 		p1.setBackground(Color.white);
 		p1.setLayout(null);
-		p1.setBounds(0, 0, 434, 611);
-		// Å¸ÀÌÆ² ¶óº§
+		p1.setBounds(0, 0, 434, 661);
+		// íƒ€ì´í‹€ ë¼ë²¨
 		mailTitle = new JLabel();
 		mailTitle.setIcon(new ImageIcon(".\\images\\mailTitle.png"));
 		mailTitle.setBounds(20, 10, 94, 45);
-		// ¹Ş´Â»ç¶÷ ¶óº§
-		receiver = new JLabel("¹Ş´Â»ç¶÷");
-		receiver.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		// ë°›ëŠ”ì‚¬ëŒ ë¼ë²¨
+		receiver = new JLabel("ë°›ëŠ”ì‚¬ëŒ");
+		receiver.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		receiver.setForeground(new Color(118, 118, 120));
 		receiver.setBounds(20, 65, 60, 28);
-		// ¹Ş´Â»ç¶÷ ÀÔ·Â ÇÊµå
+		// ë°›ëŠ”ì‚¬ëŒ ì…ë ¥ í•„ë“œ
 		recieveTextField = new JTextField();
 		recieveTextField.setBounds(95, 70, 300, 22);
 		recieveTextField.setColumns(10);
@@ -72,12 +72,12 @@ public class MailAWT extends JFrame implements ActionListener {
 		mailBar = new JLabel();
 		mailBar.setIcon(new ImageIcon(".\\images\\mailBar.png"));
 		mailBar.setBounds(90, 78, 311, 34);
-		// Á¦¸ñ ¶óº§
-		sendTitle = new JLabel("Á¦¸ñ");
-		sendTitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		// ì œëª© ë¼ë²¨
+		sendTitle = new JLabel("ì œëª©");
+		sendTitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		sendTitle.setForeground(new Color(118, 118, 120));
 		sendTitle.setBounds(20, 110, 60, 28);
-		// Á¦¸ñ ÀÔ·Â ÇÊµå
+		// ì œëª© ì…ë ¥ í•„ë“œ
 		titleTextField = new JTextField();
 		titleTextField.setBounds(95, 112, 300, 22);
 		titleTextField.setColumns(10);
@@ -85,60 +85,60 @@ public class MailAWT extends JFrame implements ActionListener {
 		mailBar2 = new JLabel();
 		mailBar2.setIcon(new ImageIcon(".\\images\\mailBar.png"));
 		mailBar2.setBounds(90, 120, 311, 34);
-		// ÆÄÀÏÃ·ºÎ ¶óº§
-		mailAttach = new JLabel("ÆÄÀÏÃ·ºÎ");
-		mailAttach.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		// íŒŒì¼ì²¨ë¶€ ë¼ë²¨
+		mailAttach = new JLabel("íŒŒì¼ì²¨ë¶€");
+		mailAttach.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		mailAttach.setForeground(new Color(118, 118, 120));
 		mailAttach.setBounds(20, 155, 60, 28);
-		// ³» pc ÆÄÀÏÃ·ºÎ ¹öÆ°
-		myPCBtn = new RoundedButton("³» PC");
-		myPCBtn.setFont(new Font("¸¼Àº °íµñ", Font.ITALIC, 13));
+		// ë‚´ pc íŒŒì¼ì²¨ë¶€ ë²„íŠ¼
+		myPCBtn = new RoundedButton("ë‚´ PC");
+		myPCBtn.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.ITALIC, 13));
 		myPCBtn.setBounds(90, 157, 50, 25);
 		myPCBtn.addActionListener(this);
-		// ÆÄÀÏÃ·ºÎ TextArea
+		// íŒŒì¼ì²¨ë¶€ TextArea
 		attachTextArea = new JTextArea();
 		attachTextArea.setBounds(95, 254, 300, 25);
 		attachTextArea.setColumns(10);
 		attachTextArea.setEditable(false);
-		// ÆÄÀÏÃ·ºÎ ¹Ú½º ÀÌ¹ÌÁö ¶óº§
+		// íŒŒì¼ì²¨ë¶€ ë°•ìŠ¤ ì´ë¯¸ì§€ ë¼ë²¨
 		sendAttach = new JLabel();
 		sendAttach.setIcon(new ImageIcon(".\\images\\mailAttach.png"));
 		sendAttach.setBounds(90, 220, 340, 70);
-		// Åë°è ÆÄÀÏ ¶óº§
-		statisticsFile = new JLabel("Åë°èÆÄÀÏ");
-		statisticsFile.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		// í†µê³„ íŒŒì¼ ë¼ë²¨
+		statisticsFile = new JLabel("í†µê³„íŒŒì¼");
+		statisticsFile.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		statisticsFile.setForeground(new Color(118, 118, 120));
 		statisticsFile.setBounds(20, 188, 60, 28);
-
-		statistics1 = new JLabel("ÀÔ°í³»¿ª");
+		// ì…ê³ ë‚´ì—­ ë¼ë²¨
+		statistics1 = new JLabel("ì…ê³ ë‚´ì—­");
 		statistics1.setFont(new Font("", Font.PLAIN, 12));
 		statistics1.setForeground(new Color(118, 118, 120));
 		statistics1.setBounds(90, 190, 60, 28);
-
+		// ì…ê³ ë‚´ì—­ ì²´í¬ë°•ìŠ¤
 		checkBox1 = new JCheckBox();
 		checkBox1.setBounds(150, 193, 20, 20);
-
-		statistics2 = new JLabel("Ãâ°í³»¿ª");
+		// ì¶œê³ ë‚´ì—­ ë¼ë²¨
+		statistics2 = new JLabel("ì¶œê³ ë‚´ì—­");
 		statistics2.setFont(new Font("", Font.PLAIN, 12));
 		statistics2.setForeground(new Color(118, 118, 120));
 		statistics2.setBounds(195, 190, 60, 28);
-
+		// ì¶œê³ ë‚´ì—­ ì²´í¬ë°•ìŠ¤
 		checkBox2 = new JCheckBox();
 		checkBox2.setBounds(255, 193, 20, 20);
-
-		statistics3 = new JLabel("Àç°í³»¿ª");
+		// ì¬ê³ ë‚´ì—­ ë¼ë²¨
+		statistics3 = new JLabel("ì¬ê³ ë‚´ì—­");
 		statistics3.setFont(new Font("", Font.PLAIN, 12));
 		statistics3.setForeground(new Color(118, 118, 120));
 		statistics3.setBounds(300, 190, 60, 28);
-
+		// ì¬ê³ ë‚´ì—­ ì²´í¬ë°•ìŠ¤
 		checkBox3 = new JCheckBox();
 		checkBox3.setBounds(360, 193, 20, 20);
-		// ¸ŞÀÏ ÀÔ·Â textArea
+		// ë©”ì¼ ì…ë ¥ textArea
 		textArea = new JTextArea(10, 20);
 		scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(WIDTH + -2, 290, 452, 260);
-		// ÆÄÀÏÃ·ºÎ »èÁ¦ ¹öÆ°
+		scrollPane.setBounds(WIDTH + -2, 340, 452, 260);
+		// íŒŒì¼ì²¨ë¶€ ì‚­ì œ ë²„íŠ¼
 		closeBtn = new JButton("x");
 		closeBtn.setBounds(54, 189, 100, 100);
 		closeBtn.setForeground(new Color(118, 118, 120));
@@ -146,10 +146,10 @@ public class MailAWT extends JFrame implements ActionListener {
 		closeBtn.setBorderPainted(false);
 		closeBtn.setContentAreaFilled(false);
 		closeBtn.addActionListener(this);
-		// ¸ŞÀÏ º¸³»±â ¹öÆ°
+		// ë©”ì¼ ë³´ë‚´ê¸° ë²„íŠ¼
 		sendBtn = new JButton(new ImageIcon(".\\images\\sendBtn.png"));
 		sendBtn.setRolloverIcon(new ImageIcon(".\\images\\sendBtn2.png"));
-		sendBtn.setBounds(340, 557, 83, 50);
+		sendBtn.setBounds(340, 607, 83, 50);
 		sendBtn.setFocusPainted(false);
 		sendBtn.setBorderPainted(false);
 		sendBtn.setContentAreaFilled(false);
@@ -177,26 +177,22 @@ public class MailAWT extends JFrame implements ActionListener {
 		p1.add(sendBtn);
 		add(closeBtn);
 		add(p1);
+		
 	}
-
+	// textField í…Œë‘ë¦¬ ì—†ì• ëŠ” ë©”ì†Œë“œ
 	public void setBorder(Border border) {
 
 	}
-
+	// ë²„íŠ¼ ì´ë²¤íŠ¸
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		JFileChooser chooser = new JFileChooser(new File("c:\\")); // ÆÄÀÏ ´ÙÀÌ¾ó·Î±× »ı¼º
+		JFileChooser chooser = new JFileChooser(new File("c:\\")); // íŒŒì¼ ë‹¤ì´ì–¼ë¡œê·¸ ìƒì„±
 		if (obj == myPCBtn) {
-			// FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF
-			// Images", // ÆÄÀÏ ÀÌ¸§¿¡ Ã¢¿¡ Ãâ·ÂµÉ ¹®ÀÚ¿­
-			// "jpg", "gif"); // ÆÄÀÏ ÇÊÅÍ·Î »ç¿ëµÇ´Â È®ÀåÀÚ. *.jpg. *.gif¸¸ ³ª¿­µÊ
-			// chooser.setFileFilter(filter); // ÆÄÀÏ ´ÙÀÌ¾ó·Î±×¿¡ ÆÄÀÏ ÇÊÅÍ ¼³Á¤
-
-			// ÆÄÀÏ ´ÙÀÌ¾ó·Î±× Ãâ·Â
+			// íŒŒì¼ ë‹¤ì´ì–¼ë¡œê·¸ ì¶œë ¥
 			int ret = chooser.showOpenDialog(null);
-			if (ret != JFileChooser.APPROVE_OPTION) { // »ç¿ëÀÚ°¡ Ã¢À» °­Á¦·Î ´İ¾Ò°Å³ª Ãë¼Ò ¹öÆ°À» ´©¸¥ °æ¿ì
-				JOptionPane.showMessageDialog(null, "ÆÄÀÏÀ» ¼±ÅÃÇÏÁö ¾Ê¾Ò½À´Ï´Ù", "°æ°í", JOptionPane.WARNING_MESSAGE);
+			if (ret != JFileChooser.APPROVE_OPTION) { // ì‚¬ìš©ìê°€ ì°½ì„ ê°•ì œë¡œ ë‹«ì•˜ê±°ë‚˜ ì·¨ì†Œ ë²„íŠ¼ì„ ëˆ„ë¥¸ ê²½ìš°
+				JOptionPane.showMessageDialog(null, "íŒŒì¼ì„ ì„ íƒí•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤", "ê²½ê³ ", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 			String fileName1 = chooser.getSelectedFile().getName();
@@ -207,21 +203,102 @@ public class MailAWT extends JFrame implements ActionListener {
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
 				String toEmail = recieveTextField.getText();
 				String toTitle = titleTextField.getText();
-				String setMessage = "<html><head><meta charset='ms949'/></head><body><font color = 'blue'><h2>Ã¢°íÇÁ·Î±×·¥<h2><br><br></font><br /><hr><img src='https://ssl.pstatic.net/tveta/libs/1313/1313466/5f5d81fa7f2d6adb4704_20201211101154645.jpg'></body></html>"
-						+ textArea.getText();
-
+				String setMessage = "<html><head><meta charset='ms949'/></head><body> <div\r\n"
+						+ "      class=\"container\"\r\n"
+						+ "      style=\"\r\n"
+						+ "        background-image: url(https://img.freepik.com/premium-vector/web-browser-window-empty-browser-window-template_186930-328.jpg?w=1380);\r\n"
+						+ "        background-size: cover;\r\n"
+						+ "        display: grid;\r\n"
+						+ "        background-position: center;\r\n"
+						+ "        width: auto;\r\n"
+						+ "        height: auto;\r\n"
+						+ "        text-align: center;\r\n"
+						+ "        text-shadow: black 0.2em 0.2em 0.2em;\r\n"
+						+ "        color: white;\r\n"
+						+ "        border-radius: 1ch;\r\n"
+						+ "      \"\r\n"
+						+ "    >\r\n"
+						+ "      <h1 class=\"display-4\" style=\"font-size: 70px\">\r\n"
+						+ "        <br />ì°½ê³ ê´€ë¦¬ í”„ë¡œê·¸ë¨ ë©”ì‹œì§€.\r\n"
+						+ "      </h1>\r\n"
+						+ "\r\n"
+						+ "      <p class=\"lead\" style=\"font-size: 25px\">\r\n"
+						+ "        ìë°” ì´í´ë¦½ìŠ¤ IDEë¥¼ í†µí•´ SMTP ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì‚¬ìš©í•˜ì—¬ ë³´ë‚¸ ë©”ì¼ì…ë‹ˆë‹¤.\r\n"
+						+ "      </p>\r\n"
+						+ "      <p\r\n"
+						+ "        style=\"\r\n"
+						+ "          text-shadow: none;\r\n"
+						+ "          color: #212529;\r\n"
+						+ "          padding-top: 1%;\r\n"
+						+ "          white-space: normal;\r\n"
+						+ "        \"\r\n"
+						+ "      >\r\n"
+						+    textArea.getText()
+						+ "      </p>\r\n"
+						+ "      <div style=\"padding-top: 25%\">\r\n"
+						+ "        <p>\r\n"
+						+ "          <span>\r\n"
+						+ "            <a href=\"https://www.youtube.com\" target=\"_blank\">\r\n"
+						+ "              <img\r\n"
+						+ "                src=\"https://sominhwan.github.io/myPage_html/images/youtube.png\"\r\n"
+						+ "                width=\"32\"\r\n"
+						+ "                height=\"32\"\r\n"
+						+ "                alt=\"contact-youtube-icon-icon\"\r\n"
+						+ "              /> </a\r\n"
+						+ "          ></span>\r\n"
+						+ "          <span style=\"margin-inline: 50px\"\r\n"
+						+ "            ><a href=\"https://discord.gg/GERb7eD5\" target=\"_blank\">\r\n"
+						+ "              <img\r\n"
+						+ "                src=\"https://sominhwan.github.io/myPage_html/images/discord.png\"\r\n"
+						+ "                width=\"31\"\r\n"
+						+ "                height=\"31\"\r\n"
+						+ "                alt=\"contact-discord-icon-icon\"\r\n"
+						+ "              /> </a\r\n"
+						+ "          ></span>\r\n"
+						+ "          <span style=\"margin-left: 0px\"\r\n"
+						+ "            ><a href=\"https://twitter.com/smh7527\" target=\"_blank\">\r\n"
+						+ "              <img\r\n"
+						+ "                src=\"https://sominhwan.github.io/myPage_html/images/twitter.png\"\r\n"
+						+ "                width=\"30\"\r\n"
+						+ "                height=\"30\"\r\n"
+						+ "                alt=\"contact-twitter-icon\"\r\n"
+						+ "              />\r\n"
+						+ "            </a>\r\n"
+						+ "          </span>\r\n"
+						+ "          <span style=\"margin-left: 50px\"\r\n"
+						+ "            ><a href=\"https://github.com/Sominhwan\" target=\"_blank\">\r\n"
+						+ "              <img\r\n"
+						+ "                src=\"https://sominhwan.github.io/myPage_html/images/github.png\"\r\n"
+						+ "                width=\"32\"\r\n"
+						+ "                height=\"32\"\r\n"
+						+ "                alt=\"contact-twitter-icon\"\r\n"
+						+ "              />\r\n"
+						+ "            </a>\r\n"
+						+ "          </span>\r\n"
+						+ "        </p>\r\n"
+						+ "        <span class=\"copyright\" style=\"color: black; text-shadow: none\"\r\n"
+						+ "          >Â©copySMH Korea Corporation All Rights Reserved.</span\r\n"
+						+ "        >\r\n"
+						+ "      </div>\r\n"
+						+ "    </div></body></html>";
 				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
 				fileName1_1 = "";
 				attachTextArea.setText("");
 				textArea.setText("");
-				JOptionPane.showMessageDialog(null, "¸ŞÀÏ º¸³»±â ¼º°ø!", "¼º°ø", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ë©”ì¼ ë³´ë‚´ê¸° ì„±ê³µ!", "ì„±ê³µ", JOptionPane.INFORMATION_MESSAGE);
+				closeBtn.setVisible(false);
+				p1.setVisible(false);
+			
+				new CompleteMail(this, toEmail);
 			}else {
-				JOptionPane.showMessageDialog(null, "¸ŞÀÏ º¸³»±â ½ÇÆĞ!", "½ÇÆĞ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ë©”ì¼ ë³´ë‚´ê¸° ì‹¤íŒ¨!", "ì‹¤íŒ¨", JOptionPane.ERROR_MESSAGE);
 			}
+		} else if(obj == closeBtn) {
+			attachTextArea.setText("");
 		}
 	}
 }
-
+// ë‘¥ê·¼ ë²„íŠ¼ ìƒì„± í´ë˜ìŠ¤
 class RoundedButton extends JButton {
 	public RoundedButton() {
 		super();
@@ -255,8 +332,8 @@ class RoundedButton extends JButton {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		Color c = new Color(234, 234, 234); // ¹è°æ»ö °áÁ¤
-		Color o = new Color(0, 0, 0); // ±ÛÀÚ»ö °áÁ¤
+		Color c = new Color(234, 234, 234); // ë°°ê²½ìƒ‰ ê²°ì •
+		Color o = new Color(0, 0, 0); // ê¸€ììƒ‰ ê²°ì •
 		int width = getWidth();
 		int height = getHeight();
 		Graphics2D graphics = (Graphics2D) g;

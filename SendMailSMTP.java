@@ -1,5 +1,6 @@
 package warehouse;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.activation.CommandMap;
@@ -20,7 +21,7 @@ import javax.mail.internet.MimeMultipart;
 public class SendMailSMTP {
 	String host = "smtp.naver.com";
 	private String user = "deuackr2017@naver.com"; // 발신자 아이디
-	private String password = "deu@2017"; // 발신자 비밀번호
+	private String password = "deu@2023"; // 발신자 비밀번호
 
 	public SendMailSMTP(String toEmail, String toTitle, String filePath, String setMessage) {
 		SMTP(toEmail, toTitle, filePath, setMessage);
@@ -42,10 +43,15 @@ public class SendMailSMTP {
 		try {
 			// 메일 헤더
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
+			try {
+				message.setFrom(new InternetAddress(user, "자바창고(주)", "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 			message.setSubject(toTitle);// 메일 주제
-		
+
 			// 메일 내용
 			MimeBodyPart mbp1 = new MimeBodyPart();
 			mbp1.setContent(setMessage, "text/html; charset=UTF-8");
@@ -57,11 +63,11 @@ public class SendMailSMTP {
 			// 각각의 헤더 및 바디 multipart에 추가
 			Multipart messageMulti = new MimeMultipart();
 			messageMulti.addBodyPart(mbp1);
-			if(!filePath.equals("")){
-			messageMulti.addBodyPart(mbp2);	
+			if (!filePath.equals("")) {
+				messageMulti.addBodyPart(mbp2);
 			}
 			message.setContent(messageMulti);
-			
+
 			// 첨부할 파일 확장자 정의
 			MailcapCommandMap MailcapCmdMap = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
 			MailcapCmdMap.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
