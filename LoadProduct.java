@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class LoadProduct extends JPanel implements MouseListener{
 	JTable stockinTable;
 	static String header[] = {"제품번호", "카테고리", "물품이름", "사이즈", "색상", "제품수량"};
-	DefaultTableModel model = new DefaultTableModel(header, 0);
+	DefaultTableModel model2 = new DefaultTableModel(header, 0);
 	StockInAWT stockInAWT;
 	
 	JScrollPane scrollPane;
@@ -36,7 +36,7 @@ public class LoadProduct extends JPanel implements MouseListener{
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBounds(0, 0, 505, 230);
 
-		stockinTable = new JTable(model);
+		stockinTable = new JTable(model2);
 		
 		stockinTable.getModel().addTableModelListener(new TableModelListener() {
 			 
@@ -66,7 +66,7 @@ public class LoadProduct extends JPanel implements MouseListener{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				model.addRow(
+				model2.addRow(
 						new Object[] { rs.getString("PROD_CODE"),rs.getString("CATEGORY"), rs.getString("PROD_NAME"),
 								rs.getString("PROD_SIZE"), rs.getString("PROD_COLOR"), rs.getInt("PROD_STOCK") });
 			}
@@ -88,19 +88,24 @@ public class LoadProduct extends JPanel implements MouseListener{
 	public void correct(int row, int col) {
 		String sql = null;
 		int rs2 = 0;
-		DefaultTableModel model2 = (DefaultTableModel)stockinTable.getModel();
+		model2 = (DefaultTableModel)stockinTable.getModel();
 		
 		
 		String[] str = new String[6];
 		for(int i = 0; i < 6; i++) {
-			str[i] = (String)model2.getValueAt(row, i);
+			if(i == 5)
+				str[i] = String.valueOf(model2.getValueAt(row, i));
+			else
+				str[i] = (String)model2.getValueAt(row, i);
+			
+			//System.out.println(str[i]);
 		}
 		
 		try {
 			con = pool.getConnection();
 			sql = "UPDATE product SET CATEGORY = '" + str[1] + "', PROD_NAME = '" + str[2] + "',\r\n"
 					+ "PROD_SIZE = '" + str[3] + "', PROD_COLOR = '" + str[4] + "', PROD_STOCK = " + Integer.parseInt(str[5]) + "\r\n"
-					+ "WHERE PROD_CODE = '" + Integer.parseInt(str[0]) + "'";
+					+ "WHERE PROD_CODE = '" + str[0] + "'";
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			rs2 = pstmt.executeUpdate(sql);
@@ -121,7 +126,7 @@ public class LoadProduct extends JPanel implements MouseListener{
 	
 	public void delete(int row) {
 		String sql = null;
-		String str = (String)model.getValueAt(row, 0);
+		String str = (String)model2.getValueAt(row, 0);
 		int rs2 = 0;
 		try {
 			con = pool.getConnection();
@@ -140,6 +145,15 @@ public class LoadProduct extends JPanel implements MouseListener{
 
 			}
 		}
+	}
+	
+	public String[] regist(int row) {
+		String[] str = new String[5];
+		for(int i = 0; i < 5; i++) {
+				str[i] = (String)model2.getValueAt(row, i);
+//				System.out.println(str[i]);
+		}
+		return str;
 	}
 	
 	@Override

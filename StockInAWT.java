@@ -30,7 +30,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 	JPanel p1,p2,p3 , pp;
 	static JPanel pp1;
 	static JPanel p4;
-	JButton b1,b2,b3,regBtn, search, correct, delete, searchBtn, proddelete, prodcorrect;
+	JButton b1,b2,b3,regBtn, registBtn, search, correct, delete, searchBtn, proddelete, prodcorrect, backButton, b4;
 	JLabel label, label2, l3,label3;
 	static JTextField pf[] = new JTextField[7];
 	static JLabel pl[] = new JLabel[7];
@@ -164,6 +164,12 @@ public class StockInAWT extends JFrame implements ActionListener{
 			startP.add(pf[i]);
 		}
 		
+		backButton = new JButton();
+		backButton.setBounds(20, 250, 40, 40);
+		backButton.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/backBtn.png")));
+		backButton.addActionListener(this);
+		startP.add(backButton);
+		
 		regBtn = new JButton();
 		regBtn.setBounds(310, 250, 130, 40);
 		regBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/regist.png")));
@@ -268,6 +274,22 @@ public class StockInAWT extends JFrame implements ActionListener{
 		proddelete.setFocusable(false);
 		pp.add(proddelete);
 		
+		b4 = new JButton();
+		b4.setBounds(40, 400, 100, 25);
+		b4.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn.png")));
+		b4.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn2.png")));
+		b4.addActionListener(this);
+		b4.setFocusable(false);
+		pp.add(b4);
+		
+		registBtn = new JButton();
+		registBtn.setBounds(420, 100, 50, 25);
+		registBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn.png")));
+		registBtn.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn2.png")));
+		registBtn.addActionListener(this);
+		registBtn.setFocusable(false);
+		pp.add(registBtn);
+		
 		pp1 = new JPanel();
 		pp1.setBounds(25, 160, 505, 230);
 		loadProduct = new LoadProduct(this);
@@ -284,23 +306,48 @@ public class StockInAWT extends JFrame implements ActionListener{
 		if(obj == b1) {
 			if(menuCheck == 0) {
 			} else if(menuCheck == 1) {
+				p2.setVisible(false);
+				productPanel();
+				revalidate();
+				repaint();
+				menuCheck = 0;
+			} else if(menuCheck == 2) {
 				p3.setVisible(false);
-				rightPanel();
+				productPanel();
 				revalidate();
 				repaint();
 				menuCheck = 0;
 			}
 			System.out.println("1번 버튼!!!!!!!!!" + menuCheck);
-		}else if(obj==b2){
+		}else if(obj==b2){ //입고현황
 			if(menuCheck == 0) {
+				pp.setVisible(false);
+				rightPanel2();
+				revalidate();
+				repaint();
+			} else if(menuCheck == 1) {
 				p2.setVisible(false);
 				rightPanel2();
 				revalidate();
 				repaint();
-				menuCheck = 1;
-			} else if(menuCheck == 1) {
+			} else if(menuCheck == 2) {
 			}
+			menuCheck = 2;
 			System.out.println("2번 버튼!!!!!!!!!" + menuCheck);
+		}else if(obj==b4){ //제품 등록
+			pp.setVisible(false);
+			rightPanel();
+			revalidate();
+			repaint();
+			menuCheck = 1;
+			
+		}else if(obj == backButton) {
+			p2.setVisible(false);
+			productPanel();
+			revalidate();
+			repaint();
+			menuCheck = 0;
+			
 		}else if(obj==b3) {			
 			for (int i = 0; i < 6; i++) {
 				str[i] = pf[i].getText();
@@ -358,6 +405,23 @@ public class StockInAWT extends JFrame implements ActionListener{
 			loadProduct.correct(row,col);
 			System.out.println(row + "행 수정 완료");
 			
+		}else if(obj==registBtn) {	//수정 버튼
+			int row = loadProduct.mrow;
+			String[] reStrings = new String[6];
+			reStrings = loadProduct.regist(row);
+			loadProduct.regist(row);
+			
+			
+			pp.setVisible(false);
+			rightPanel();
+			revalidate();
+			repaint();
+			menuCheck = 1;
+			
+			for (int i = 0; i < reStrings.length; i++) {
+				pf[i].setText(reStrings[i]);
+				System.out.println(reStrings[i]);
+			}
 		}
 	}
 
