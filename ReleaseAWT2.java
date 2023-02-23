@@ -31,9 +31,12 @@ public class ReleaseAWT2 {
 	private JTextField memberTextField;
 	private JTextField roadAddressTextField;
 	private int n;
+	private JButton releaseButton;
 	ZipcodeAWT za;
 
 	ReleasedMgr rsl;
+	
+	ReleasedAWT awt;
 
 	/**
 	 * Launch the application.
@@ -53,17 +56,19 @@ public class ReleaseAWT2 {
 	/**
 	 * Create the application.
 	 */
-	public ReleaseAWT2(String s,int n) {
+	public ReleaseAWT2(String s,int n, ReleasedAWT awt) {
 		initialize();
 		this.codeTextField.setText(s);
 		this.n=n;
 		this.frame.setVisible(true);
+		this.awt=awt;
 	}
 	public void resetCode(String s,int n) {
 		this.codeTextField.setText(s);
 		this.n=n;
 		this.frame.setVisible(true);
 		this.frame.requestFocus();
+		this.releaseButton.setEnabled(true);
 	}
 	public void setAddress(String Addr) {
 		roadAddressTextField.setText(Addr);
@@ -179,7 +184,7 @@ public class ReleaseAWT2 {
 		JLabel lblNewLabel = new JLabel("* 표시는 필수 입력 ");
 		mainPanel.add(lblNewLabel);
 		
-		JButton releaseButton = new JButton("");
+		releaseButton = new JButton("");
 		releaseButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -218,6 +223,7 @@ public class ReleaseAWT2 {
 				{
 					JOptionPane.showMessageDialog(null,"출고가 완료되었습니다.","알림",JOptionPane.INFORMATION_MESSAGE);
 					releaseButton.setEnabled(false);
+					awt.reLoad();
 					//출고 완료
 				}
 				else

@@ -1,21 +1,26 @@
 package warehouse;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop.Action;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,15 +33,25 @@ import javax.swing.border.Border;
 
 public class MailAWT extends JFrame implements ActionListener {
 	private JPanel p1;
+	private JPanel letterEventPanel;
 	private JLabel mailTitle, receiver, sendTitle, mailAttach, statisticsFile, sendAttach;
 	private JLabel statistics1, statistics2, statistics3;
+	private JLabel fontSize, fontSizePX;
+	private Font font;
 	private JCheckBox checkBox1, checkBox2, checkBox3;
 	private JLabel mailBar, mailBar2;
 	private JButton myPCBtn, closeBtn, sendBtn;
+	private JButton fontSizeUpBtn, fontSizeDownBtn;
+	private JButton boldBtn, boldBtn2, italicBtn, italicBtn2, textColorBtn ;
 	private JTextField recieveTextField, titleTextField;
+	private JComboBox fontBox;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
+	Vector<String> list;
 	String fileName1_1 = "";
+	String [] fontSizeArr = {"14", "18", "24", "36", "48"};
+	int j = 0;
+	int bold = 0, italic = 0;
 
 	public MailAWT() {
 		setTitle("메일");
@@ -175,10 +190,112 @@ public class MailAWT extends JFrame implements ActionListener {
 		p1.add(sendAttach);
 		p1.add(scrollPane);
 		p1.add(sendBtn);
+		
+		letterEventPanel();
+		
 		add(closeBtn);
 		add(p1);
 		
 	}
+	// 글자 글꼴 색상 변경 패널
+		public void letterEventPanel() {	
+			letterEventPanel = new JPanel();
+			letterEventPanel.setBounds(0,300, 434, 50);
+			letterEventPanel.setLayout(null);
+			letterEventPanel.setBackground(new Color(246, 246, 246));
+			// textArea 기본 폰트 지정
+			font = new Font("굴림", Font.PLAIN, Integer.parseInt(fontSizeArr[j]));
+			textArea.setFont(font);
+			// 폰트 콤보박스
+			list = new Vector<String>();
+			list.add("굴림");
+			list.add("굴림체");
+			list.add("맑은 고딕");
+			list.add("돋움");
+			list.add("돋움체");
+			list.add("바탕");
+			list.add("바탕체");
+			list.add("궁서");
+			list.add("궁서체");
+			fontBox = new JComboBox<String>(list);
+			fontBox.setFont(new Font("돋음", Font.PLAIN, 15));
+			fontBox.setBounds(0, 1, 95, 39);
+			fontBox.addActionListener(this);
+			// 폰트 사이즈
+			fontSize = new JLabel(fontSizeArr[0]);
+			fontSize.setFont(new Font("돋음", Font.PLAIN, 15));
+			fontSize.setBounds(117, 1, 17, 38);
+			// 폰트 사이즈 px 
+			fontSizePX = new JLabel("px");
+			fontSizePX.setFont(new Font("돋음", Font.PLAIN, 15));
+			fontSizePX.setBounds(134, 1, 17, 38);
+			// 폰트 사이즈 업 버튼
+			fontSizeUpBtn = new JButton(new ImageIcon(".\\images\\fontSIzeUpBtn.png"));
+			fontSizeUpBtn.setBounds(166, 4, 16, 16);
+			fontSizeUpBtn.setFocusPainted(false);
+			fontSizeUpBtn.setBorderPainted(false);
+			fontSizeUpBtn.setContentAreaFilled(false);
+			fontSizeUpBtn.addActionListener(this);
+			// 폰트 사이즈 다운 버튼
+			fontSizeDownBtn = new JButton(new ImageIcon(".\\images\\fontSIzeDownBtn.png"));
+			fontSizeDownBtn.setBounds(166, 22, 16, 16);
+			fontSizeDownBtn.setFocusPainted(false);
+			fontSizeDownBtn.setBorderPainted(false);
+			fontSizeDownBtn.setContentAreaFilled(false);
+			fontSizeDownBtn.addActionListener(this);	
+			// 글씨체 Bold 버튼
+			boldBtn = new JButton(new ImageIcon(".\\images\\bold.png"));
+			boldBtn.setBounds(195, 8, 25, 27);
+			boldBtn.setFocusPainted(false);
+			boldBtn.setBorderPainted(false);
+			boldBtn.setContentAreaFilled(false);
+			boldBtn.addActionListener(this);
+			
+			boldBtn2 = new JButton(new ImageIcon(".\\images\\bold2.png"));
+			boldBtn2.setBounds(195, 8, 25, 27);
+			boldBtn2.setFocusPainted(false);
+			boldBtn2.setBorderPainted(false);
+			boldBtn2.setContentAreaFilled(false);	
+			boldBtn2.addActionListener(this);
+			// 글씨체 기울임(italic) 버튼
+			italicBtn = new JButton(new ImageIcon(".\\images\\italic.png"));
+			italicBtn.setBounds(225, 7, 25, 27);
+			italicBtn.setFocusPainted(false);
+			italicBtn.setBorderPainted(false);
+			italicBtn.setContentAreaFilled(false);
+			italicBtn.addActionListener(this);
+			
+			italicBtn2 = new JButton(new ImageIcon(".\\images\\italic2.png"));
+			italicBtn2.setBounds(225, 7, 25, 27);
+			italicBtn2.setFocusPainted(false);
+			italicBtn2.setBorderPainted(false);
+			italicBtn2.setContentAreaFilled(false);
+			italicBtn2.addActionListener(this);	
+			// 글자 색상 변경 버튼
+			textColorBtn = new JButton(new ImageIcon(".\\images\\textColor.png"));
+			textColorBtn.setRolloverIcon(new ImageIcon(".\\images\\textColor2.png"));
+			textColorBtn.setBounds(260, 7, 25, 27);
+			textColorBtn.setFocusPainted(false);
+			textColorBtn.setBorderPainted(false);
+			textColorBtn.setContentAreaFilled(false);
+			textColorBtn.addActionListener(this);
+					
+			letterEventPanel.add(fontBox);
+			letterEventPanel.add(fontSize);
+			letterEventPanel.add(fontSizePX);
+			letterEventPanel.add(fontSizeUpBtn);
+			letterEventPanel.add(fontSizeDownBtn);
+			letterEventPanel.add(boldBtn);
+			letterEventPanel.add(boldBtn2);
+			
+			boldBtn2.setVisible(false);
+			letterEventPanel.add(italicBtn);
+			letterEventPanel.add(italicBtn2);
+			italicBtn2.setVisible(false);
+			letterEventPanel.add(textColorBtn);
+			p1.add(letterEventPanel);
+			
+		}
 	// textField 테두리 없애는 메소드
 	public void setBorder(Border border) {
 
@@ -199,6 +316,36 @@ public class MailAWT extends JFrame implements ActionListener {
 			fileName1_1 = chooser.getSelectedFile().getAbsolutePath();
 			System.out.println(fileName1_1);
 			attachTextArea.setText(fileName1 + " ");
+		} else if (obj == fontSizeUpBtn) { // 폰트 사이즈 업 버튼	
+			if(j>=0 && j<4) {
+				fontSize.setText(fontSizeArr[++j]);
+			}
+		} else if (obj == fontSizeDownBtn) { // 폰트 사이즈 다운 버튼
+			if(j>=1 && j<5) {
+				fontSize.setText(fontSizeArr[--j]);
+			}
+		} else if (obj == boldBtn) { // 텍스트 Bold 버튼
+			boldBtn.setVisible(false);
+			boldBtn2.setVisible(true);
+			bold = 1;
+		} else if (obj == boldBtn2) {
+			boldBtn2.setVisible(false);
+			boldBtn.setVisible(true);
+			bold = 0;
+		} else if (obj == italicBtn) { // 텍스트 italic 버튼
+			italicBtn.setVisible(false);
+			italicBtn2.setVisible(true);
+			italic = 2;
+		} else if (obj == italicBtn2) {
+			italicBtn2.setVisible(false);
+			italicBtn.setVisible(true);		
+			italic = 0;
+		} else if (obj == textColorBtn) { // 텍스트 색상변경 버튼
+			// 컬러선택탐색시
+			JColorChooser cc = new JColorChooser();
+			// 색상선택기 실행 (부모객체, 제목, 초기색상)
+			Color color = cc.showDialog(this, "글자색", Color.BLACK);
+			textArea.setForeground(color);
 		} else if (obj == sendBtn) {	
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
 				String toEmail = recieveTextField.getText();
@@ -295,8 +442,12 @@ public class MailAWT extends JFrame implements ActionListener {
 		} else if(obj == closeBtn) {
 			attachTextArea.setText("");
 		}
+		font = new Font("돋움체", bold + italic, Integer.parseInt(fontSizeArr[j]));
+		textArea.setFont(font);
 	}
 }
+
+
 // 둥근 버튼 생성 클래스
 class RoundedButton extends JButton {
 	public RoundedButton() {
