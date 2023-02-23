@@ -22,7 +22,7 @@ public class LoadProduct extends JPanel implements MouseListener{
 	static String header[] = {"제품번호", "카테고리", "물품이름", "사이즈", "색상", "제품수량"};
 	DefaultTableModel model2 = new DefaultTableModel(header, 0);
 	StockInAWT stockInAWT;
-	
+	MyTableCellRenderer myTableCellRenderer;
 	JScrollPane scrollPane;
 	private ResultSet rs = null;
 	private Connection con = null;
@@ -39,6 +39,12 @@ public class LoadProduct extends JPanel implements MouseListener{
 		setBounds(0, 0, 505, 230);
 
 		stockinTable = new JTable(model2);
+		myTableCellRenderer = new MyTableCellRenderer(stockinTable);
+		try {
+			stockinTable.setDefaultRenderer(Class.forName("java.lang.Object"), myTableCellRenderer);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 		stockinTable.getModel().addTableModelListener(new TableModelListener() {
 			 

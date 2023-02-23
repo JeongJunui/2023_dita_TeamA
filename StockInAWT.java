@@ -298,8 +298,6 @@ public class StockInAWT extends JFrame implements ActionListener{
 		
 	}
 	
-	
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -397,7 +395,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 	        String field = (String)comboBox.getSelectedItem();
 	        // 텍스트필드값 알아오기 - 검색어
 	        String word = searchField.getText();
-	        loadStockin.search(field,word);
+	        loadStockin.search(word);
 		
 		}else if(obj==proddelete) {		//삭제 버튼
 			int row = loadProduct.mrow;
