@@ -31,7 +31,7 @@ public class ReleasedAWT {
 	private JTable table;
 	MyTableCellRenderer tcr;
 	ReleasedMgr rsl;
-	ReleaseAWT2 awt;
+	ReleaseAWT2 awt2;
 	private Object[][] tableContent=new Object[0][6];
 	String[] tableCol= {"물품코드","카테고리","물품명","사이즈","색상","재고량"};
 	DefaultTableModel dtm; 
@@ -59,13 +59,29 @@ public class ReleasedAWT {
 	public ReleasedAWT() {
 		initialize();
 	}
+	public void reLoad()
+	{
+		Vector<ProductBean> allResult=rsl.loadWhenOpened();
+		int l=dtm.getRowCount();
+		for(int i=l-1;i>=0;i--)
+			dtm.removeRow(i);
+		for(int i=0;i<allResult.size();i++)
+		{
+			ProductBean bean=allResult.elementAt(i);
+			Vector<Object> vlist=new Vector<Object>();
+			vlist.addElement(bean.getProdCode());
+			vlist.addElement(bean.getCategory());
+			vlist.addElement(bean.getProdName());
+			vlist.addElement(bean.getProdSize());
+			vlist.addElement(bean.getProdColor());
+			vlist.addElement(bean.getProdStock());
+			dtm.addRow(vlist);
+		}
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	public void openAWT2(String s)
-	{
-	}
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 500);
@@ -187,10 +203,10 @@ public class ReleasedAWT {
 				}
 				String s=dtm.getDataVector().elementAt(table.getSelectedRow()).elementAt(0).toString();
 				int n=Integer.parseInt(dtm.getDataVector().elementAt(table.getSelectedRow()).elementAt(5).toString());
-				if(awt==null)
-					awt=new ReleaseAWT2(s,n);
+				if(awt2==null)
+					openAWT2(s,n);
 				else
-					awt.resetCode(s, n);
+					awt2.resetCode(s, n);
 				//int l=dtm.getRowCount();
 				//for(int i=l-1;i>=0;i--)
 				//	dtm.removeRow(i);
@@ -202,5 +218,9 @@ public class ReleasedAWT {
 		releaseButton.setBorderPainted(false);
 		releaseButton.setFocusPainted(false);
 		releaseButton.setContentAreaFilled(false);
+	}
+	public void openAWT2(String s, int n)
+	{
+		awt2=new ReleaseAWT2(s,n,this);
 	}
 }
