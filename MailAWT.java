@@ -13,8 +13,10 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Vector;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,12 +47,18 @@ public class MailAWT extends JFrame implements ActionListener {
 	private JButton fontSizeUpBtn, fontSizeDownBtn;
 	private JButton boldBtn, boldBtn2, italicBtn, italicBtn2, textColorBtn ;
 	private JTextField recieveTextField, titleTextField;
-	private JComboBox fontBox;
+	private JComboBox<Font> fontBox;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
-	Vector<String> list;
 	String fileName1_1 = "";
+	String [] fontFamily = {"Arial Black"} ;
+	String [] fontColor = {"0","0","0"} ;
 	String [] fontSizeArr = {"14", "18", "24", "36", "48"};
+	String r, g, b;
+	String CssResult = "";
+	String CssColor, CssFontWeight = "", CssFontStyle = "", CssFontFamily, CssFontSize;
+	int[] rgb;
+	Color color = Color.BLACK;
 	int j = 0;
 	int bold = 0, italic = 0;
 
@@ -206,19 +215,23 @@ public class MailAWT extends JFrame implements ActionListener {
 			// textArea 기본 폰트 지정
 			font = new Font("굴림", Font.PLAIN, Integer.parseInt(fontSizeArr[j]));
 			textArea.setFont(font);
+			
 			// 폰트 콤보박스
-			list = new Vector<String>();
-			list.add("굴림");
-			list.add("굴림체");
-			list.add("맑은 고딕");
-			list.add("돋움");
-			list.add("돋움체");
-			list.add("바탕");
-			list.add("바탕체");
-			list.add("궁서");
-			list.add("궁서체");
-			fontBox = new JComboBox<String>(list);
-			fontBox.setFont(new Font("돋음", Font.PLAIN, 15));
+			GraphicsEnvironment graphEnviron = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			Font[] allFonts = graphEnviron.getAllFonts();
+
+			fontBox = new JComboBox<>(allFonts);
+			fontBox.setRenderer(new DefaultListCellRenderer() {
+				@Override
+				public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+					if (value != null) {
+						Font font = (Font) value;
+				        value = font.getName();
+				        }
+					return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+					}
+				});
+			
 			fontBox.setBounds(0, 1, 95, 39);
 			fontBox.addActionListener(this);
 			// 폰트 사이즈
@@ -259,14 +272,14 @@ public class MailAWT extends JFrame implements ActionListener {
 			boldBtn2.addActionListener(this);
 			// 글씨체 기울임(italic) 버튼
 			italicBtn = new JButton(new ImageIcon(".\\images\\italic.png"));
-			italicBtn.setBounds(225, 7, 25, 27);
+			italicBtn.setBounds(225, 8, 25, 27);
 			italicBtn.setFocusPainted(false);
 			italicBtn.setBorderPainted(false);
 			italicBtn.setContentAreaFilled(false);
 			italicBtn.addActionListener(this);
 			
 			italicBtn2 = new JButton(new ImageIcon(".\\images\\italic2.png"));
-			italicBtn2.setBounds(225, 7, 25, 27);
+			italicBtn2.setBounds(225, 8, 25, 27);
 			italicBtn2.setFocusPainted(false);
 			italicBtn2.setBorderPainted(false);
 			italicBtn2.setContentAreaFilled(false);
@@ -316,6 +329,19 @@ public class MailAWT extends JFrame implements ActionListener {
 			fileName1_1 = chooser.getSelectedFile().getAbsolutePath();
 			System.out.println(fileName1_1);
 			attachTextArea.setText(fileName1 + " ");
+		} else if (obj == fontBox) { // 폰트 변경 콤보박스 
+			String str = fontBox.getSelectedItem().toString();
+			str= str.replaceAll("java.awt.Font","");
+			str= str.replaceAll("family=","");
+			str= str.replaceAll("name=","");
+			str= str.replaceAll("style=","");
+			str= str.replaceAll("size=","");
+			
+			StringBuilder myString = new StringBuilder(str);
+			myString.deleteCharAt(0);
+			myString.deleteCharAt(myString.length()-1);
+			String str2 = myString.toString();
+			fontFamily = str2.split(","); // fontFamily[0] = 폰트 패밀리 값
 		} else if (obj == fontSizeUpBtn) { // 폰트 사이즈 업 버튼	
 			if(j>=0 && j<4) {
 				fontSize.setText(fontSizeArr[++j]);
@@ -332,6 +358,7 @@ public class MailAWT extends JFrame implements ActionListener {
 			boldBtn2.setVisible(false);
 			boldBtn.setVisible(true);
 			bold = 0;
+			CssFontWeight = "";
 		} else if (obj == italicBtn) { // 텍스트 italic 버튼
 			italicBtn.setVisible(false);
 			italicBtn2.setVisible(true);
@@ -340,94 +367,83 @@ public class MailAWT extends JFrame implements ActionListener {
 			italicBtn2.setVisible(false);
 			italicBtn.setVisible(true);		
 			italic = 0;
+			CssFontStyle = "";
 		} else if (obj == textColorBtn) { // 텍스트 색상변경 버튼
 			// 컬러선택탐색시
 			JColorChooser cc = new JColorChooser();
 			// 색상선택기 실행 (부모객체, 제목, 초기색상)
-			Color color = cc.showDialog(this, "글자색", Color.BLACK);
+			color = cc.showDialog(this, "글자색", Color.BLACK);
 			textArea.setForeground(color);
 		} else if (obj == sendBtn) {	
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
 				String toEmail = recieveTextField.getText();
 				String toTitle = titleTextField.getText();
-				String setMessage = "<html><head><meta charset='ms949'/></head><body> <div\r\n"
-						+ "      class=\"container\"\r\n"
-						+ "      style=\"\r\n"
-						+ "        background-image: url(https://img.freepik.com/premium-vector/web-browser-window-empty-browser-window-template_186930-328.jpg?w=1380);\r\n"
-						+ "        background-size: cover;\r\n"
-						+ "        display: grid;\r\n"
-						+ "        background-position: center;\r\n"
-						+ "        width: auto;\r\n"
-						+ "        height: auto;\r\n"
-						+ "        text-align: center;\r\n"
-						+ "        text-shadow: black 0.2em 0.2em 0.2em;\r\n"
-						+ "        color: white;\r\n"
-						+ "        border-radius: 1ch;\r\n"
-						+ "      \"\r\n"
-						+ "    >\r\n"
-						+ "      <h1 class=\"display-4\" style=\"font-size: 70px\">\r\n"
-						+ "        <br />창고관리 프로그램 메시지.\r\n"
-						+ "      </h1>\r\n"
-						+ "\r\n"
-						+ "      <p class=\"lead\" style=\"font-size: 25px\">\r\n"
-						+ "        자바 이클립스 IDE를 통해 SMTP 라이브러리를 사용하여 보낸 메일입니다.\r\n"
-						+ "      </p>\r\n"
-						+ "      <p\r\n"
-						+ "        style=\"\r\n"
-						+ "          text-shadow: none;\r\n"
-						+ "          color: #212529;\r\n"
-						+ "          padding-top: 1%;\r\n"
-						+ "          white-space: normal;\r\n"
-						+ "        \"\r\n"
-						+ "      >\r\n"
-						+    textArea.getText()
-						+ "      </p>\r\n"
-						+ "      <div style=\"padding-top: 25%\">\r\n"
-						+ "        <p>\r\n"
-						+ "          <span>\r\n"
-						+ "            <a href=\"https://www.youtube.com\" target=\"_blank\">\r\n"
-						+ "              <img\r\n"
-						+ "                src=\"https://sominhwan.github.io/myPage_html/images/youtube.png\"\r\n"
-						+ "                width=\"32\"\r\n"
-						+ "                height=\"32\"\r\n"
-						+ "                alt=\"contact-youtube-icon-icon\"\r\n"
-						+ "              /> </a\r\n"
-						+ "          ></span>\r\n"
-						+ "          <span style=\"margin-inline: 50px\"\r\n"
-						+ "            ><a href=\"https://discord.gg/GERb7eD5\" target=\"_blank\">\r\n"
-						+ "              <img\r\n"
-						+ "                src=\"https://sominhwan.github.io/myPage_html/images/discord.png\"\r\n"
-						+ "                width=\"31\"\r\n"
-						+ "                height=\"31\"\r\n"
-						+ "                alt=\"contact-discord-icon-icon\"\r\n"
-						+ "              /> </a\r\n"
-						+ "          ></span>\r\n"
-						+ "          <span style=\"margin-left: 0px\"\r\n"
-						+ "            ><a href=\"https://twitter.com/smh7527\" target=\"_blank\">\r\n"
-						+ "              <img\r\n"
-						+ "                src=\"https://sominhwan.github.io/myPage_html/images/twitter.png\"\r\n"
-						+ "                width=\"30\"\r\n"
-						+ "                height=\"30\"\r\n"
-						+ "                alt=\"contact-twitter-icon\"\r\n"
-						+ "              />\r\n"
-						+ "            </a>\r\n"
-						+ "          </span>\r\n"
-						+ "          <span style=\"margin-left: 50px\"\r\n"
-						+ "            ><a href=\"https://github.com/Sominhwan\" target=\"_blank\">\r\n"
-						+ "              <img\r\n"
-						+ "                src=\"https://sominhwan.github.io/myPage_html/images/github.png\"\r\n"
-						+ "                width=\"32\"\r\n"
-						+ "                height=\"32\"\r\n"
-						+ "                alt=\"contact-twitter-icon\"\r\n"
-						+ "              />\r\n"
-						+ "            </a>\r\n"
-						+ "          </span>\r\n"
-						+ "        </p>\r\n"
-						+ "        <span class=\"copyright\" style=\"color: black; text-shadow: none\"\r\n"
-						+ "          >©copySMH Korea Corporation All Rights Reserved.</span\r\n"
-						+ "        >\r\n"
-						+ "      </div>\r\n"
-						+ "    </div></body></html>";
+				//String [] setFont = 
+				String setMessage = "<html><head><meta charset='ms949'/></head><body> <div class= container style= \"background-image: url(https://img.freepik.com/premium-vector/web-browser-window-empty-browser-window-template_186930-328.jpg?w=1380);\r\n"
+						+ "      background-size: cover;\r\n"
+						+ "      display: grid;\r\n"
+						+ "      background-position: center;\r\n"
+						+ "      width: auto;\r\n"
+						+ "      height: auto;\r\n"
+						+ "      text-align: center;\r\n"
+						+ "      text-shadow: black 0.2em 0.2em 0.2em;\r\n"
+						+ "      color: white;\r\n"
+						+ "      border-radius: 1ch;\r\n"
+						+ "      \">\r\n"
+						+ "       <h1 class=\"display-4\" style=\"font-size: 70px\">\r\n"
+						+ "       <br />창고관리 프로그램 메시지.\r\n"
+						+ "       </h1>\r\n"
+						+ "       \r\n"
+						+ "       <p class=\"lead\" style=\"font-size: 25px;\">\r\n"
+						+ "       자바 이클립스 IDE를 통해 SMTP 라이브러리를 사용하여 보낸 메일입니다.\r\n"
+						+ "       </p>\r\n"
+						+ "       <p style= \"text-shadow: none;\r\n"
+						+ "         padding-top: 1%; white-space: normal;\r\n"
+						+           CssResult +"\">"
+						+           textArea.getText()
+						+ "            </p>\r\n"
+						+ "       <div style=\"padding-top: 25%;\">\r\n"
+						+ "       <p>\r\n"
+						+ "       <span>\r\n"
+						+ "       <a href=\"https://www.youtube.com\" target=\"_blank\">\r\n"
+						+ "       <img src=\"https://sominhwan.github.io/myPage_html/images/youtube.png\"\r\n"
+						+ "       width=\"32\"\r\n"
+						+ "       height=\"32\"\r\n"
+						+ "       alt=\"contact-youtube-icon-icon\"> </a></span>\r\n"
+						+ "                 <span style=\"margin-inline: 50px\"\r\n"
+						+ "                   ><a href=\"https://discord.gg/GERb7eD5\" target=\"_blank\">\r\n"
+						+ "                   <img\r\n"
+						+ "                       src=\"https://sominhwan.github.io/myPage_html/images/discord.png\"\r\n"
+						+ "                       width=\"31\"\r\n"
+						+ "                      height=\"31\"\r\n"
+						+ "                       alt=\"contact-discord-icon-icon\"\r\n"
+						+ "                     /> </a\r\n"
+						+ "                 ></span>\r\n"
+						+ "                <span style = \"margin-left: 0px;\"><a href=\"https://twitter.com/smh7527\" target=\"_blank\">\r\n"
+						+ "                     <img\r\n"
+						+ "                       src=\"https://sominhwan.github.io/myPage_html/images/twitter.png\"\r\n"
+						+ "                       width=\"30\"\r\n"
+						+ "                       height=\"30\"\r\n"
+						+ "                       alt=\"contact-twitter-icon\"\r\n"
+						+ "                     />\r\n"
+						+ "                   </a>\r\n"
+						+ "                 </span>\r\n"
+						+ "                 <span style=\"margin-left: 50px\"\r\n"
+						+ "                   ><a href=\"https://github.com/Sominhwan\" target=\"_blank\">\r\n"
+						+ "                     <img\r\n"
+						+ "                       src=\"https://sominhwan.github.io/myPage_html/images/github.png\"\r\n"
+						+ "                       width=\"32\"\r\n"
+						+ "                       height=\"32\"\r\n"
+						+ "                       alt=\"contact-twitter-icon\"\r\n"
+						+ "                     />\r\n"
+						+ "                   </a>\r\n"
+						+ "                 </span>\r\n"
+						+ "               </p>\r\n"
+						+ "               <span class=\"copyright\" style=\"color: black; text-shadow: none\"\r\n"
+						+ "                >©copySMH Korea Corporation All Rights Reserved.</span\r\n"
+						+ "               >\r\n"
+						+ "             </div>\r\n"
+						+ "           </div></body></html>"+CssColor  +  CssFontFamily  +  CssFontSize  + CssFontWeight + CssFontStyle;
 				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
 				fileName1_1 = "";
 				attachTextArea.setText("");
@@ -442,7 +458,43 @@ public class MailAWT extends JFrame implements ActionListener {
 		} else if(obj == closeBtn) {
 			attachTextArea.setText("");
 		}
-		font = new Font("돋움체", bold + italic, Integer.parseInt(fontSizeArr[j]));
+		// 폰트 지정(컬러 10진수 -> 16진수 변환)
+		String str3 = color.toString();
+		System.out.println(str3);
+		str3 = str3.replaceAll("java.awt.Color","");
+		str3 = str3.replaceAll("r=","");
+		str3 = str3.replaceAll("g=","");
+		str3 = str3.replaceAll("b=","");
+		
+		StringBuilder myString2 = new StringBuilder(str3);
+		myString2.deleteCharAt(0);
+		myString2.deleteCharAt(myString2.length()-1);
+		fontColor = myString2.toString().split(","); // rgb 색 배열에 저장
+		rgb = Arrays.stream(fontColor).mapToInt(Integer::parseInt).toArray(); // rgb 색 int 형 배열에 저장
+		
+		r = Integer.toHexString(rgb[0]);
+		g = Integer.toHexString(rgb[1]);
+		b = Integer.toHexString(rgb[2]);
+		if(r.equals("0")) {
+			r=r+"0";
+		} else if(g.equals("0")) {
+			g=g+"0";
+		} else if(b.equals("0")) {
+			b=b+"0";
+			
+		}
+		CssColor = "color: #"+r+g+b+";";
+		CssFontFamily = "font-family: "+"\""+fontFamily[0]+"\";";
+		CssFontSize = "font-size: "+fontSizeArr[j]+"px;";	
+		if(bold == 1) {
+			CssFontWeight = "font-weight: bold;";	
+		}
+		if(italic == 2) {
+			CssFontStyle = "font-style: italic;";
+		}
+		CssResult = CssColor+CssFontSize+CssFontStyle;
+		System.out.println(CssColor+" "+CssFontFamily+" "+CssFontSize+" "+CssFontStyle+" "+CssFontWeight);
+		font = new Font(fontFamily[0], bold + italic, Integer.parseInt(fontSizeArr[j]));
 		textArea.setFont(font);
 	}
 }
