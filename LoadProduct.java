@@ -137,11 +137,20 @@ public class LoadProduct extends JPanel implements MouseListener{
 	}
 	
 	public void delete(int row) {
-		String sql = null;
+		String sql, updatesql = null;
 		String str = (String)model2.getValueAt(row, 0);
+		int stock = Integer.parseInt(String.valueOf(model2.getValueAt(row, 5)));
+		
 		int rs2 = 0;
 		try {
 			con = pool.getConnection();
+			
+			updatesql = "UPDATE product SET PROD_STOCK = PROD_STOCK - " + stock + "\r\n"
+					+ "WHERE PROD_CODE = '" + str + "'";
+			pstmt = con.prepareStatement(updatesql);
+			int rs = pstmt.executeUpdate(updatesql);
+			System.out.println(updatesql + "\n stick : " + stock);
+			
 			sql = "DELETE FROM product \r\n"
 				+ "WHERE PROD_CODE = '" + str + "'";
 			pstmt = con.prepareStatement(sql);

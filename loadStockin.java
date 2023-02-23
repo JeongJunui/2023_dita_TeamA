@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -20,6 +21,7 @@ import ch08.interfaceEx2;
 public class LoadStockin extends JPanel implements MouseListener{
 	JTable stockinTable;
 	static String header[] = {"입고번호", "물품코드","카테고리", "물품이름", "사이즈", "색상", "입고수량"};
+	String[] title ={"l.STORED_IDX", "p.PROD_CODE", "p.CATEGORY", "p.PROD_NAME", "p.PROD_SIZE", "p.PROD_COLOR", "l.STORED_STOCK"};
 	DefaultTableModel model = new DefaultTableModel(header, 0);
 	StockInAWT stockInAWT;
 	
@@ -39,6 +41,7 @@ public class LoadStockin extends JPanel implements MouseListener{
 		setBounds(25, 160, 505, 280);
 
 		stockinTable = new JTable(model);
+		stockinTable.setEditingColumn(1);
 		
 		stockinTable.getModel().addTableModelListener(new TableModelListener() {
 			 
@@ -90,20 +93,30 @@ public class LoadStockin extends JPanel implements MouseListener{
 	}
 	
 	public void correct(int row, int col) {
-		String sql = null;
-		int rs1 = 0;
+		String sql,sql2 = null;
+		int rs1,rs2 = 0;
 		DefaultTableModel model2 = (DefaultTableModel)stockinTable.getModel();
-		
 		int str2 = Integer.parseInt((String) model2.getValueAt(row, 6));
 		String str3 = (String)model2.getValueAt(row, 0);
+		String str4 = (String)model2.getValueAt(row, 1);
 		
 		try {
 			con = pool.getConnection();
-			sql = "UPDATE stored_log SET STORED_STOCK = " + str2 + "\r\n"
-					+ "WHERE STORED_IDX = '" + str3 + "'";
-			System.out.println(sql);
+			
+			sql = "UPDATE product \r\n"
+					+ "SET PROD_STOCK = PROD_STOCK + " + str2 + "- \r\n"
+					+ "(select STORED_STOCK\r\n"
+					+ "from stored_log\r\n"
+					+ "where STORED_IDX = " + str3 + "\r\n"
+					+ ")\r\n"
+					+ "WHERE PROD_CODE = '" + str4 +"'";
 			pstmt = con.prepareStatement(sql);
 			rs1 = pstmt.executeUpdate(sql);
+			
+			sql2 = "UPDATE stored_log SET STORED_STOCK = " + str2 + "\r\n"
+					+ "WHERE STORED_IDX = '" + str3 + "'";
+			pstmt = con.prepareStatement(sql2);
+			rs2 = pstmt.executeUpdate(sql2);
 
 			
 		} catch (Exception e) {
@@ -121,11 +134,22 @@ public class LoadStockin extends JPanel implements MouseListener{
 	}
 	
 	public void delete(int row) {
-		String sql = null;
+		String sql, updatesql = null;
 		String str = (String)model.getValueAt(row, 0);
+		String str2 = (String)model.getValueAt(row, 1);
+		int stock = Integer.parseInt(String.valueOf(model.getValueAt(row, 6)));
 		int rs2 = 0;
+		
 		try {
 			con = pool.getConnection();
+			
+
+			updatesql = "UPDATE product SET PROD_STOCK = PROD_STOCK - " + stock + "\r\n"
+					+ "WHERE PROD_CODE = '" + str2 + "'";
+			pstmt = con.prepareStatement(updatesql);
+			int rs = pstmt.executeUpdate(updatesql);
+			System.out.println(updatesql + "\nstock : " + stock);
+			
 			sql = "DELETE FROM stored_log \r\n"
 				+ "WHERE STORED_IDX = '" + str + "'";
 			pstmt = con.prepareStatement(sql);
@@ -142,6 +166,44 @@ public class LoadStockin extends JPanel implements MouseListener{
 			}
 		}
 	}
+	
+	public void search(String string, String string2) {
+		String sql = null;
+		
+        for (int i = 0; i < header.length; i++) {
+			if(string.equals(header[i])) {
+				System.out.println("콤보박스 일치" + string);
+				
+				try {
+					con = pool.getConnection();
+					sql = "SELECT l.stored_idx, p.PROD_CODE, p.CATEGORY, p.PROD_NAME, p.PROD_SIZE, p.PROD_COLOR, l.STORED_STOCK\r\n"
+							+ "FROM stored_log l, product p\r\n"
+							+ "WHERE l.PROD_CODE = p.PROD_CODE AND'"+ title[i] +"'='"+ string2 +"'\r\n"
+							+ "ORDER BY stored_idx DESC";
+					pstmt = con.prepareStatement(sql);
+				
+					rs = pstmt.executeQuery();
+
+					while (rs.next()) {
+						model.addRow(
+								new Object[] { rs.getString("STORED_IDX"),rs.getString("PROD_CODE"), rs.getString("CATEGORY"), rs.getString("PROD_NAME"),
+										rs.getString("PROD_SIZE"), rs.getString("PROD_COLOR"), rs.getInt("STORED_STOCK") });
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				} finally {
+					try {
+						rs.close();
+						pstmt.close();
+						con.close();
+					} catch (Exception e2) {
+
+					}
+
+				}
+			}
+		}
+    }
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {

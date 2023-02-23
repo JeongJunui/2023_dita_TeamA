@@ -225,6 +225,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		searchBtn.setBounds(400, 100, 30, 25);
 		searchBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/searchBtn.png")));
 		searchBtn.setFocusable(false);
+		searchBtn.addActionListener(this);
 		p3.add(searchBtn);
 		
 		correct = new JButton();
@@ -296,6 +297,8 @@ public class StockInAWT extends JFrame implements ActionListener{
 		pp.add(pp1);
 		
 	}
+	
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -389,8 +392,12 @@ public class StockInAWT extends JFrame implements ActionListener{
 			System.out.println(row + "행 삭제 완료");
 			
 		}else if(obj==searchBtn) {		//검색 버튼
-			System.out.println("검색 버튼");
-			String cString = comboBox.getSelectedItem().toString();
+			//System.out.println("검색 버튼");
+			// 콤보박스 값 알아내기 - 검색기준
+	        String field = (String)comboBox.getSelectedItem();
+	        // 텍스트필드값 알아오기 - 검색어
+	        String word = searchField.getText();
+	        loadStockin.search(field,word);
 		
 		}else if(obj==proddelete) {		//삭제 버튼
 			int row = loadProduct.mrow;
