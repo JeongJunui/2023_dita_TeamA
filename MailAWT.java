@@ -47,18 +47,18 @@ public class MailAWT extends JFrame implements ActionListener {
 	private JButton fontSizeUpBtn, fontSizeDownBtn;
 	private JButton boldBtn, boldBtn2, italicBtn, italicBtn2, textColorBtn ;
 	private JTextField recieveTextField, titleTextField;
-	private JComboBox<Font> fontBox;
+	private JComboBox fontBox;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
 	String fileName1_1 = "";
-	String [] fontFamily = {"Arial Black"} ;
+	String fontFamily = "굴림" ;
 	String [] fontColor = {"0","0","0"} ;
 	String [] fontSizeArr = {"14", "18", "24", "36", "48"};
 	String r, g, b;
 	String CssResult = "";
-	String CssColor, CssFontWeight = "", CssFontStyle = "", CssFontFamily, CssFontSize;
-	int[] rgb;
+	String CssColor, CssFontWeight = "", CssFontStyle = "", CssFontFamily, CssFontSize;	
 	Color color = Color.BLACK;
+	int[] rgb;
 	int j = 0;
 	int bold = 0, italic = 0;
 
@@ -203,8 +203,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		letterEventPanel();
 		
 		add(closeBtn);
-		add(p1);
-		
+		add(p1);	
 	}
 	// 글자 글꼴 색상 변경 패널
 		public void letterEventPanel() {	
@@ -217,21 +216,30 @@ public class MailAWT extends JFrame implements ActionListener {
 			textArea.setFont(font);
 			
 			// 폰트 콤보박스
-			GraphicsEnvironment graphEnviron = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			Font[] allFonts = graphEnviron.getAllFonts();
-
-			fontBox = new JComboBox<>(allFonts);
-			fontBox.setRenderer(new DefaultListCellRenderer() {
-				@Override
-				public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-					if (value != null) {
-						Font font = (Font) value;
-				        value = font.getName();
-				        }
-					return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-					}
-				});
+			fontBox = new JComboBox(); 
+			fontBox.setFont(font);
 			
+		    Font font1 = new Font("맑은 고딕", Font.PLAIN, 14);
+		    Font font2 = new Font("굴림", Font.PLAIN, 14);
+		    Font font3 = new Font("굴림체", Font.PLAIN, 14);
+		    Font font4 = new Font("돋움", Font.PLAIN, 14);
+		    Font font5 = new Font("바탕", Font.PLAIN, 14);
+		    Font font6 = new Font("바탕체", Font.PLAIN, 14);
+		    Font font7 = new Font("궁서", Font.PLAIN, 14);
+		    Font font8 = new Font("궁서체", Font.PLAIN, 14);
+		    Font font9 = new Font("Arial", Font.PLAIN, 14);
+		    
+		    fontBox.addItem(new ComboItem("맑은 고딕", font1));
+		    fontBox.addItem(new ComboItem("굴림", font2));
+		    fontBox.addItem(new ComboItem("굴림체", font3));
+		    fontBox.addItem(new ComboItem("돋움", font4));
+		    fontBox.addItem(new ComboItem("바탕", font5));
+		    fontBox.addItem(new ComboItem("바탕체", font6));
+		    fontBox.addItem(new ComboItem("궁서", font7));
+		    fontBox.addItem(new ComboItem("궁서체", font8));
+		    fontBox.addItem(new ComboItem("Arial", font9));
+		    fontBox.setRenderer(new ComboRenderer());
+		    fontBox.setSelectedIndex(1); // 콤보박스 두 번째 아이템을 먼저 보여줌	
 			fontBox.setBounds(0, 1, 95, 39);
 			fontBox.addActionListener(this);
 			// 폰트 사이즈
@@ -306,8 +314,7 @@ public class MailAWT extends JFrame implements ActionListener {
 			letterEventPanel.add(italicBtn2);
 			italicBtn2.setVisible(false);
 			letterEventPanel.add(textColorBtn);
-			p1.add(letterEventPanel);
-			
+			p1.add(letterEventPanel);		
 		}
 	// textField 테두리 없애는 메소드
 	public void setBorder(Border border) {
@@ -330,18 +337,7 @@ public class MailAWT extends JFrame implements ActionListener {
 			System.out.println(fileName1_1);
 			attachTextArea.setText(fileName1 + " ");
 		} else if (obj == fontBox) { // 폰트 변경 콤보박스 
-			String str = fontBox.getSelectedItem().toString();
-			str= str.replaceAll("java.awt.Font","");
-			str= str.replaceAll("family=","");
-			str= str.replaceAll("name=","");
-			str= str.replaceAll("style=","");
-			str= str.replaceAll("size=","");
-			
-			StringBuilder myString = new StringBuilder(str);
-			myString.deleteCharAt(0);
-			myString.deleteCharAt(myString.length()-1);
-			String str2 = myString.toString();
-			fontFamily = str2.split(","); // fontFamily[0] = 폰트 패밀리 값
+			fontFamily = fontBox.getSelectedItem().toString();
 		} else if (obj == fontSizeUpBtn) { // 폰트 사이즈 업 버튼	
 			if(j>=0 && j<4) {
 				fontSize.setText(fontSizeArr[++j]);
@@ -372,13 +368,12 @@ public class MailAWT extends JFrame implements ActionListener {
 			// 컬러선택탐색시
 			JColorChooser cc = new JColorChooser();
 			// 색상선택기 실행 (부모객체, 제목, 초기색상)
-			color = cc.showDialog(this, "글자색", Color.BLACK);
-			textArea.setForeground(color);
+			color = cc.showDialog(this, "글자색", Color.RED);	
+			textArea.setForeground(color);				
 		} else if (obj == sendBtn) {	
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
 				String toEmail = recieveTextField.getText();
 				String toTitle = titleTextField.getText();
-				//String [] setFont = 
 				String setMessage = "<html><head><meta charset='ms949'/></head><body> <div class= container style= \"background-image: url(https://img.freepik.com/premium-vector/web-browser-window-empty-browser-window-template_186930-328.jpg?w=1380);\r\n"
 						+ "      background-size: cover;\r\n"
 						+ "      display: grid;\r\n"
@@ -443,7 +438,7 @@ public class MailAWT extends JFrame implements ActionListener {
 						+ "                >©copySMH Korea Corporation All Rights Reserved.</span\r\n"
 						+ "               >\r\n"
 						+ "             </div>\r\n"
-						+ "           </div></body></html>"+CssColor  +  CssFontFamily  +  CssFontSize  + CssFontWeight + CssFontStyle;
+						+ "           </div></body></html>";
 				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
 				fileName1_1 = "";
 				attachTextArea.setText("");
@@ -460,7 +455,6 @@ public class MailAWT extends JFrame implements ActionListener {
 		}
 		// 폰트 지정(컬러 10진수 -> 16진수 변환)
 		String str3 = color.toString();
-		System.out.println(str3);
 		str3 = str3.replaceAll("java.awt.Color","");
 		str3 = str3.replaceAll("r=","");
 		str3 = str3.replaceAll("g=","");
@@ -469,9 +463,9 @@ public class MailAWT extends JFrame implements ActionListener {
 		StringBuilder myString2 = new StringBuilder(str3);
 		myString2.deleteCharAt(0);
 		myString2.deleteCharAt(myString2.length()-1);
-		fontColor = myString2.toString().split(","); // rgb 색 배열에 저장
-		rgb = Arrays.stream(fontColor).mapToInt(Integer::parseInt).toArray(); // rgb 색 int 형 배열에 저장
 		
+		fontColor = myString2.toString().split(","); // rgb 색 배열에 저장
+		rgb = Arrays.stream(fontColor).mapToInt(Integer::parseInt).toArray(); // rgb 색 int 형 배열에 저장	
 		r = Integer.toHexString(rgb[0]);
 		g = Integer.toHexString(rgb[1]);
 		b = Integer.toHexString(rgb[2]);
@@ -480,11 +474,11 @@ public class MailAWT extends JFrame implements ActionListener {
 		} else if(g.equals("0")) {
 			g=g+"0";
 		} else if(b.equals("0")) {
-			b=b+"0";
-			
+			b=b+"0";		
 		}
+		// html 문서에 저장할 css style 저장
 		CssColor = "color: #"+r+g+b+";";
-		CssFontFamily = "font-family: "+"\""+fontFamily[0]+"\";";
+		CssFontFamily = "font-family: "+"\""+fontFamily+"\";";
 		CssFontSize = "font-size: "+fontSizeArr[j]+"px;";	
 		if(bold == 1) {
 			CssFontWeight = "font-weight: bold;";	
@@ -494,7 +488,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		}
 		CssResult = CssColor+CssFontSize+CssFontStyle;
 		System.out.println(CssColor+" "+CssFontFamily+" "+CssFontSize+" "+CssFontStyle+" "+CssFontWeight);
-		font = new Font(fontFamily[0], bold + italic, Integer.parseInt(fontSizeArr[j]));
+		font = new Font(fontFamily, bold + italic, Integer.parseInt(fontSizeArr[j]));
 		textArea.setFont(font);
 	}
 }
