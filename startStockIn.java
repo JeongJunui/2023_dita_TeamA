@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import ch08.interfaceEx2;
 
-public class startStockIn {
+public class StartStockIn {
 
 	StockInAWT stockInAWT;
 	private ResultSet rs2 = null;
@@ -18,7 +18,7 @@ public class startStockIn {
 	
 	private DBConnectionMgr pool;
 	
-	public startStockIn(DefaultTableModel model, String[] str, int checkRegist){
+	public StartStockIn(DefaultTableModel model, String[] str, int checkRegist){
 		pool = DBConnectionMgr.getInstance();
 		insert(model,str,checkRegist);
 	}

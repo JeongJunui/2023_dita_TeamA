@@ -31,6 +31,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 	static JPanel pp1;
 	static JPanel p4;
 	JButton b1,b2,homeBtn,regBtn, registBtn, search, correct, delete, searchBtn, proddelete, prodcorrect, backButton, b4;
+	JButton searchAllBtn;
 	JLabel label, label2, l3,label3;
 	static JTextField pf[] = new JTextField[7];
 	static JLabel pl[] = new JLabel[7];
@@ -48,18 +49,10 @@ public class StockInAWT extends JPanel implements ActionListener{
 	LoadProduct loadProduct;
 	MainAWT mainAWT;
 	
-	class imgPanel extends JPanel{ //입고하기 안에 있는 패널
-		Image background=new ImageIcon(StockInAWT.class.getResource("/warehouse/images/releaseBox.png")).getImage();
-		public void paint(Graphics g) {//그리는 함수
-				g.drawImage(background, 0, 0, null);//background를 그려줌		
-		}
-	};
-	
 	public StockInAWT(MainAWT mainAWT) {
 		this.mainAWT = mainAWT;
 		setLayout(null);
 		menuPanel();
-//		validate();
 	}
 	
 	public void menuPanel(){
@@ -67,7 +60,6 @@ public class StockInAWT extends JPanel implements ActionListener{
 		p1.setLayout(null);
 		p1.setBackground(new Color(44,112,147));
 		p1.setBounds(0, 0, 133, 461);
-		
 		
 		label = new JLabel();
 		label.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/receiveTitle.png")));
@@ -112,9 +104,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 
 	public void rightPanel(){ //입고하기
 		
-		
 		JLabel bar[] = new JLabel[7];
-		
 		
 		p2 = new JPanel();
 		p2.setLayout(null); 
@@ -202,21 +192,9 @@ public class StockInAWT extends JPanel implements ActionListener{
 		label3.setBounds(28, 34, 150, 50);
 		p3.add(label3);
 		
-//		JButton search = new JButton();
-//		search.setBounds(120, 100, 50, 25);
-//		search.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/search.png")));
-//		search.setFocusable(false);
-		//p3.add(search);
-		
-		searchField = new JTextField("검색창");
+		searchField = new JTextField("");
 		searchField.setBounds(200, 100, 200, 25);
 		p3.add(searchField);
-		
-		//검색 콤보박스
-		comboBox = new JComboBox<Object>(loadStockin.header);
-		comboBox.setBounds(100, 100, 80, 30);
-		comboBox.addActionListener(this);
-		p3.add(comboBox);
 		
 		searchBtn = new JButton();
 		searchBtn.setBounds(400, 100, 30, 25);
@@ -224,6 +202,13 @@ public class StockInAWT extends JPanel implements ActionListener{
 		searchBtn.setFocusable(false);
 		searchBtn.addActionListener(this);
 		p3.add(searchBtn);
+		
+		searchAllBtn = new JButton("전체 조회");
+		searchAllBtn.setBounds(450, 100, 80, 25);
+		//searchAllBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/searchBtn.png")));
+		searchAllBtn.setFocusable(false);
+		searchAllBtn.addActionListener(this);
+		p3.add(searchAllBtn);
 		
 		correct = new JButton();
 		correct.setBounds(350, 400, 50, 25);
@@ -360,10 +345,8 @@ public class StockInAWT extends JPanel implements ActionListener{
 				}
 			}
 			
-			//System.out.println("loadProduct.checkRegist() : " + loadProduct.checkRegist(str));
-			
 			if(check == 0) { //빈값 없으면 테이블 추가
-				new startStockIn(model,str,loadProduct.checkRegist(str));
+				new StartStockIn(model,str,loadProduct.checkRegist(str));
 			}
 			for (int i = 0; i < 6; i++) {
 				pf[i].setText("");
@@ -385,12 +368,11 @@ public class StockInAWT extends JPanel implements ActionListener{
 			System.out.println(row + "행 삭제 완료");
 			
 		}else if(obj==searchBtn) {		//검색 버튼
-			//System.out.println("검색 버튼");
-			// 콤보박스 값 알아내기 - 검색기준
-	        String field = (String)comboBox.getSelectedItem();
-	        // 텍스트필드값 알아오기 - 검색어
 	        String word = searchField.getText();
 	        loadStockin.search(word);
+		
+		}else if(obj==searchAllBtn) {		//검색 버튼
+	        loadStockin.search("");
 		
 		}else if(obj==proddelete) {		//삭제 버튼
 			int row = loadProduct.mrow;

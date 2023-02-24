@@ -82,7 +82,7 @@ class LogIn extends JPanel{
 		add(lblNewLabel);
 		
 		//// 회원가입 버튼
-		JButton signUpBtn = new JButton(new ImageIcon("C:/Java2/myJava/warehouse/images/signUpBtn.png"));
+		JButton signUpBtn = new JButton(new ImageIcon(".\\images\\signUpBtn.png"));
 		signUpBtn.setBackground(new Color(255, 255, 255));
 		signUpBtn.setBounds(240, 285, 97, 23);
 		signUpBtn.setBorderPainted(false);
@@ -219,15 +219,15 @@ class SignUp extends JPanel implements ActionListener{
 	
 	///// 회사 로고이미지
 	ImageIcon[] images = { 
-			 new ImageIcon("C:/Java2/myJava/warehouse/images/lg.png"),  
-			 new ImageIcon("C:/Java2/myJava/warehouse/images/samsung.png"),
-		       new ImageIcon("C:/Java2/myJava/warehouse/images/skt.png") };
+			 new ImageIcon(".\\images\\lg.png"),  
+			 new ImageIcon(".\\images\\samsung.png"),
+		       new ImageIcon(".\\images\\skt.png") };
 	 JLabel imgLabel = new JLabel(images[0]);
 	
 	public SignUp(LoginAWT win) {
 		
 		///// 로고이미지 그리기
-		img = Toolkit.getDefaultToolkit().getImage("C:/Java2/myJava/warehouse/images/signUpTitle.png");
+		img = Toolkit.getDefaultToolkit().getImage(".\\images\\signUpTitle.png");
 		
 		this.win = win;
 		setBackground(new Color(239, 239, 239));
@@ -271,7 +271,7 @@ class SignUp extends JPanel implements ActionListener{
 		add(lblNewLabel2);
 		
 		///// 회원가입 버튼
-		JButton joinBtn = new JButton(new ImageIcon("C:/Java2/myJava/warehouse/images/joinBtn.png"));
+		JButton joinBtn = new JButton(new ImageIcon(".\\images\\joinBtn.png"));
 		joinBtn.setBackground(new Color(255, 255, 255));
 		joinBtn.setBounds(240, 285, 97, 23);
 		joinBtn.setBorderPainted(false);
