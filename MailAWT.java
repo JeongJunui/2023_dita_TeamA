@@ -56,7 +56,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	String [] fontSizeArr = {"14", "18", "24", "36", "48"};
 	String r, g, b;
 	String CssResult = "";
-	String CssColor, CssFontWeight = "", CssFontStyle = "", CssFontFamily, CssFontSize;	
+	String CssColor = "color: black;" , CssFontWeight = "", CssFontStyle = "", CssFontFamily = "" , CssFontSize = "";	
 	Color color = Color.BLACK;
 	int[] rgb;
 	int j = 0;
@@ -214,6 +214,7 @@ public class MailAWT extends JFrame implements ActionListener {
 			// textArea 기본 폰트 지정
 			font = new Font("굴림", Font.PLAIN, Integer.parseInt(fontSizeArr[j]));
 			textArea.setFont(font);
+			//textArea.setForeground(color.BLACK);
 			
 			// 폰트 콤보박스
 			fontBox = new JComboBox(); 
@@ -354,7 +355,6 @@ public class MailAWT extends JFrame implements ActionListener {
 			boldBtn2.setVisible(false);
 			boldBtn.setVisible(true);
 			bold = 0;
-			CssFontWeight = "";
 		} else if (obj == italicBtn) { // 텍스트 italic 버튼
 			italicBtn.setVisible(false);
 			italicBtn2.setVisible(true);
@@ -363,80 +363,151 @@ public class MailAWT extends JFrame implements ActionListener {
 			italicBtn2.setVisible(false);
 			italicBtn.setVisible(true);		
 			italic = 0;
-			CssFontStyle = "";
 		} else if (obj == textColorBtn) { // 텍스트 색상변경 버튼
 			// 컬러선택탐색시
 			JColorChooser cc = new JColorChooser();
 			// 색상선택기 실행 (부모객체, 제목, 초기색상)
 			color = cc.showDialog(this, "글자색", Color.RED);	
-			textArea.setForeground(color);				
+			textArea.setForeground(color);	
 		} else if (obj == sendBtn) {	
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
+				// 폰트 지정(컬러 10진수 -> 16진수 변환)
+				String str3 = color.toString();
+				str3 = str3.replaceAll("java.awt.Color","");
+				str3 = str3.replaceAll("r=","");
+				str3 = str3.replaceAll("g=","");
+				str3 = str3.replaceAll("b=","");
+				
+				StringBuilder myString2 = new StringBuilder(str3);
+				myString2.deleteCharAt(0);
+				myString2.deleteCharAt(myString2.length()-1);
+				
+				fontColor = myString2.toString().split(","); // rgb 색 배열에 저장
+				rgb = Arrays.stream(fontColor).mapToInt(Integer::parseInt).toArray(); // rgb 색 int 형 배열에 저장	
+				r = Integer.toHexString(rgb[0]);
+				g = Integer.toHexString(rgb[1]);
+				b = Integer.toHexString(rgb[2]);
+				if(r.equals("0")) {
+					r=r+"0";
+				} else if(g.equals("0")) {
+					g=g+"0";
+				} else if(b.equals("0")) {
+					b=b+"0";		
+				}
+				
+				
+				// html 문서에 저장할 css style 저장
+				CssColor = "color: #"+r+g+b+";";
+				CssFontFamily = "font-family: "+"\""+fontFamily+"\";";
+				CssFontSize = "font-size: "+fontSizeArr[j]+"px;";	
+				if(bold == 1) {
+					CssFontWeight = "font-weight: bold;";	
+				}
+				if(italic == 2) {
+					CssFontStyle = "font-style: italic;";
+				}
+				CssResult = CssColor+CssFontSize+CssFontStyle+CssFontWeight;
+				
 				String toEmail = recieveTextField.getText();
 				String toTitle = titleTextField.getText();
-				String setMessage = "<html><head><meta charset='ms949'/></head><body> <div class= container style= \"background-image: url(https://img.freepik.com/premium-vector/web-browser-window-empty-browser-window-template_186930-328.jpg?w=1380);\r\n"
-						+ "      background-size: cover;\r\n"
-						+ "      display: grid;\r\n"
-						+ "      background-position: center;\r\n"
-						+ "      width: auto;\r\n"
-						+ "      height: auto;\r\n"
-						+ "      text-align: center;\r\n"
-						+ "      text-shadow: black 0.2em 0.2em 0.2em;\r\n"
-						+ "      color: white;\r\n"
-						+ "      border-radius: 1ch;\r\n"
-						+ "      \">\r\n"
-						+ "       <h1 class=\"display-4\" style=\"font-size: 70px\">\r\n"
-						+ "       <br />창고관리 프로그램 메시지.\r\n"
-						+ "       </h1>\r\n"
-						+ "       \r\n"
-						+ "       <p class=\"lead\" style=\"font-size: 25px;\">\r\n"
-						+ "       자바 이클립스 IDE를 통해 SMTP 라이브러리를 사용하여 보낸 메일입니다.\r\n"
-						+ "       </p>\r\n"
-						+ "       <p style= \""+CssResult +"\">"
-						+           textArea.getText()
-						+ "            </p>\r\n"
-						+ "       <div style=\"padding-top: 25%;\">\r\n"
-						+ "       <p>\r\n"
-						+ "       <span>\r\n"
-						+ "       <a href=\"https://www.youtube.com\" target=\"_blank\">\r\n"
-						+ "       <img src=\"https://sominhwan.github.io/myPage_html/images/youtube.png\"\r\n"
-						+ "       width=\"32\"\r\n"
-						+ "       height=\"32\"\r\n"
-						+ "       alt=\"contact-youtube-icon-icon\"> </a></span>\r\n"
-						+ "                 <span style=\"margin-inline: 50px\"\r\n"
-						+ "                   ><a href=\"https://discord.gg/GERb7eD5\" target=\"_blank\">\r\n"
-						+ "                   <img\r\n"
-						+ "                       src=\"https://sominhwan.github.io/myPage_html/images/discord.png\"\r\n"
-						+ "                       width=\"31\"\r\n"
-						+ "                      height=\"31\"\r\n"
-						+ "                       alt=\"contact-discord-icon-icon\"\r\n"
-						+ "                     /> </a\r\n"
-						+ "                 ></span>\r\n"
-						+ "                <span style = \"margin-left: 0px;\"><a href=\"https://twitter.com/smh7527\" target=\"_blank\">\r\n"
-						+ "                     <img\r\n"
-						+ "                       src=\"https://sominhwan.github.io/myPage_html/images/twitter.png\"\r\n"
-						+ "                       width=\"30\"\r\n"
-						+ "                       height=\"30\"\r\n"
-						+ "                       alt=\"contact-twitter-icon\"\r\n"
-						+ "                     />\r\n"
-						+ "                   </a>\r\n"
-						+ "                 </span>\r\n"
-						+ "                 <span style=\"margin-left: 50px\"\r\n"
-						+ "                   ><a href=\"https://github.com/Sominhwan\" target=\"_blank\">\r\n"
-						+ "                     <img\r\n"
-						+ "                       src=\"https://sominhwan.github.io/myPage_html/images/github.png\"\r\n"
-						+ "                       width=\"32\"\r\n"
-						+ "                       height=\"32\"\r\n"
-						+ "                       alt=\"contact-twitter-icon\"\r\n"
-						+ "                     />\r\n"
-						+ "                   </a>\r\n"
-						+ "                 </span>\r\n"
-						+ "               </p>\r\n"
-						+ "               <span class=\"copyright\" style=\"color: black; text-shadow: none\"\r\n"
-						+ "                >©copySMH Korea Corporation All Rights Reserved.</span\r\n"
-						+ "               >\r\n"
-						+ "             </div>\r\n"
-						+ "           </div></body></html>";
+				String setMessage = "<html><head><meta charset='ms949'/></head><body><table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n"
+						+ "        <tr>\r\n"
+						+ "            <td align=\"center\" bgcolor=\"#70bbd9\" style=\"padding: 40px 0 30px 0;\">\r\n"
+						+ "                <img src=\"https://velog.velcdn.com/images/thalsghks/post/ea3f376f-f223-4e0f-92af-a96985ef3ddd/image.png\" alt=\"Creating Email Magic\" width=\"360\" height=\"230\" style=\"display: block;\" />\r\n"
+						+ "                A조 \r\n"
+						+ "               </td>\r\n"
+						+ "        </tr>\r\n"
+						+ "        <tr>\r\n"
+						+ "            <td bgcolor=\"white\" style=\"padding: 40px 30px 40px 30px; \">\r\n"
+						+ "                <table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n"
+						+ "                    <tr>\r\n"
+						+ "                     <td>\r\n"
+						+ "                      Java Mail Api 를 통해 보낸 내용\r\n"
+						+ "                     </td>\r\n"
+						+ "                    </tr>\r\n"
+						+ "                    <tr>\r\n"
+						+ "                     <td style=\"padding: 20px 0 30px 0;  text-shadow: black 0.01em 0.01em 0.01em;" + CssResult + "\">"
+						+ 				          textArea.getText()
+						+ "                     </td>\r\n"
+						+ "                    </tr>\r\n"
+						+ "                    <tr>\r\n"
+						+ "                     <td>\r\n"
+						+ "                      자바 프로젝트 샘플\r\n"
+						+ "                     </td>\r\n"
+						+ "                    </tr>\r\n"
+						+ "                   </table>\r\n"
+						+ "                   <table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n"
+						+ "                    <tr>\r\n"
+						+ "                     <td width=\"260\" valign=\"top\">\r\n"
+						+ "                      <table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n"
+						+ "                       <tr>\r\n"
+						+ "                        <td>\r\n"
+						+ "                         <img src=\"https://velog.velcdn.com/images/thalsghks/post/f8a10790-c65d-4018-adeb-edc3647381ad/image.png\" alt=\"\" width=\"100%\" height=\"140\" style=\"display: block;\" />\r\n"
+						+ "                        </td>\r\n"
+						+ "                       </tr>\r\n"
+						+ "                       <tr>\r\n"
+						+ "                        <td style=\"padding: 25px 0 0 0;\">\r\n"
+						+ "                            자바 프로젝트 메인 화면입니다. 입고, 출고, 통계 버튼을 눌러 각각의 기능을 이용하실 수 있습니다. 기존에 존재하는 기능을 최대한 활용하였습니다. \r\n"
+						+ "                            더 많은 내용을 보고 싶다면 아래의 깃허브 주소를 참고해세요.\r\n"
+						+ "                        </td>\r\n"
+						+ "                       </tr>\r\n"
+						+ "                      </table>\r\n"
+						+ "                     </td>\r\n"
+						+ "                     <td style=\"font-size: 0; line-height: 0;\" width=\"20\">\r\n"
+						+ "                      &nbsp;\r\n"
+						+ "                     </td>\r\n"
+						+ "                     <td width=\"260\" valign=\"top\">\r\n"
+						+ "                      <table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n"
+						+ "                       <tr>\r\n"
+						+ "                        <td>\r\n"
+						+ "                         <img src=\"https://velog.velcdn.com/images/thalsghks/post/5a93c921-9eb3-4284-acf3-b75592c3fdeb/image.png\" alt=\"\" width=\"100%\" height=\"140\" style=\"display: block;\" />\r\n"
+						+ "                        </td>\r\n"
+						+ "                       </tr>\r\n"
+						+ "                       <tr>\r\n"
+						+ "                        <td style=\"padding: 25px 0 0 0;\">\r\n"
+						+ "                         입출고 내역 화면입니다. db에 저장된 입출고 내역을 각각 확인이 가능하고 추가적으로 검색 기능을 퉁해 \r\n"
+						+ "                         원하는 제품을 손쉽게 검색하실 수 있습니다. 그 이외의 기능은 아래의 깃허브 주소를 참고하세요. 이상입니다.\r\n"
+						+ "                        </td>\r\n"
+						+ "                       </tr>\r\n"
+						+ "                      </table>\r\n"
+						+ "                     </td>\r\n"
+						+ "                    </tr>\r\n"
+						+ "                   </table>\r\n"
+						+ "               </td>\r\n"
+						+ "        </tr>\r\n"
+						+ "        <tr>\r\n"
+						+ "            <td bgcolor=\"#ee4c50\" style=\"padding: 30px 30px 30px 30px;\">\r\n"
+						+ "                <table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n"
+						+ "                    <tr>\r\n"
+						+ "                        <td width=\"75%\">\r\n"
+						+ "                            &nbsp;©copySMH Korea Corporation All Rights Reserved.\r\n"
+						+ "                           </td>\r\n"
+						+ "                        <td align=\"right\">\r\n"
+						+ "                            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n"
+						+ "                             <tr>\r\n"
+						+ "                              <td>\r\n"
+						+ "                               <a href=\"https://github.com/Sominhwan\">\r\n"
+						+ "                                <img src=\"https://sominhwan.github.io/myPage_html/images/github.png\" alt=\"github\" width=\"35\" height=\"35\" style=\"display: block;\" border=\"0\" />\r\n"
+						+ "                               </a>\r\n"
+						+ "                              </td>\r\n"
+						+ "                              <td style=\"font-size: 0; line-height: 0;\" width=\"20\">&nbsp;</td>\r\n"
+						+ "                              <td>\r\n"
+						+ "                               <a href=\"https://twitter.com/smh7527\">\r\n"
+						+ "                                <img src=\"https://sominhwan.github.io/myPage_html/images/twitter.png\" alt=\"twitter\" width=\"35\" height=\"35\" style=\"display: block;\" border=\"0\" />\r\n"
+						+ "                               </a>\r\n"
+						+ "                              </td>\r\n"
+						+ "                              <td>\r\n"
+						+ "                                <a href=\"https://discord.gg/GERb7eD5\">\r\n"
+						+ "                                 <img src=\"https://sominhwan.github.io/myPage_html/images/discord.png\" alt=\"discord\" width=\"38\" height=\"38\" style=\"display: block;\" border=\"0\" />\r\n"
+						+ "                                </a>\r\n"
+						+ "                               </td>\r\n"
+						+ "                             </tr>\r\n"
+						+ "                            </table>\r\n"
+						+ "                           </td>             \r\n"
+						+ "                    </tr>\r\n"
+						+ "                   </table>\r\n"
+						+ "               </td>        \r\n"
+						+ "        </tr></body></html>";
 				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
 				fileName1_1 = "";
 				attachTextArea.setText("");
@@ -451,40 +522,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		} else if(obj == closeBtn) {
 			attachTextArea.setText("");
 		}
-		// 폰트 지정(컬러 10진수 -> 16진수 변환)
-		String str3 = color.toString();
-		str3 = str3.replaceAll("java.awt.Color","");
-		str3 = str3.replaceAll("r=","");
-		str3 = str3.replaceAll("g=","");
-		str3 = str3.replaceAll("b=","");
-		
-		StringBuilder myString2 = new StringBuilder(str3);
-		myString2.deleteCharAt(0);
-		myString2.deleteCharAt(myString2.length()-1);
-		
-		fontColor = myString2.toString().split(","); // rgb 색 배열에 저장
-		rgb = Arrays.stream(fontColor).mapToInt(Integer::parseInt).toArray(); // rgb 색 int 형 배열에 저장	
-		r = Integer.toHexString(rgb[0]);
-		g = Integer.toHexString(rgb[1]);
-		b = Integer.toHexString(rgb[2]);
-		if(r.equals("0")) {
-			r=r+"0";
-		} else if(g.equals("0")) {
-			g=g+"0";
-		} else if(b.equals("0")) {
-			b=b+"0";		
-		}
-		// html 문서에 저장할 css style 저장
-		CssColor = "color: #"+r+g+b+";";
-		CssFontFamily = "font-family: "+"\""+fontFamily+"\";";
-		CssFontSize = "font-size: "+fontSizeArr[j]+"px;";	
-		if(bold == 1) {
-			CssFontWeight = "font-weight: bold;";	
-		}
-		if(italic == 2) {
-			CssFontStyle = "font-style: italic;";
-		}
-		CssResult = CssColor+CssFontSize+CssFontStyle+CssFontWeight;
+	
 		System.out.println(CssColor+" "+CssFontFamily+" "+CssFontSize+" "+CssFontStyle+" "+CssFontWeight);
 		font = new Font(fontFamily, bold + italic, Integer.parseInt(fontSizeArr[j]));
 		textArea.setFont(font);
