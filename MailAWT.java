@@ -1,13 +1,11 @@
 package warehouse;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Desktop.Action;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -16,7 +14,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Vector;
 
-import javax.swing.DefaultListCellRenderer;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,13 +25,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class MailAWT extends JFrame implements ActionListener {
 	private JPanel p1;
@@ -63,6 +63,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	int[] rgb;
 	int j = 0;
 	String checkFiles = "";
+	boolean isValid ;
 	int bold = 0, italic = 0;
 
 	public MailAWT() {
@@ -182,7 +183,6 @@ public class MailAWT extends JFrame implements ActionListener {
 		sendBtn.setContentAreaFilled(false);
 		sendBtn.addActionListener(this);
 
-		
 		attachmentFiles = new Vector<String>();
 		attachmentFiles_1 = new Vector<String>();
 		
@@ -410,8 +410,7 @@ public class MailAWT extends JFrame implements ActionListener {
 				} else if(b.equals("0")) {
 					b=b+"0";		
 				}
-				
-				
+							
 				// html 문서에 저장할 css style 저장
 				CssColor = "color: #"+r+g+b+";";
 				CssFontFamily = "font-family: "+"\""+fontFamily+"\";";
@@ -425,6 +424,7 @@ public class MailAWT extends JFrame implements ActionListener {
 				CssResult = CssColor+CssFontSize+CssFontStyle+CssFontWeight;
 				
 				String toEmail = recieveTextField.getText();
+				isValid = isValidEmailAddress(toEmail);
 				String toTitle = titleTextField.getText();
 				String setMessage = "<html><head><meta charset='ms949'/></head><body><table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n"
 						+ "        <tr>\r\n"
@@ -464,7 +464,7 @@ public class MailAWT extends JFrame implements ActionListener {
 						+ "                       <tr>\r\n"
 						+ "                        <td style=\"padding: 25px 0 0 0;\">\r\n"
 						+ "                            자바 프로젝트 메인 화면입니다. 입고, 출고, 통계 버튼을 눌러 각각의 기능을 이용하실 수 있습니다. 기존에 존재하는 기능을 최대한 활용하였습니다. \r\n"
-						+ "                            더 많은 내용을 보고 싶다면 아래의 깃허브 주소를 참고해세요.\r\n"
+						+ "                            더 많은 내용을 보고 싶다면 아래의 깃허브 주소를 참고하세요.\r\n"
 						+ "                        </td>\r\n"
 						+ "                       </tr>\r\n"
 						+ "                      </table>\r\n"
@@ -524,14 +524,18 @@ public class MailAWT extends JFrame implements ActionListener {
 						+ "                   </table>\r\n"
 						+ "               </td>        \r\n"
 						+ "        </tr></body></html>";
-				new SendMailSMTP(toEmail, toTitle, attachmentFiles_1, setMessage);
-				fileName1_1 = "";
-				attachTextArea.setText("");
-				textArea.setText("");
-				closeBtn.setVisible(false);
-				p1.setVisible(false);
-			
-				new CompleteMail(this, toEmail);
+				// 이메일 검증 검사
+				if(isValid) {
+					new SendMailSMTP(toEmail, toTitle, attachmentFiles_1, setMessage);
+					fileName1_1 = "";
+					attachTextArea.setText("");
+					textArea.setText("");
+					closeBtn.setVisible(false);
+					p1.setVisible(false);
+					new CompleteMail(this, toEmail);
+				} else {
+					JOptionPane.showMessageDialog(null, "올바르지 않는 이메일 형식입니다.", "실패", JOptionPane.ERROR_MESSAGE);		
+				}
 			}else {
 				JOptionPane.showMessageDialog(null, "메일 보내기 실패!", "실패", JOptionPane.ERROR_MESSAGE);
 			}
@@ -545,6 +549,24 @@ public class MailAWT extends JFrame implements ActionListener {
 		font = new Font(fontFamily, bold + italic, Integer.parseInt(fontSizeArr[j]));
 		textArea.setFont(font);
 	}
+	// 이메일 검증
+	  public static boolean isValidEmailAddress(String toEmail) {
+	        boolean isValid = false;
+	        EmailValidator emailValidator = EmailValidator.getInstance();
+	        isValid = emailValidator.isValid(toEmail);
+	        if (!isValid) {
+	            return false;
+	        }
+
+	        try {
+	            InternetAddress internetAddress = new InternetAddress(toEmail);
+	            internetAddress.validate();
+	        } catch (AddressException e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	        return true;
+	    }
 }
 
 // 둥근 버튼 생성 클래스

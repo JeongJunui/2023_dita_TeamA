@@ -68,14 +68,7 @@ public class SendMailSMTP {
 					messageMulti.addBodyPart(mbp2);
 				}
 			}
-			
-			
-			
-			
-			
-			
-			
-			
+					
 			message.setContent(messageMulti);
 
 			// 첨부할 파일 확장자 정의
