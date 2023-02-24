@@ -392,9 +392,7 @@ public class MailAWT extends JFrame implements ActionListener {
 						+ "       <p class=\"lead\" style=\"font-size: 25px;\">\r\n"
 						+ "       자바 이클립스 IDE를 통해 SMTP 라이브러리를 사용하여 보낸 메일입니다.\r\n"
 						+ "       </p>\r\n"
-						+ "       <p style= \"text-shadow: none;\r\n"
-						+ "         padding-top: 1%; white-space: normal;\r\n"
-						+           CssResult +"\">"
+						+ "       <p style= \""+CssResult +"\">"
 						+           textArea.getText()
 						+ "            </p>\r\n"
 						+ "       <div style=\"padding-top: 25%;\">\r\n"
@@ -486,7 +484,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		if(italic == 2) {
 			CssFontStyle = "font-style: italic;";
 		}
-		CssResult = CssColor+CssFontSize+CssFontStyle;
+		CssResult = CssColor+CssFontSize+CssFontStyle+CssFontWeight;
 		System.out.println(CssColor+" "+CssFontFamily+" "+CssFontSize+" "+CssFontStyle+" "+CssFontWeight);
 		font = new Font(fontFamily, bold + italic, Integer.parseInt(fontSizeArr[j]));
 		textArea.setFont(font);

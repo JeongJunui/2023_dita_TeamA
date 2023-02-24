@@ -21,9 +21,9 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
-public class ReleasedAWT {
+public class ReleasedAWT extends JPanel{
 
-	private JFrame frame;
+	//private JFrame frame;
 	JPanel p1;
 	JPanel p2;
 	private JLabel lblNewLabel_1;
@@ -36,27 +36,29 @@ public class ReleasedAWT {
 	String[] tableCol= {"물품코드","카테고리","물품명","사이즈","색상","재고량"};
 	DefaultTableModel dtm; 
 	JScrollPane tableScroll;
+	MainAWT mainAWT;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ReleasedAWT window = new ReleasedAWT();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ReleasedAWT window = new ReleasedAWT();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
-	public ReleasedAWT() {
+	public ReleasedAWT(MainAWT mainAWT) {
+		this.mainAWT = mainAWT;
 		initialize();
 	}
 	public void reLoad()
@@ -83,16 +85,16 @@ public class ReleasedAWT {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 700, 500);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame = new JFrame();
+//		frame.setBounds(100, 100, 700, 500);
+//		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		rsl=new ReleasedMgr();
 		dtm=new DefaultTableModel(tableContent, tableCol);
 		p1=new JPanel();
 		p1.setLayout(null);
 		p1.setBackground(new Color(44,122,147));
 		p1.setBounds(0, 0, 133, 461);
-		frame.getContentPane().add(p1);
+		mainAWT.mainPanel.add(p1);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/releaseTitle.png")));
@@ -100,6 +102,12 @@ public class ReleasedAWT {
 		p1.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainAWT.mainPanel.setVisible(false);
+				mainAWT.mainPanel();
+			}
+		});
 		btnNewButton.setForeground(new Color(44, 127, 147));
 		btnNewButton.setBackground(new Color(44,122,147));
 		btnNewButton.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/homeBtn.png")));
@@ -111,8 +119,8 @@ public class ReleasedAWT {
 		p2=new JPanel();
 		p2.setLayout(null);
 		p2.setBackground(new Color(0,32,96));
-		p2.setBounds(132, 0, 552, 461);
-		frame.getContentPane().add(p2);
+		p2.setBounds(0, 0, 800, 461);
+		mainAWT.mainPanel.add(p2);
 		
 		lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/release.png")));

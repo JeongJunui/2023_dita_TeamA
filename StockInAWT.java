@@ -25,12 +25,12 @@ import javax.swing.table.DefaultTableModel;
 import ch08.interfaceEx2;
 
 @SuppressWarnings("serial")
-public class StockInAWT extends JFrame implements ActionListener{
+public class StockInAWT extends JPanel implements ActionListener{
 
 	JPanel p1,p2,p3 , pp;
 	static JPanel pp1;
 	static JPanel p4;
-	JButton b1,b2,b3,regBtn, registBtn, search, correct, delete, searchBtn, proddelete, prodcorrect, backButton, b4;
+	JButton b1,b2,homeBtn,regBtn, registBtn, search, correct, delete, searchBtn, proddelete, prodcorrect, backButton, b4;
 	JLabel label, label2, l3,label3;
 	static JTextField pf[] = new JTextField[7];
 	static JLabel pl[] = new JLabel[7];
@@ -46,6 +46,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 	DefaultTableModel model;
 	LoadStockin loadStockin;
 	LoadProduct loadProduct;
+	MainAWT mainAWT;
 	
 	class imgPanel extends JPanel{ //입고하기 안에 있는 패널
 		Image background=new ImageIcon(StockInAWT.class.getResource("/warehouse/images/releaseBox.png")).getImage();
@@ -54,14 +55,10 @@ public class StockInAWT extends JFrame implements ActionListener{
 		}
 	};
 	
-	public StockInAWT() {
-		setBounds(500, 300, 700, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
-		setTitle("StockInAWT");
-		
+	public StockInAWT(MainAWT mainAWT) {
+		this.mainAWT = mainAWT;
+		setLayout(null);
 		menuPanel();
-		setVisible(true);
 //		validate();
 	}
 	
@@ -97,19 +94,20 @@ public class StockInAWT extends JFrame implements ActionListener{
 		b2.addActionListener(this);
 		p1.add(b2);
 		
-		b3 = new JButton("");
-		b3.setBounds(20, 350, 100, 100);
-		b3.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn.png")));
-		b3.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn2.png")));
-		b3.setBorderPainted(false);
-		b3.setContentAreaFilled(false);
-		b3.setFocusable(false);
-		b3.addActionListener(this);
-		p1.add(b3);
+		homeBtn = new JButton("");
+		homeBtn.setBounds(20, 350, 100, 100);
+		homeBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn.png")));
+		homeBtn.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/homeBtn2.png")));
+		homeBtn.setBorderPainted(false);
+		homeBtn.setContentAreaFilled(false);
+		homeBtn.setFocusable(false);
+		homeBtn.addActionListener(this);
+		p1.add(homeBtn);
 		add(p1);
 		
+		mainAWT.mainPanel.add(p1);
+		//rightPanel();	//입고하기 페이지 실행
 		productPanel();
-//		rightPanel();	//입고하기 페이지 실행
 	}
 
 	public void rightPanel(){ //입고하기
@@ -122,7 +120,6 @@ public class StockInAWT extends JFrame implements ActionListener{
 		p2.setLayout(null); 
 		p2.setBackground(new Color(0,32,96));
 		p2.setBounds(132, 0, 552, 461);
-		add(p2);
 		
 		label2 = new JLabel();
 		label2.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/receiving.png")));
@@ -186,7 +183,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 			bar[i].setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/panelBar.png")));
 			startP.add(bar[i]);
 		}
-		
+		mainAWT.mainPanel.add(p2);
 	}
 	
 	public void setBorder(Border border) {
@@ -198,7 +195,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		p3.setLayout(null); 
 		p3.setBackground(new Color(0,32,96));
 		p3.setBounds(132, 0, 552, 461);
-		add(p3);
+		mainAWT.mainPanel.add(p3);
 		
 		label3 = new JLabel();
 		label3.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/recieptStatus.png")));
@@ -254,7 +251,7 @@ public class StockInAWT extends JFrame implements ActionListener{
 		pp.setLayout(null); 
 		pp.setBackground(new Color(0,32,96));
 		pp.setBounds(132, 0, 552, 461);
-		add(pp);
+		mainAWT.mainPanel.add(pp);
 		
 		label2 = new JLabel();
 		label2.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/receiving.png")));
@@ -349,11 +346,9 @@ public class StockInAWT extends JFrame implements ActionListener{
 			repaint();
 			menuCheck = 0;
 			
-		}else if(obj==b3) {			
-			for (int i = 0; i < 6; i++) {
-				str[i] = pf[i].getText();
-				System.out.println(str[i]);
-			}
+		}else if(obj==homeBtn) {			
+			mainAWT.mainPanel.setVisible(false);
+			mainAWT.mainPanel();
 			
 		}else if(obj == regBtn){	//등록 버튼
 			for (int i = 0; i < 6; i++) {
@@ -429,9 +424,5 @@ public class StockInAWT extends JFrame implements ActionListener{
 				System.out.println(reStrings[i]);
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		new StockInAWT();
 	}
 }

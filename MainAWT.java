@@ -76,8 +76,17 @@ public class MainAWT extends JFrame implements ActionListener {
 
 		if (obj == mainReceivingBtn) { // 입고 버튼
 			//TODO
+			mainPanel.removeAll();
+			mainPanel.revalidate();
+			mainPanel.repaint();
+			new StockInAWT(this);
+			
 		} else if (obj == mainReleaseBtn) { // 출고 버튼
 			//TODO
+			mainPanel.removeAll();
+			mainPanel.revalidate();
+			mainPanel.repaint();
+			new ReleasedAWT(this);
 		} else if (obj == mainStatisticsBtn) { // 통계 버튼
 			//ainPanel.setVisible(false);
 			mainPanel.removeAll();
