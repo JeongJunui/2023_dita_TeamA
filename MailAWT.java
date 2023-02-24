@@ -50,6 +50,8 @@ public class MailAWT extends JFrame implements ActionListener {
 	private JComboBox fontBox;
 	private JTextArea textArea, attachTextArea;
 	private JScrollPane scrollPane;
+	Vector<String> attachmentFiles; // 첨부 파일 경로
+	Vector<String> attachmentFiles_1; // 첨부 파일 경로 textArea에 출력
 	String fileName1_1 = "";
 	String fontFamily = "굴림" ;
 	String [] fontColor = {"0","0","0"} ;
@@ -60,6 +62,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	Color color = Color.BLACK;
 	int[] rgb;
 	int j = 0;
+	String checkFiles = "";
 	int bold = 0, italic = 0;
 
 	public MailAWT() {
@@ -179,6 +182,10 @@ public class MailAWT extends JFrame implements ActionListener {
 		sendBtn.setContentAreaFilled(false);
 		sendBtn.addActionListener(this);
 
+		
+		attachmentFiles = new Vector<String>();
+		attachmentFiles_1 = new Vector<String>();
+		
 		p1.add(mailTitle);
 		p1.add(receiver);
 		p1.add(recieveTextField);
@@ -333,10 +340,17 @@ public class MailAWT extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다", "경고", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-			String fileName1 = chooser.getSelectedFile().getName();
-			fileName1_1 = chooser.getSelectedFile().getAbsolutePath();
-			System.out.println(fileName1_1);
-			attachTextArea.setText(fileName1 + " ");
+		
+			attachmentFiles.add(chooser.getSelectedFile().getName());
+			attachmentFiles_1.add(chooser.getSelectedFile().getAbsolutePath());
+			for (int i = 0; i < attachmentFiles_1.size(); i++) {
+				System.out.println(attachmentFiles_1.get(i));
+			}
+			for (int i = 0; i < attachmentFiles.size(); i++) {
+				checkFiles +=  attachmentFiles.get(i)+ "  ";	
+			}
+			attachTextArea.setText(checkFiles);
+			checkFiles = "";
 		} else if (obj == fontBox) { // 폰트 변경 콤보박스 
 			fontFamily = fontBox.getSelectedItem().toString();
 		} else if (obj == fontSizeUpBtn) { // 폰트 사이즈 업 버튼	
@@ -367,7 +381,9 @@ public class MailAWT extends JFrame implements ActionListener {
 			// 컬러선택탐색시
 			JColorChooser cc = new JColorChooser();
 			// 색상선택기 실행 (부모객체, 제목, 초기색상)
-			color = cc.showDialog(this, "글자색", Color.RED);	
+			color = cc.showDialog(this, "글자색", Color.RED);		
+			if (color == null) // 사용자가 창을 강제로 닫았거나 취소 버튼을 누른 경우
+				return;
 			textArea.setForeground(color);	
 		} else if (obj == sendBtn) {	
 			if (!attachTextArea.getText().equals("") || !textArea.getText().equals("")) {
@@ -508,7 +524,7 @@ public class MailAWT extends JFrame implements ActionListener {
 						+ "                   </table>\r\n"
 						+ "               </td>        \r\n"
 						+ "        </tr></body></html>";
-				new SendMailSMTP(toEmail, toTitle, fileName1_1, setMessage);
+				new SendMailSMTP(toEmail, toTitle, attachmentFiles_1, setMessage);
 				fileName1_1 = "";
 				attachTextArea.setText("");
 				textArea.setText("");
@@ -521,6 +537,8 @@ public class MailAWT extends JFrame implements ActionListener {
 			}
 		} else if(obj == closeBtn) {
 			attachTextArea.setText("");
+			attachmentFiles.clear();
+			attachmentFiles_1.clear();
 		}
 	
 		System.out.println(CssColor+" "+CssFontFamily+" "+CssFontSize+" "+CssFontStyle+" "+CssFontWeight);
@@ -528,7 +546,6 @@ public class MailAWT extends JFrame implements ActionListener {
 		textArea.setFont(font);
 	}
 }
-
 
 // 둥근 버튼 생성 클래스
 class RoundedButton extends JButton {
