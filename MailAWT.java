@@ -362,31 +362,67 @@ public class MailAWT extends JFrame implements ActionListener {
 			if(checkBox1.isSelected()) {
 				allDetail = 0;
 				new AllDetailsMgr(allDetail);
-				//attachmentFiles = allDatailsMgr.getVectorFiles(attachmentFiles);
-				//attachmentFiles_1 = allDatailsMgr.getVectorFiles_1(attachmentFiles_1);								
+				attachmentFiles.add("입고내역.txt");
+				attachmentFiles_1.add(".\\입고내역.txt");	
+				for (int i = 0; i < attachmentFiles.size(); i++) {
+					checkFiles +=  attachmentFiles.get(i)+ "  ";	
+				}
+				attachTextArea.setText(checkFiles);
+				checkFiles = "";
 			} else {
 				File file = new File(".\\입고내역.txt");
 				file.delete();
+				attachmentFiles.remove("입고내역.txt");
+				attachmentFiles_1.remove(".\\입고내역.txt");	
+				for (int i = 0; i < attachmentFiles.size(); i++) {
+					checkFiles +=  attachmentFiles.get(i)+ "  ";	
+				}
+				attachTextArea.setText(checkFiles);
+				checkFiles = "";
 			}
 		} else if (obj == checkBox2) { // 출고내역 체크박스
 			if(checkBox2.isSelected()) {
 				allDetail = 1;
 				new AllDetailsMgr(allDetail);
-				//attachmentFiles = allDatailsMgr.getVectorFiles(attachmentFiles);
-				//attachmentFiles_1 = allDatailsMgr.getVectorFiles_1(attachmentFiles_1);	
+				attachmentFiles.add("출고내역.txt");
+				attachmentFiles_1.add(".\\출고내역.txt");
+				for (int i = 0; i < attachmentFiles.size(); i++) {
+					checkFiles +=  attachmentFiles.get(i)+ "  ";	
+				}
+				attachTextArea.setText(checkFiles);
+				checkFiles = "";
 			} else {
 				File file = new File(".\\출고내역.txt");
 				file.delete();
+				attachmentFiles.remove("출고내역.txt");
+				attachmentFiles_1.remove(".\\출고내역.txt");	
+				for (int i = 0; i < attachmentFiles.size(); i++) {
+					checkFiles +=  attachmentFiles.get(i)+ "  ";	
+				}
+				attachTextArea.setText(checkFiles);
+				checkFiles = "";
 			}
 		} else if (obj == checkBox3) { // 재고내역 체크박스
 			if(checkBox3.isSelected()) {
 				allDetail = 2;
 				new AllDetailsMgr(allDetail);
-				//attachmentFiles = allDatailsMgr.getVectorFiles(attachmentFiles);
-				//attachmentFiles_1 = allDatailsMgr.getVectorFiles_1(attachmentFiles_1);	
+				attachmentFiles.add("재고내역.txt");
+				attachmentFiles_1.add(".\\재고내역.txt");	
+				for (int i = 0; i < attachmentFiles.size(); i++) {
+					checkFiles +=  attachmentFiles.get(i)+ "  ";	
+				}
+				attachTextArea.setText(checkFiles);
+				checkFiles = "";
 			} else {
 				File file = new File(".\\재고내역.txt");
 				file.delete();
+				attachmentFiles.remove("재고내역.txt");
+				attachmentFiles_1.remove(".\\재고내역.txt");	
+				for (int i = 0; i < attachmentFiles.size(); i++) {
+					checkFiles +=  attachmentFiles.get(i)+ "  ";	
+				}
+				attachTextArea.setText(checkFiles);
+				checkFiles = "";
 			}
 		} else if (obj == fontBox) { // 폰트 변경 콤보박스 
 			fontFamily = fontBox.getSelectedItem().toString();

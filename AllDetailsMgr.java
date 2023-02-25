@@ -26,18 +26,6 @@ public class AllDetailsMgr {
 		}
 	}
 
-	// 파일 경로 벡터
-	public Vector<String> getVectorFiles(Vector<String> attachmentFiles) {
-		attachmentFiles.add(null);
-		return attachmentFiles;
-	}
-
-	// 파일 이름 벡터
-	public Vector<String> getVectorFiles_1(Vector<String> attachmentFiles_1) {
-		attachmentFiles_1.add(null);
-		return attachmentFiles_1;
-	}
-
 	// 입고 내역
 	public void reciept() {
 		pool = DBConnectionMgr.getInstance();

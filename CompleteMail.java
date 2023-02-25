@@ -134,7 +134,6 @@ public class CompleteMail extends Thread implements ActionListener {
 		if (obj == writeMailBtn) {
 			panel.setVisible(false);
 			mailAWT.mailPanel();
-			// new MailAWT();
 		}
 	}
 }
