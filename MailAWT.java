@@ -11,6 +11,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -59,12 +60,15 @@ public class MailAWT extends JFrame implements ActionListener {
 	String r, g, b;
 	String CssResult = "";
 	String CssColor = "color: black;" , CssFontWeight = "", CssFontStyle = "", CssFontFamily = "" , CssFontSize = "";	
+	String checkFiles = "";
 	Color color = Color.BLACK;
 	int[] rgb;
 	int j = 0;
-	String checkFiles = "";
-	boolean isValid ;
 	int bold = 0, italic = 0;
+	int allDetail;
+	AllDetailsMgr allDatailsMgr;
+	boolean isValid ;
+	
 
 	public MailAWT() {
 		setTitle("메일");
@@ -145,6 +149,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		// 입고내역 체크박스
 		checkBox1 = new JCheckBox();
 		checkBox1.setBounds(150, 193, 20, 20);
+		checkBox1.addActionListener(this);
 		// 출고내역 라벨
 		statistics2 = new JLabel("출고내역");
 		statistics2.setFont(new Font("", Font.PLAIN, 12));
@@ -153,6 +158,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		// 출고내역 체크박스
 		checkBox2 = new JCheckBox();
 		checkBox2.setBounds(255, 193, 20, 20);
+		checkBox2.addActionListener(this);
 		// 재고내역 라벨
 		statistics3 = new JLabel("재고내역");
 		statistics3.setFont(new Font("", Font.PLAIN, 12));
@@ -161,6 +167,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		// 재고내역 체크박스
 		checkBox3 = new JCheckBox();
 		checkBox3.setBounds(360, 193, 20, 20);
+		checkBox3.addActionListener(this);
 		// 메일 입력 textArea
 		textArea = new JTextArea(10, 20);
 		scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -351,6 +358,36 @@ public class MailAWT extends JFrame implements ActionListener {
 			}
 			attachTextArea.setText(checkFiles);
 			checkFiles = "";
+		} else if (obj == checkBox1) { // 입고내역 체크박스
+			if(checkBox1.isSelected()) {
+				allDetail = 0;
+				new AllDetailsMgr(allDetail);
+				//attachmentFiles = allDatailsMgr.getVectorFiles(attachmentFiles);
+				//attachmentFiles_1 = allDatailsMgr.getVectorFiles_1(attachmentFiles_1);								
+			} else {
+				File file = new File(".\\입고내역.txt");
+				file.delete();
+			}
+		} else if (obj == checkBox2) { // 출고내역 체크박스
+			if(checkBox2.isSelected()) {
+				allDetail = 1;
+				new AllDetailsMgr(allDetail);
+				//attachmentFiles = allDatailsMgr.getVectorFiles(attachmentFiles);
+				//attachmentFiles_1 = allDatailsMgr.getVectorFiles_1(attachmentFiles_1);	
+			} else {
+				File file = new File(".\\출고내역.txt");
+				file.delete();
+			}
+		} else if (obj == checkBox3) { // 재고내역 체크박스
+			if(checkBox3.isSelected()) {
+				allDetail = 2;
+				new AllDetailsMgr(allDetail);
+				//attachmentFiles = allDatailsMgr.getVectorFiles(attachmentFiles);
+				//attachmentFiles_1 = allDatailsMgr.getVectorFiles_1(attachmentFiles_1);	
+			} else {
+				File file = new File(".\\재고내역.txt");
+				file.delete();
+			}
 		} else if (obj == fontBox) { // 폰트 변경 콤보박스 
 			fontFamily = fontBox.getSelectedItem().toString();
 		} else if (obj == fontSizeUpBtn) { // 폰트 사이즈 업 버튼	
