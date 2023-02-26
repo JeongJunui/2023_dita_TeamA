@@ -31,6 +31,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.NumberFormatter;
 
 import member.MemberMgr;
@@ -404,6 +406,13 @@ public class LoginAWT extends JFrame{
 		setLocationRelativeTo(null);//창이 가운데 나오게
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(Color.white);
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	///// 패널 전환

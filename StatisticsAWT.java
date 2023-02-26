@@ -28,7 +28,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 	JButton p2_btn1, p2_btn2;
 	JButton p3_btn1, p3_btn2;
 	JButton p4_btn1, p4_btn2, p4_btn3;
-	JButton mailBtn;
+	JButton mailBtn, mapBtn;
 	JButton p6_btn1;
 	JComboBox comboBox, comboBox3;
 	JComboBox<String> comboBox2;
@@ -161,8 +161,8 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		mailBtn.setContentAreaFilled(false);
 		mailBtn.setFocusable(false);
 		mailBtn.addActionListener(this);
-		
-		p2.add(history);	
+
+		p2.add(history);
 		p2.add(comboBox);
 		p2.add(textField);
 		p2.add(p2_btn1);
@@ -226,15 +226,15 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		categoryName.setBounds(85, 85, 210, 48);
 
 		getCategory = new GetCategory();
-		list3 = getCategory.getCategory(); // comboBox2 카테고리 담는 리스트 
+		list3 = getCategory.getCategory(); // comboBox2 카테고리 담는 리스트
 		list2 = new ArrayList<String>(list3);
-		
+
 		comboBox2 = new JComboBox<String>(list2.toArray(new String[list2.size()]));
 		comboBox2.setBounds(96, 123, 65, 27);
 		comboBox2.addActionListener(this);
-		cbText2_1 = list2.toArray(new String[list2.size()]);	
+		cbText2_1 = list2.toArray(new String[list2.size()]);
 		cbText2 = cbText2_1[0];
-		
+
 		textField2 = new JTextField("");
 		textField2.setBounds(161, 123, 130, 27);
 		textField2.setColumns(10);
@@ -268,15 +268,16 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		p4_btn3.setFocusable(false);
 		p4_btn3.addActionListener(this);
 		// 메일 보내기 버튼
-		mailBtn = new JButton();
-		mailBtn.setIcon(new ImageIcon(".\\images\\mail.png"));
-		mailBtn.setRolloverIcon(new ImageIcon(".\\images\\mail2.png"));
-		mailBtn.setBounds(490, 40, 40, 25);
-		mailBtn.setBorderPainted(false);
-		mailBtn.setContentAreaFilled(false);
-		mailBtn.setFocusable(false);
-		mailBtn.addActionListener(this);
-		
+		mapBtn = new JButton();
+		mapBtn.setIcon(new ImageIcon(".\\images\\mapBtn.png"));
+		mapBtn.setRolloverIcon(new ImageIcon(".\\images\\mapBtn.png"));
+		mapBtn.setRolloverIcon(new ImageIcon(".\\images\\mapBtn2.png"));
+		mapBtn.setBounds(497, 30, 32, 45);
+		mapBtn.setBorderPainted(false);
+		mapBtn.setContentAreaFilled(false);
+		mapBtn.setFocusable(false);
+		mapBtn.addActionListener(this);
+
 		p4.add(invenStatus);
 		p4.add(categoryName);
 		p4.add(comboBox2);
@@ -284,7 +285,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		p4.add(p4_btn1);
 		p4.add(p4_btn2);
 		p4.add(p4_btn3);
-		p4.add(mailBtn);
+		p4.add(mapBtn);
 
 		mainAWT.mainPanel.add(p4);
 		inventoryStatusTablePanel();
@@ -371,7 +372,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 0;
 				p6.setVisible(false);
-				p7.setVisible(false);// 추가
+				p7.setVisible(false);
 				historySearchPanel();
 			}
 		} else if (obj == p1_btn2) { // 재고 현황 버튼
@@ -388,7 +389,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 			} else if (menuCheck == 2) {
 				menuCheck = 1;
 				p6.setVisible(false);
-				p7.setVisible(false);// 추가
+				p7.setVisible(false);
 				inventoryStatusSearchPanel();
 			}
 
@@ -464,8 +465,11 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 			inventoryStatusSearchCheck = false;
 			p5.setVisible(false);
 			inventoryStatusTablePanel();
-		} else if (obj == p4_btn3) { // 재고 현황 전체조회 버튼
-			new SaveExcelFile();
+		} else if (obj == p4_btn3) { // 엑셀로 저장하기 버튼
+			mainAWT.setEnabled(false);
+			new SaveExcelFile(mainAWT);
+		} else if (obj == mapBtn) { // 지도 버튼
+			new NaverMapAPI();
 		} else if (obj == comboBox3) { // 기가별 차트 콤보 박스
 			cbText3 = comboBox3.getSelectedItem().toString();
 		} else if (obj == p6_btn1) { // 기가별 차트 조회하기 버튼

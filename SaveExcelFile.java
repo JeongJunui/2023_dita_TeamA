@@ -3,6 +3,8 @@ package warehouse;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
@@ -13,21 +15,20 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-public class SaveExcelFile extends JDialog implements ActionListener {
+public class SaveExcelFile extends JFrame implements ActionListener {
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
@@ -39,22 +40,28 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 	private JButton saveBtn;
 	File selectedFile;
 
-	public SaveExcelFile() {
+	public SaveExcelFile(MainAWT mainAWT) {
 		setTitle("현 재고 리스트 저장하기");
 		setSize(400, 400);// 프레임의 크기
 		setResizable(false);// 창의 크기를 변경하지 못하게
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
-				
+
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				mainAWT.setEnabled(true);
+			}
+		});
+
 		title = new JLabel("");
 		title.setIcon(new ImageIcon(".\\images\\preViewTitle.png"));
 		title.setBounds(108, 17, 170, 43);
-		
+
 		p1 = new JPanel();
 		p1.setLayout(null);
 		p1.setBounds(0, 70, 384, 291);
-		
+
 		textArea = new JTextArea(10, 20);
 		textArea.setEditable(false);
 
@@ -76,7 +83,9 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 		p1.add(saveBtn);
 		add(p1);
 		setVisible(true);
+
 		showDataFile();
+
 	}
 
 	// 저장하기 버튼 이벤트
@@ -84,12 +93,11 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		JFileChooser fs = new JFileChooser(new File("c:\\"));
-		
+
 		int result = fs.showSaveDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			selectedFile = fs.getSelectedFile();
 			excelMgr(selectedFile);
-			setVisible(false);
 			JOptionPane.showMessageDialog(null, "파일 저장 완료!", "Success", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
@@ -104,9 +112,9 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 			con = pool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			String headerTitle = "제품코드" + "\t" + "카테고리" + "\t" + "제품명" + "\t" + "제품사이즈" + "\t" + "제품색상" + "\t" + "재고수량"
+			String headerTitle = "제품코드" + " " + "카테고리" + " " + "제품명" + " " + "제품사이즈" + " " + "제품색상" + " " + "재고수량"
 					+ "\n";
-			String underBar = "=======================================================================\n";
+			String underBar = "==================================================\n";
 
 			textArea.append(headerTitle);
 			textArea.append(underBar);
@@ -118,8 +126,8 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 				String prodSize = rs.getString(4); // 쿼리 select문의 네번째 열
 				String prodColor = rs.getString(5); // 쿼리 select문의 다섯번째 열
 				String prodStock = rs.getString(6); // 쿼리 select문의 여섯번째 열
-				textArea.append(prodCode + "\t" + category + "\t" + prodName + "\t" + prodSize + "\t" + prodColor + "\t"
-						+ prodStock + "\n");
+				textArea.append(prodCode + "\t" + category + "\t" + prodName + "\t" + prodSize + "\t  " + prodColor
+						+ "\t  " + prodStock + "\n");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -127,6 +135,7 @@ public class SaveExcelFile extends JDialog implements ActionListener {
 			try {
 				rs.close();
 				pstmt.close();
+
 				con.close();
 			} catch (Exception e2) {
 

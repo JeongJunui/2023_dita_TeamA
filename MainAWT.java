@@ -9,7 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainAWT extends JFrame implements ActionListener {
 	ImageIcon image;
@@ -24,14 +25,23 @@ public class MainAWT extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
+
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+
 		mainPanel();
 	}
+
 // ----------------------------------------메인 패널----------------------------------------
 	public void mainPanel() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(0, 32, 96));
-		mainPanel.setBounds(0,0,684,461);
+		mainPanel.setBounds(0, 0, 684, 461);
 		// 로고 이미지
 		image = new ImageIcon(".\\images\\mainTitle.png");
 		mainTitle = new JLabel(image);
@@ -61,7 +71,7 @@ public class MainAWT extends JFrame implements ActionListener {
 		mainStatisticsBtn.setFocusable(false);
 		mainStatisticsBtn.setContentAreaFilled(false);
 		mainStatisticsBtn.addActionListener(this);
-		
+
 		mainPanel.add(mainReceivingBtn);
 		mainPanel.add(mainReleaseBtn);
 		mainPanel.add(mainStatisticsBtn);
@@ -69,32 +79,34 @@ public class MainAWT extends JFrame implements ActionListener {
 		add(mainPanel);
 		setVisible(true);
 	}
+
 // ----------------------------------------메인 패널 버튼 이벤트----------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 
 		if (obj == mainReceivingBtn) { // 입고 버튼
-			//TODO
+			// TODO
 			mainPanel.removeAll();
 			mainPanel.revalidate();
 			mainPanel.repaint();
 			new StockInAWT(this);
-			
+
 		} else if (obj == mainReleaseBtn) { // 출고 버튼
-			//TODO
+			// TODO
 			mainPanel.removeAll();
 			mainPanel.revalidate();
 			mainPanel.repaint();
 			new ReleasedAWT(this);
 		} else if (obj == mainStatisticsBtn) { // 통계 버튼
-			//ainPanel.setVisible(false);
+			// ainPanel.setVisible(false);
 			mainPanel.removeAll();
 			mainPanel.revalidate();
 			mainPanel.repaint();
 			new StatisticsAWT(this);
 		}
 	}
+
 	public static void main(String[] args) {
 		MainAWT main = new MainAWT();
 	}
