@@ -1,9 +1,9 @@
 package warehouse;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,18 +30,21 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class NaverMapAPI extends JFrame implements ActionListener {
-	static Vector<String> attachmentFiles; // 주소가 저장될 위
-	Vector<String> addressX; // 경도
-	Vector<String> addressY; // 위도
+	static Vector<String> attachmentFiles; // 주소가 저장될 위치
 	private String clientId = "n03gkha64w";
 	private String clientSecret = "rR6Gw5aPo8ek0pe7Uy6OkcVB6e3ANQhGPacfVNKP";
+	Vector<String> addressX; // 경도
+	Vector<String> addressY; // 위도
 	String geocodingAddress;
 	JComboBox address;
+	JPanel titlePanel, mapImagePanel, addressPanel, addressInfoPanel;
 	JLabel resAddress, resX, resY, jibunAddress;
-	JLabel imageLabel;
+	JLabel addressLbl;
+	JLabel imageLabel, titleLabel;
 	Vector<String> addressVector;
 	String x;
 	String y;
+
 	public NaverMapAPI() {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -53,43 +55,101 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		setTitle("출고 지도");
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		setResizable(false);// 창의 크기를 변경하지 못하게
-		Container c = getContentPane(); // 지도 이미지 컨테이너
-		imageLabel = new JLabel(); // JFrame 안쪽 영역 상단에 들어갈 지도보기
-		
-		JPanel pan = new JPanel();
-		pan.setBounds(0, 0, 850, 100);
-		pan.setBackground(Color.WHITE); // 위쪽 패널
-	
+		setSize(900, 550);
+		setLayout(null);
+
+		titlePanel = new JPanel() { // 타이틀 패널
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon imageIcon = new ImageIcon(".\\images\\mapTitlePanel.png");
+				Image image = imageIcon.getImage();
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		titlePanel.setBounds(0, 0, 883, 60); // 타이틀 패널
+		titlePanel.setLayout(null);
+
+		titleLabel = new JLabel();
+		titleLabel.setIcon(new ImageIcon(".\\images\\mapTitle.png"));
+		titleLabel.setBounds(20, 7, 150, 50);
+		titlePanel.add(titleLabel);
+
+		mapImagePanel = new JPanel() { // 이미지 라벨
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon imageIcon = new ImageIcon(".\\images\\mapImagePanel.png");
+				Image image = imageIcon.getImage();
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		mapImagePanel.setBounds(223, 122, 658, 386);
+		mapImagePanel.setLayout(null);
+
+		imageLabel = new JLabel(); // 도로명 주소 지도 이미지 라벨
+		imageLabel.setBounds(4, 0, 660, 385);
+		mapImagePanel.add(imageLabel);
+
+		addressPanel = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon imageIcon = new ImageIcon(".\\images\\mapAddressPanel.png");
+				Image image = imageIcon.getImage();
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+
+		addressPanel.setBounds(220, 59, 664, 66);
+		addressPanel.setLayout(null);
 
 		addressVector = new Vector<String>();
 		addressVector.add("부산광역시 승학로 233번길 50");
 		addressVector.add("부산광역시 승학로 233번길 33");
-		
-		JLabel addressLbl = new JLabel("출고 주소"); // JFrame 안쪽 영역 상단에 들어갈 주소입력
-		address = new JComboBox(addressVector);
 
-		pan.add(addressLbl);
-		pan.add(address);
+		addressLbl = new JLabel("출고 주소"); // 주소 라벨
+		addressLbl.setFont(new Font("맑은 고딕", Font.BOLD, 16));
+		addressLbl.setForeground(new Color(36, 36, 36));
+		addressLbl.setBounds(145, 18, 70, 25);
+
+		address = new JComboBox(addressVector); // 도로명 주소 콤보 박스
+		address.setBounds(225, 18, 220, 30);
 		address.addActionListener(this);
 
-		JPanel pan1 = new JPanel();
-		
-		pan1.setLayout(new GridLayout(4, 1)); // 지도 하단 그리드 4행 1열로 생성.
+		addressPanel.add(addressLbl); // 주소 이름
+		addressPanel.add(address); // 주소 콤보박스
+
+		addressInfoPanel = new JPanel() { // 주소 정보 패널
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon imageIcon = new ImageIcon(".\\images\\mapLeftPanel.png");
+				Image image = imageIcon.getImage();
+				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		addressInfoPanel.setBounds(0, 58, 225, 452);
+		addressInfoPanel.setLayout(null);
+
 		resAddress = new JLabel("도로명"); // 그리드 1행에 들어갈 도로명
+		resAddress.setBounds(10, 50, 200, 100);
+		addressInfoPanel.add(resAddress);
+
 		resX = new JLabel("경도"); // 그리드 3행에 들어갈 경도
+		resX.setBounds(10, 80, 100, 100);
+		addressInfoPanel.add(resX);
+
 		resY = new JLabel("위도"); // 그리드 4행에 들어갈 위도
-		
-		pan1.add(resAddress);
-		pan1.add(resX);
-		pan1.add(resY);
-		pan1.setBackground(Color.WHITE);
-		c.add(BorderLayout.NORTH, pan); // 상단 pan 세팅
-		c.add(BorderLayout.EAST, imageLabel); // 센터 imageLabel 세팅
-		c.add(BorderLayout.WEST, pan1); // 하단 pan1 세팅
+		resY.setBounds(10, 150, 100, 100);
+		addressInfoPanel.add(resY);
 
-		setSize(900, 550);
+		add(titlePanel);
+		add(mapImagePanel);
+		add(addressPanel);
+		add(addressInfoPanel);
+
 		setVisible(true);
-
 	}
 
 	@Override
@@ -104,7 +164,6 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 
 	public void getGeocoding(String address) throws Exception {
 		// 주소 입력 -> 위도, 경도 좌표 추출.
-
 		address = URLEncoder.encode(address, "UTF-8");
 
 		String apiURL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=" + address; // json
@@ -139,69 +198,65 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 
 		System.out.println("위도: " + y + ", 경도: " + x);
 
-		//addressX.add(x); // 벡터에 경도값 저장
-		//addressY.add(y); // 백터에 위도값 저장
-		
 		mapService();
 	}
-	
+
 	public void mapService() {
-	String URL_STATICMAP = "https://naveropenapi.apigw.ntruss.com/map-static/v2/raster?";
-		
+		String URL_STATICMAP = "https://naveropenapi.apigw.ntruss.com/map-static/v2/raster?";
+
 		try {
 			String pos = URLEncoder.encode(x + " " + y, "UTF-8");
 			URL_STATICMAP += "center=" + x + "," + y;
-			URL_STATICMAP += "&level=16&w=650&h=350";
-			URL_STATICMAP += "&markers=type:t|size:mid|pos:" + pos + "|label:" + URLEncoder.encode(geocodingAddress, "UTF-8");
-			
+			URL_STATICMAP += "&level=16&w=650&h=370";
+			URL_STATICMAP += "&markers=type:t|size:mid|pos:" + pos + "|label:"
+					+ URLEncoder.encode(geocodingAddress, "UTF-8");
+
 			URL url = new URL(URL_STATICMAP);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
 			con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
-			
+
 			int responseCode = con.getResponseCode();
 			BufferedReader br;
-			
+
 			// 정상호출인 경우.
 			if (responseCode == 200) {
 				InputStream is = con.getInputStream();
-				
+
 				int read = 0;
 				byte[] bytes = new byte[1024];
-				
+
 				// 랜덤 파일명으로 파일 생성
 				String tempName = Long.valueOf(new Date().getTime()).toString();
-				File file = new File(tempName + ".jpg");	// 파일 생성.
-				
+				File file = new File(tempName + ".jpg"); // 파일 생성.
+
 				file.createNewFile();
-				
+
 				OutputStream out = new FileOutputStream(file);
-				
+
 				while ((read = is.read(bytes)) != -1) {
-					out.write(bytes, 0, read);	// 파일 작성
+					out.write(bytes, 0, read); // 파일 작성
 				}
-				
+
 				is.close();
 				ImageIcon img = new ImageIcon(file.getName());
 				imageLabel.setIcon(img);
 				resAddress.setText(geocodingAddress);
-				//jibunAddress.setText();
+				// jibunAddress.setText();
 				resX.setText(x);
 				resY.setText(y);
-				
+
 			} else {
 				System.out.println(responseCode);
 			}
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			System.out.println(e);
 		}
-	
-
 	}
 
-	public static void main(String[] args) {
-		NaverMapAPI naverAPI = new NaverMapAPI();
-	}
+//	public static void main(String[] args) {
+//		NaverMapAPI naverAPI = new NaverMapAPI();
+//	}
 }

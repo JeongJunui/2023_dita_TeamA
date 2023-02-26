@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMultipart;
 public class SendMailSMTP {
 	String host = "smtp.naver.com";
 	private String user = "deuackr2017@naver.com"; // 발신자 아이디
-	private String password = "deu@2023"; // 발신자 비밀번호
+	private String password = "deu@2022"; // 발신자 비밀번호
 
 	public SendMailSMTP(String toEmail, String toTitle, Vector<String> attachFiles, String setMessage) {
 		SMTP(toEmail, toTitle, attachFiles, setMessage);
