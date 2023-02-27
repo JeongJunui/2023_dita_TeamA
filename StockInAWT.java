@@ -266,7 +266,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp.add(b4);
 		
 		registBtn = new JButton();
-		registBtn.setBounds(420, 100, 50, 25);
+		registBtn.setBounds(480, 400, 50, 25);
 		registBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn.png")));
 		registBtn.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn2.png")));
 		registBtn.addActionListener(this);
@@ -274,7 +274,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp.add(registBtn);
 		
 		pp1 = new JPanel();
-		pp1.setBounds(25, 160, 505, 230);
+		pp1.setBounds(25, 100, 505, 290);
 		loadProduct = new LoadProduct(this);
 		pp.add(pp1);
 		
