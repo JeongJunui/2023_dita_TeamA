@@ -19,12 +19,17 @@ import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,7 +45,9 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 	JPanel titlePanel, mapImagePanel, addressPanel, addressInfoPanel;
 	JLabel resAddress, resX, resY, jibunAddress;
 	JLabel addressLbl;
-	JLabel imageLabel, titleLabel;
+	JLabel imageLabel, titleLabel, addressInfoTitle, mapSearch;
+	JButton searchBtn;
+	JTextField mapSearchTextField;
 	Vector<String> addressVector;
 	String x;
 	String y;
@@ -57,7 +64,7 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		setResizable(false);// 창의 크기를 변경하지 못하게
 		setSize(900, 550);
 		setLayout(null);
-
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 지우기
 		titlePanel = new JPanel() { // 타이틀 패널
 			@Override
 			public void paintComponent(Graphics g) {
@@ -132,16 +139,41 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		addressInfoPanel.setBounds(0, 58, 225, 452);
 		addressInfoPanel.setLayout(null);
 
-		resAddress = new JLabel("도로명"); // 그리드 1행에 들어갈 도로명
-		resAddress.setBounds(10, 50, 200, 100);
+		mapSearch = new JLabel(new ImageIcon(".\\images\\mapSearch.png")); // 주소 검색 라벨
+		mapSearch.setBounds(12, 16, 200, 40);
+		addressInfoPanel.add(mapSearch);
+
+		searchBtn = new JButton();
+		searchBtn.setBounds(24, 21, 28, 28);
+		searchBtn.setBorderPainted(false);// 버튼 테두리 투명색
+		searchBtn.setContentAreaFilled(false);// 버튼 투명색
+		searchBtn.setFocusable(false);
+		searchBtn.addActionListener(this);
+		addressInfoPanel.add(searchBtn);
+
+		mapSearchTextField = new JTextField(); // 주소 검색 필드
+		mapSearchTextField.setBounds(60, 25, 145, 22);
+		mapSearchTextField.setColumns(10);
+		mapSearchTextField.setBorder(null);
+		mapSearchTextField.addActionListener(this);
+		addressInfoPanel.add(mapSearchTextField);
+
+		addressInfoTitle = new JLabel("주소 정보"); // 주소 정보 제목
+		addressInfoTitle.setBounds(65, 60, 150, 60);
+		addressInfoTitle.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		addressInfoTitle.setForeground(new Color(119, 119, 119));
+		addressInfoPanel.add(addressInfoTitle);
+
+		resAddress = new JLabel("도로명");
+		resAddress.setBounds(10, 90, 200, 100);
 		addressInfoPanel.add(resAddress);
 
-		resX = new JLabel("경도"); // 그리드 3행에 들어갈 경도
-		resX.setBounds(10, 80, 100, 100);
+		resX = new JLabel("경도");
+		resX.setBounds(10, 115, 100, 100);
 		addressInfoPanel.add(resX);
 
-		resY = new JLabel("위도"); // 그리드 4행에 들어갈 위도
-		resY.setBounds(10, 150, 100, 100);
+		resY = new JLabel("위도");
+		resY.setBounds(10, 140, 100, 100);
 		addressInfoPanel.add(resY);
 
 		add(titlePanel);
@@ -152,13 +184,30 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	// textField 테두리 없애는 메소드
+	public void setBorder(Border border) {
+
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		geocodingAddress = address.getSelectedItem().toString();
-		try {
-			getGeocoding(geocodingAddress);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		Object obj = e.getSource();
+
+		if (obj == searchBtn || obj == mapSearchTextField) {
+			geocodingAddress = mapSearchTextField.getText();
+			try {
+				getGeocoding(geocodingAddress);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "존재하지 않는 주소입니다.", "경고", JOptionPane.WARNING_MESSAGE);
+			}
+		} else if (obj == address) {
+			geocodingAddress = address.getSelectedItem().toString();
+			try {
+				getGeocoding(geocodingAddress);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -229,7 +278,11 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 
 				// 랜덤 파일명으로 파일 생성
 				String tempName = Long.valueOf(new Date().getTime()).toString();
-				File file = new File(tempName + ".jpg"); // 파일 생성.
+
+				File file = new File(".\\mapImages\\" + tempName + ".jpg"); // 파일 생성.
+				if (!file.getParentFile().exists()) {
+					file.getParentFile().mkdirs();
+				}
 
 				file.createNewFile();
 
@@ -240,7 +293,7 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 				}
 
 				is.close();
-				ImageIcon img = new ImageIcon(file.getName());
+				ImageIcon img = new ImageIcon(file.getAbsolutePath());
 				imageLabel.setIcon(img);
 				resAddress.setText(geocodingAddress);
 				// jibunAddress.setText();
