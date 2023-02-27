@@ -59,7 +59,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	String [] fontSizeArr = {"14", "18", "24", "36", "48"};
 	String r, g, b;
 	String CssResult = "";
-	String CssColor = "color: black;" , CssFontWeight = "", CssFontStyle = "", CssFontFamily = "" , CssFontSize = "";	
+	String CssColor = "" , CssFontWeight = "", CssFontStyle = "", CssFontFamily = "" , CssFontSize = "";	
 	String checkFiles = "";
 	Color color = Color.BLACK;
 	int[] rgb;
@@ -228,7 +228,6 @@ public class MailAWT extends JFrame implements ActionListener {
 			// textArea 기본 폰트 지정
 			font = new Font("굴림", Font.PLAIN, Integer.parseInt(fontSizeArr[j]));
 			textArea.setFont(font);
-			//textArea.setForeground(color.BLACK);
 			
 			// 폰트 콤보박스
 			fontBox = new JComboBox(); 
@@ -485,21 +484,22 @@ public class MailAWT extends JFrame implements ActionListener {
 				}
 							
 				// html 문서에 저장할 css style 저장
-				CssColor = "color: #"+r+g+b+";";
-				CssFontFamily = "font-family: "+"\""+fontFamily+"\";";
-				CssFontSize = "font-size: "+fontSizeArr[j]+"px;";	
+				CssColor = "color:#"+r+g+b+";";
+				CssFontFamily = "font-family:'"+fontFamily+"';";
+				CssFontSize = "font-size:"+fontSizeArr[j]+"px;";	
+				System.out.println(CssFontFamily+CssColor+CssFontStyle+CssFontWeight+CssFontSize);
 				if(bold == 1) {
-					CssFontWeight = "font-weight: bold;";	
+					CssFontWeight = "font-weight:bold;";	
 				}
 				if(italic == 2) {
-					CssFontStyle = "font-style: italic;";
+					CssFontStyle = "font-style:italic;";
 				}
-				CssResult = CssColor+CssFontSize+CssFontStyle+CssFontWeight;
+				CssResult = CssFontFamily+CssColor+CssFontStyle+CssFontWeight+CssFontSize;
 				
 				String toEmail = recieveTextField.getText();
 				isValid = isValidEmailAddress(toEmail);
 				String toTitle = titleTextField.getText();
-				String setMessage = "<html><head><meta charset='ms949'/></head><body><table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n"
+				String setMessage = "<html><head></head><body><table align=\"center\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\r\n"
 						+ "        <tr>\r\n"
 						+ "            <td align=\"center\" bgcolor=\"#70bbd9\" style=\"padding: 40px 0 30px 0;\">\r\n"
 						+ "                <img src=\"https://velog.velcdn.com/images/thalsghks/post/ea3f376f-f223-4e0f-92af-a96985ef3ddd/image.png\" alt=\"Creating Email Magic\" width=\"360\" height=\"230\" style=\"display: block;\" />\r\n"
@@ -507,7 +507,7 @@ public class MailAWT extends JFrame implements ActionListener {
 						+ "               </td>\r\n"
 						+ "        </tr>\r\n"
 						+ "        <tr>\r\n"
-						+ "            <td bgcolor=\"white\" style=\"padding: 40px 30px 40px 30px; \">\r\n"
+						+ "            <td style=\"padding: 40px 30px 40px 30px; \">\r\n"
 						+ "                <table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n"
 						+ "                    <tr>\r\n"
 						+ "                     <td>\r\n"
@@ -515,7 +515,7 @@ public class MailAWT extends JFrame implements ActionListener {
 						+ "                     </td>\r\n"
 						+ "                    </tr>\r\n"
 						+ "                    <tr>\r\n"
-						+ "                     <td style=\"padding: 20px 0 30px 0;  text-shadow: black 0.01em 0.01em 0.01em;" + CssResult + "\">"
+						+ "                     <td style=\"padding: 20px 0 30px 0; text-shadow: black 0.001em 0.001em 0.001em;" + CssResult + "\">"
 						+ 				          textArea.getText()
 						+ "                     </td>\r\n"
 						+ "                    </tr>\r\n"
@@ -618,7 +618,6 @@ public class MailAWT extends JFrame implements ActionListener {
 			attachmentFiles_1.clear();
 		}
 	
-		System.out.println(CssColor+" "+CssFontFamily+" "+CssFontSize+" "+CssFontStyle+" "+CssFontWeight);
 		font = new Font(fontFamily, bold + italic, Integer.parseInt(fontSizeArr[j]));
 		textArea.setFont(font);
 	}

@@ -68,9 +68,9 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 		setTitle("출고 지도");
-		setLocationRelativeTo(null);// 창이 가운데 나오게
-		setResizable(false);// 창의 크기를 변경하지 못하게
 		setSize(900, 550);
+		setResizable(false);// 창의 크기를 변경하지 못하게
+		setLocationRelativeTo(null);// 창이 가운데 나오게
 		setLayout(null);
 		titlePanel = new JPanel() { // 타이틀 패널
 			@Override

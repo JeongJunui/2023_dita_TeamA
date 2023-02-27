@@ -40,6 +40,7 @@ public class MainAWT extends JFrame implements ActionListener {
 		}
 
 		mainPanel();
+		
 	}
 
 // ----------------------------------------메인 패널----------------------------------------
