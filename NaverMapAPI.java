@@ -49,14 +49,16 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 	String geocodingAddress;
 	JComboBox address;
 	JPanel titlePanel, mapImagePanel, addressPanel, addressInfoPanel;
-	JLabel resAddress, resX, resY, jibunAddress;
+	JLabel resAddresLabel, resXYLabel, addressInfoLabel, productCodeLabel, releaseCountLabel;
+	JLabel productCodeLabel2, releaseCountLabel2;
+	JLabel resAddress, resX, resY;
 	JLabel addressLbl;
 	JLabel imageLabel, titleLabel, addressInfoTitle, mapSearch;
 	JButton searchBtn;
 	JTextField mapSearchTextField;
-	// Vector<String> addressVector;
 	String x;
 	String y;
+	String code;
 
 	public NaverMapAPI() {
 		try {
@@ -66,11 +68,10 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 		setTitle("출고 지도");
-		setLocationRelativeTo(null);// 창이 가운데 나오게
-		setResizable(false);// 창의 크기를 변경하지 못하게
 		setSize(900, 550);
+		setResizable(false);// 창의 크기를 변경하지 못하게
+		setLocationRelativeTo(null);// 창이 가운데 나오게
 		setLayout(null);
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 지우기
 		titlePanel = new JPanel() { // 타이틀 패널
 			@Override
 			public void paintComponent(Graphics g) {
@@ -166,17 +167,45 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		addressInfoTitle.setForeground(new Color(119, 119, 119));
 		addressInfoPanel.add(addressInfoTitle);
 
+		resAddresLabel = new JLabel(new ImageIcon(".\\images\\resAddress.png")); // 도로명 주소 라벨
+		resAddresLabel.setBounds(10, 120, 130, 50);
+		addressInfoPanel.add(resAddresLabel);
+
 		resAddress = new JLabel("도로명");
-		resAddress.setBounds(10, 90, 200, 100);
+		resAddress.setBounds(25, 135, 200, 100);
 		addressInfoPanel.add(resAddress);
 
+		resXYLabel = new JLabel(new ImageIcon(".\\images\\resXY.png")); // 위도 경도 라벨
+		resXYLabel.setBounds(13, 200, 115, 50);
+		addressInfoPanel.add(resXYLabel);
+
 		resX = new JLabel("경도");
-		resX.setBounds(10, 115, 100, 100);
+		resX.setBounds(25, 213, 100, 100);
 		addressInfoPanel.add(resX);
 
 		resY = new JLabel("위도");
-		resY.setBounds(10, 140, 100, 100);
+		resY.setBounds(25, 243, 100, 100);
 		addressInfoPanel.add(resY);
+
+		addressInfoLabel = new JLabel(new ImageIcon(".\\images\\addressInfo.png")); // 제품코드, 출고수량 라벨
+		addressInfoLabel.setBounds(25, 310, 155, 50);
+		addressInfoPanel.add(addressInfoLabel);
+
+		productCodeLabel = new JLabel("제품코드");
+		productCodeLabel.setBounds(25, 350, 155, 50);
+		addressInfoPanel.add(productCodeLabel);
+
+		productCodeLabel2 = new JLabel();
+		productCodeLabel2.setBounds(80, 350, 200, 50);
+		addressInfoPanel.add(productCodeLabel2);
+
+		releaseCountLabel = new JLabel("출고수량");
+		releaseCountLabel.setBounds(25, 380, 155, 50);
+		addressInfoPanel.add(releaseCountLabel);
+
+		releaseCountLabel2 = new JLabel();
+		releaseCountLabel2.setBounds(80, 380, 200, 50);
+		addressInfoPanel.add(releaseCountLabel2);
 
 		add(titlePanel);
 		add(mapImagePanel);
@@ -185,13 +214,11 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 
 		setVisible(true);
 	}
+
 	// 주소 콤보박스 내용 반환
 	public Vector<String> getTakeoutAddress() {
-
 		Vector<String> takeoutAddress = new Vector<String>();
-
 		String sql = null;
-
 		try {
 			pool = DBConnectionMgr.getInstance();
 			sql = "SELECT distinct TAKEOUT_ADDRESS\r\n" + "FROM takeout_log";
@@ -213,8 +240,47 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 
 			}
 		}
-
 		return takeoutAddress;
+	}
+
+	// 제품코드, 출고수량 반환
+	public String getTakeoutAddress2(boolean check) {
+		String sql = null;
+		code = "";
+
+		try {
+			pool = DBConnectionMgr.getInstance();
+			sql = "SELECT p.PROD_CODE, t.TAKEOUT_AMOUNT\r\n" + "FROM takeout_log t, product p, member m\r\n"
+					+ "where t.PROD_CODE = p.PROD_CODE\r\n"
+					+ "	and t.MEMBER_IDX = m.MEMBER_IDX and t.TAKEOUT_ADDRESS like '";
+
+			con = pool.getConnection();
+
+			pstmt = con.prepareStatement(sql + geocodingAddress + "'" + "ORDER BY t.TAKEOUT_DATE DESC");
+			rs = pstmt.executeQuery();
+
+			if (check == true) {
+				while (rs.next()) {
+					code += rs.getString("p.PROD_CODE") + " ";
+
+				}
+			} else {
+				while (rs.next()) {
+					code += rs.getString("t.TAKEOUT_AMOUNT") + " ";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				con.close();
+			} catch (Exception e2) {
+
+			}
+		}
+		return code;
 	}
 
 	// textField 테두리 없애는 메소드
@@ -279,7 +345,6 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		y = obj.getString("y"); // 위도
 
 		System.out.println("위도: " + y + ", 경도: " + x);
-
 		mapService();
 	}
 
@@ -329,9 +394,22 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 				ImageIcon img = new ImageIcon(file.getAbsolutePath());
 				imageLabel.setIcon(img);
 				resAddress.setText(geocodingAddress);
-				// jibunAddress.setText();
-				resX.setText(x);
-				resY.setText(y);
+				resX.setText("X: " + x);
+				resY.setText("Y: " + y);
+				productCodeLabel.setText("제품코드");
+				productCodeLabel2.setText("");
+				releaseCountLabel.setText("출고수량");
+				releaseCountLabel2.setText("");
+				
+				for (int i = 0; i < address.getItemCount(); i++) {
+					if (geocodingAddress.equals(address.getItemAt(i).toString())) {
+						productCodeLabel.setText("제품코드:");
+						productCodeLabel2.setText(getTakeoutAddress2(true));
+						releaseCountLabel.setText("출고수량:");
+						releaseCountLabel2.setText(getTakeoutAddress2(false));
+					}
+				}
+				code = "";
 
 			} else {
 				System.out.println(responseCode);
@@ -341,8 +419,4 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 			System.out.println(e);
 		}
 	}
-
-//	public static void main(String[] args) {
-//		NaverMapAPI naverAPI = new NaverMapAPI();
-//	}
 }
