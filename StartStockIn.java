@@ -7,8 +7,6 @@ import java.util.Arrays;
 
 import javax.swing.table.DefaultTableModel;
 
-import ch08.interfaceEx2;
-
 public class StartStockIn {
 
 	StockInAWT stockInAWT;
