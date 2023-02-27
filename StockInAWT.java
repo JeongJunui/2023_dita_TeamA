@@ -160,6 +160,9 @@ public class StockInAWT extends JPanel implements ActionListener{
 		regBtn = new JButton();
 		regBtn.setBounds(310, 250, 130, 40);
 		regBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/regist.png")));
+		regBtn.setFocusable(false);
+		regBtn.setBorderPainted(false);
+		regBtn.setContentAreaFilled(false);
 		regBtn.addActionListener(this);
 		startP.add(regBtn);
 		
@@ -193,39 +196,48 @@ public class StockInAWT extends JPanel implements ActionListener{
 		p3.add(label3);
 		
 		searchField = new JTextField("");
-		searchField.setBounds(200, 100, 200, 25);
+		searchField.setBounds(180, 100, 200, 25);
 		p3.add(searchField);
 		
 		searchBtn = new JButton();
-		searchBtn.setBounds(400, 100, 30, 25);
+		searchBtn.setBounds(380, 100, 30, 25);
 		searchBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/searchBtn.png")));
+		searchBtn.setBorderPainted(false);
+		searchBtn.setContentAreaFilled(false);
 		searchBtn.setFocusable(false);
 		searchBtn.addActionListener(this);
 		p3.add(searchBtn);
 		
 		searchAllBtn = new JButton("전체 조회");
-		searchAllBtn.setBounds(450, 100, 80, 25);
-		//searchAllBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/searchBtn.png")));
+		searchAllBtn.setBounds(420, 90, 130, 40);
+		searchAllBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/checkAll.png")));
+		searchAllBtn.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/checkAll_1.png")));
 		searchAllBtn.setFocusable(false);
+		searchAllBtn.setBorderPainted(false);
+		searchAllBtn.setContentAreaFilled(false);
 		searchAllBtn.addActionListener(this);
 		p3.add(searchAllBtn);
 		
 		correct = new JButton();
-		correct.setBounds(350, 400, 50, 25);
+		correct.setBounds(380, 420, 60, 30);
 		correct.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
 		correct.addActionListener(this);
 		correct.setFocusable(false);
+		correct.setBorderPainted(false);
+		correct.setContentAreaFilled(false);
 		p3.add(correct);
 		
 		delete = new JButton();
-		delete.setBounds(420, 400, 50, 25);
+		delete.setBounds(460, 420, 60, 30);
 		delete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
 		delete.addActionListener(this);
+		delete.setFocusable(false);
+		delete.setBorderPainted(false);
 		delete.setFocusable(false);
 		p3.add(delete);
 		
 		p4 = new JPanel();
-		p4.setBounds(25, 160, 505, 230);
+		p4.setBounds(25, 140, 505, 270);
 		p3.add(p4);
 		
 		loadStockin = new LoadStockin(this);
@@ -244,31 +256,39 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp.add(label2);
 		
 		prodcorrect = new JButton();
-		prodcorrect.setBounds(350, 400, 50, 25);
+		prodcorrect.setBounds(320, 400, 60, 30);
 		prodcorrect.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
 		prodcorrect.addActionListener(this);
+		prodcorrect.setBorderPainted(false);
+		prodcorrect.setContentAreaFilled(false);
 		prodcorrect.setFocusable(false);
 		pp.add(prodcorrect);
 		
 		proddelete = new JButton();
-		proddelete.setBounds(420, 400, 50, 25);
+		proddelete.setBounds(400, 400, 60, 30);
 		proddelete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
-		proddelete.addActionListener(this);
+		proddelete.setBorderPainted(false);
+		proddelete.setContentAreaFilled(false);
 		proddelete.setFocusable(false);
+		proddelete.addActionListener(this);
 		pp.add(proddelete);
 		
 		b4 = new JButton();
-		b4.setBounds(40, 400, 100, 25);
+		b4.setBounds(40, 400, 120, 30);
 		b4.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn.png")));
 		b4.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn2.png")));
+		b4.setBorderPainted(false);
+		b4.setContentAreaFilled(false);
 		b4.addActionListener(this);
 		b4.setFocusable(false);
 		pp.add(b4);
 		
 		registBtn = new JButton();
-		registBtn.setBounds(480, 400, 50, 25);
+		registBtn.setBounds(480, 400, 60, 30);
 		registBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn.png")));
 		registBtn.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn2.png")));
+		registBtn.setBorderPainted(false);
+		registBtn.setContentAreaFilled(false);
 		registBtn.addActionListener(this);
 		registBtn.setFocusable(false);
 		pp.add(registBtn);

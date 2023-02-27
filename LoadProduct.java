@@ -40,6 +40,7 @@ public class LoadProduct extends JPanel implements MouseListener{
 
 		stockinTable = new JTable(model2);
 		myTableCellRenderer = new MyTableCellRenderer(stockinTable);
+		stockinTable.getTableHeader().setDefaultRenderer(myTableCellRenderer);
 		try {
 			stockinTable.setDefaultRenderer(Class.forName("java.lang.Object"), myTableCellRenderer);
 		} catch (ClassNotFoundException e) {

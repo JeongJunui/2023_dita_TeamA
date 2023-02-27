@@ -26,13 +26,13 @@ import javax.swing.table.TableRowSorter;
 
 public class LoadStockin extends JPanel implements MouseListener{
 	JTable stockinTable;
-	static String header[] = {"ì…ê³ ë²ˆí˜¸", "ë¬¼í’ˆì½”ë“œ","ì¹´í…Œê³ ë¦¬", "ë¬¼í’ˆì´ë¦„", "ì‚¬ì´ì¦ˆ", "ìƒ‰ìƒ", "ì…ê³ ìˆ˜ëŸ‰"};
+	static String header[] = {"ÀÔ°í¹øÈ£", "¹°Ç°ÄÚµå","Ä«Å×°í¸®", "¹°Ç°ÀÌ¸§", "»çÀÌÁî", "»ö»ó", "ÀÔ°í¼ö·®"};
 	String[] title ={"l.STORED_IDX", "p.PROD_CODE", "p.CATEGORY", "p.PROD_NAME", "p.PROD_SIZE", "p.PROD_COLOR", "l.STORED_STOCK"};
 	
 	DefaultTableModel model = new DefaultTableModel(header, 0){
 	    @Override
 	    public boolean isCellEditable(int row, int column) {
-	        return column == 6; // ì²« ë²ˆì§¸ ì—´ë§Œ ìˆ˜ì • ê°€ëŠ¥í•˜ë„ë¡ í•¨
+	        return column == 6; // Ã¹ ¹øÂ° ¿­¸¸ ¼öÁ¤ °¡´ÉÇÏµµ·Ï ÇÔ
 	    }
 	};
 	
@@ -56,6 +56,7 @@ public class LoadStockin extends JPanel implements MouseListener{
 
 		stockinTable = new JTable(model);
 		myTableCellRenderer = new MyTableCellRenderer(stockinTable);
+		stockinTable.getTableHeader().setDefaultRenderer(myTableCellRenderer);
 		try {
 			stockinTable.setDefaultRenderer(Class.forName("java.lang.Object"), myTableCellRenderer);
 		} catch (ClassNotFoundException e) {
@@ -207,7 +208,7 @@ public class LoadStockin extends JPanel implements MouseListener{
 //		
 //        for (int i = 0; i < header.length; i++) {
 //			if(string.equals(header[i])) {
-//				System.out.println("ì½¤ë³´ë°•ìŠ¤ ì¼ì¹˜" + string);
+//				System.out.println("ÄŞº¸¹Ú½º ÀÏÄ¡" + string);
 //				
 //				try {
 //					con = pool.getConnection();
@@ -243,7 +244,7 @@ public class LoadStockin extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 //		JTable stockinTable = (JTable)e.getSource();
 		mrow = stockinTable.getSelectedRow();
-//		System.out.println("ì•¡ì…˜" + row);
+//		System.out.println("¾×¼Ç" + row);
 //		col = stockinTable.getSelectedColumn();
 //		
 //		System.out.println("dlrp" + model.getValueAt(row,col));
