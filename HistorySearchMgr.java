@@ -53,6 +53,7 @@ public class HistorySearchMgr extends JPanel {
 			table = new JTable(model);
 	
 			TableCellRenderer renderer = new MyTableCellRenderer(table);
+			table.getTableHeader().setDefaultRenderer(renderer);
 			try {
 				table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
 			} catch (ClassNotFoundException e) {
@@ -76,6 +77,7 @@ public class HistorySearchMgr extends JPanel {
 			
 			table = new JTable(model2);
 			TableCellRenderer renderer = new MyTableCellRenderer(table);
+			table.getTableHeader().setDefaultRenderer(renderer);
 			try {
 				table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
 			} catch (ClassNotFoundException e) {
