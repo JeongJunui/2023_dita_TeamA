@@ -7,8 +7,9 @@ public class ReleasedBean {
 	private int memberIdx;
 	private int takeoutAmount;
 	private String other;
+	private String takeoutAddress;
 	public ReleasedBean() {};
-	public ReleasedBean(int takeoutIdx, String prodCode, int memberIdx, String takeoutDate, int takeoutAmount, String other)
+	public ReleasedBean(int takeoutIdx, String prodCode, int memberIdx, String takeoutDate, int takeoutAmount, String other, String takeoutAddress)
 	{
 		super();
 		this.takeoutIdx=takeoutIdx;
@@ -17,6 +18,7 @@ public class ReleasedBean {
 		this.memberIdx=memberIdx;
 		this.takeoutAmount=takeoutAmount;
 		this.other=other;
+		this.takeoutAddress=takeoutAddress;
 	}
 	public int getTakeoutIdx() {
 		return takeoutIdx;
@@ -53,5 +55,11 @@ public class ReleasedBean {
 	}
 	public void setOther(String other) {
 		this.other = other;
+	}
+	public String getTakeoutAddress() {
+		return takeoutAddress;
+	}
+	public void setTakeoutAddress(String takeoutAddress) {
+		this.takeoutAddress = takeoutAddress;
 	}
 }

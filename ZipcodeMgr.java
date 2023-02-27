@@ -20,13 +20,13 @@ public class ZipcodeMgr {
 		Vector<String> vlist=new Vector<String>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from tblzipcode where area4 like ?";
+			sql = "select * from tblzipcode where area1 like ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, "%"+keyword+"%");
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
-				String resS=rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4).trim()+" ";
+				String resS=rs.getString(1).trim();
 				vlist.addElement(resS);
 			}
 

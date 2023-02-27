@@ -15,13 +15,15 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,9 +37,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class NaverMapAPI extends JFrame implements ActionListener {
-	static Vector<String> attachmentFiles; // 주소가 저장될 위치
+	// static Vector<String> attachmentFiles; // 주소가 저장될 위치
 	private String clientId = "n03gkha64w";
 	private String clientSecret = "rR6Gw5aPo8ek0pe7Uy6OkcVB6e3ANQhGPacfVNKP";
+	private Connection con = null;
+	private PreparedStatement pstmt = null;
+	private ResultSet rs = null;
+	private DBConnectionMgr pool;
 	Vector<String> addressX; // 경도
 	Vector<String> addressY; // 위도
 	String geocodingAddress;
@@ -48,7 +54,7 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 	JLabel imageLabel, titleLabel, addressInfoTitle, mapSearch;
 	JButton searchBtn;
 	JTextField mapSearchTextField;
-	Vector<String> addressVector;
+	// Vector<String> addressVector;
 	String x;
 	String y;
 
@@ -64,7 +70,7 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		setResizable(false);// 창의 크기를 변경하지 못하게
 		setSize(900, 550);
 		setLayout(null);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 지우기
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 지우기
 		titlePanel = new JPanel() { // 타이틀 패널
 			@Override
 			public void paintComponent(Graphics g) {
@@ -111,16 +117,12 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		addressPanel.setBounds(220, 59, 664, 66);
 		addressPanel.setLayout(null);
 
-		addressVector = new Vector<String>();
-		addressVector.add("부산광역시 승학로 233번길 50");
-		addressVector.add("부산광역시 승학로 233번길 33");
-
 		addressLbl = new JLabel("출고 주소"); // 주소 라벨
 		addressLbl.setFont(new Font("맑은 고딕", Font.BOLD, 16));
 		addressLbl.setForeground(new Color(36, 36, 36));
 		addressLbl.setBounds(145, 18, 70, 25);
 
-		address = new JComboBox(addressVector); // 도로명 주소 콤보 박스
+		address = new JComboBox(getTakeoutAddress()); // 도로명 주소 콤보 박스
 		address.setBounds(225, 18, 220, 30);
 		address.addActionListener(this);
 
@@ -182,6 +184,37 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 		add(addressInfoPanel);
 
 		setVisible(true);
+	}
+	// 주소 콤보박스 내용 반환
+	public Vector<String> getTakeoutAddress() {
+
+		Vector<String> takeoutAddress = new Vector<String>();
+
+		String sql = null;
+
+		try {
+			pool = DBConnectionMgr.getInstance();
+			sql = "SELECT distinct TAKEOUT_ADDRESS\r\n" + "FROM takeout_log";
+			con = pool.getConnection();
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				takeoutAddress.add(rs.getString("TAKEOUT_ADDRESS"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				con.close();
+			} catch (Exception e2) {
+
+			}
+		}
+
+		return takeoutAddress;
 	}
 
 	// textField 테두리 없애는 메소드

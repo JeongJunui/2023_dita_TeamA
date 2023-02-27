@@ -85,7 +85,7 @@ public class ReleasedMgr {
 			{
 				ReleasedBean bean=new ReleasedBean(rs.getInt("TAKEOUT_IDX"), rs.getString("PRODUCT_CODE"),
 						rs.getInt("MEMBER_IDX"), rs.getString("TAKEOUT_DATE"), rs.getInt("TAKEOUT_AMOUNT"),
-						rs.getString("OTHER"));
+						rs.getString("OTHER"), rs.getString("TAKEOUT_ADDRESS") );
 				vlist.addElement(bean);
 			}
 
@@ -96,7 +96,7 @@ public class ReleasedMgr {
 		}
 		return vlist;
 	}
-	public boolean releasedStart(String prodCode, int memberIdx, int takeoutAmount, String other)//출고
+	public boolean releasedStart(String prodCode, int memberIdx, int takeoutAmount, String other, String takeoutAddress)//출고
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -104,12 +104,13 @@ public class ReleasedMgr {
 		boolean flag=false;
 		try {
 			con = pool.getConnection();
-			sql = "insert into takeout_log values (null,?,?,now(),?,?)";//mysql에서 현재 시간을 저장하는 건 now()
+			sql = "insert into takeout_log values (null,?,?,now(),?,?,?)";//mysql에서 현재 시간을 저장하는 건 now()
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, prodCode);
 			pstmt.setInt(2, memberIdx);
 			pstmt.setInt(3, takeoutAmount);
 			pstmt.setString(4, other);
+			pstmt.setString(5, takeoutAddress);
 			int cnt=pstmt.executeUpdate();
 			if(cnt==1) flag=true;
 
