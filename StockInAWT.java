@@ -222,6 +222,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		correct = new JButton();
 		correct.setBounds(327, 420, 60, 30);
 		correct.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
+		correct.setRolloverIcon(new ImageIcon(".\\images\\modifyBtn2.png"));
 		correct.addActionListener(this);
 		correct.setFocusable(false);
 		correct.setBorderPainted(false);
@@ -231,6 +232,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		delete = new JButton();
 		delete.setBounds(392, 420, 60, 30);
 		delete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
+		delete.setRolloverIcon(new ImageIcon(".\\images\\deleteBtn2.png"));
 		delete.addActionListener(this);
 		delete.setFocusable(false);
 		delete.setBorderPainted(false);
@@ -257,7 +259,8 @@ public class StockInAWT extends JPanel implements ActionListener{
 		
 		prodcorrect = new JButton();
 		prodcorrect.setBounds(321, 412, 65, 40);
-		prodcorrect.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
+		prodcorrect.setIcon(new ImageIcon(".\\images\\modifyBtn.png"));
+		prodcorrect.setRolloverIcon(new ImageIcon(".\\images\\modifyBtn2.png"));
 		prodcorrect.addActionListener(this);
 		prodcorrect.setBorderPainted(false);
 		prodcorrect.setContentAreaFilled(false);
@@ -266,7 +269,8 @@ public class StockInAWT extends JPanel implements ActionListener{
 		
 		proddelete = new JButton();
 		proddelete.setBounds(389, 412, 65, 40);
-		proddelete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
+		proddelete.setIcon(new ImageIcon(".\\images\\deleteBtn.png"));
+		proddelete.setRolloverIcon(new ImageIcon(".\\images\\deleteBtn2.png"));
 		proddelete.setBorderPainted(false);
 		proddelete.setContentAreaFilled(false);
 		proddelete.setFocusable(false);
@@ -275,8 +279,8 @@ public class StockInAWT extends JPanel implements ActionListener{
 		
 		b4 = new JButton();
 		b4.setBounds(-10, 411, 120, 40);
-		b4.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn.png")));
-		b4.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn2.png")));
+		b4.setIcon(new ImageIcon(StockInAWT.class.getResource(".//images//productRegistBtn.png")));
+		b4.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource(".//images//productRegistBtn2.png")));
 		b4.setBorderPainted(false);
 		b4.setContentAreaFilled(false);
 		b4.addActionListener(this);
