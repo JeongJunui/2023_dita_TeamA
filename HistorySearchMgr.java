@@ -28,7 +28,7 @@ public class HistorySearchMgr extends JPanel {
 	String cbText, tfText;
 	StatisticsAWT statisticsAWT;
 
-	// 입출고 내역 테이블
+// ----------------------------------------입출고 검색 내역 테이블----------------------------------------
 	public HistorySearchMgr(StatisticsAWT statisticsAWT, int reciept_releaseCheck, String cbText, String tfText) {
 		this.reciept_releaseCheck = reciept_releaseCheck;
 		this.statisticsAWT = statisticsAWT;
@@ -51,7 +51,7 @@ public class HistorySearchMgr extends JPanel {
 			};
 
 			table = new JTable(model);
-	
+
 			TableCellRenderer renderer = new MyTableCellRenderer(table);
 			table.getTableHeader().setDefaultRenderer(renderer);
 			try {
@@ -74,7 +74,7 @@ public class HistorySearchMgr extends JPanel {
 					}
 				}
 			};
-			
+
 			table = new JTable(model2);
 			TableCellRenderer renderer = new MyTableCellRenderer(table);
 			table.getTableHeader().setDefaultRenderer(renderer);
@@ -90,7 +90,7 @@ public class HistorySearchMgr extends JPanel {
 		select();
 	}
 
-	// 조회하기
+// ----------------------------------------입출고 조회하기----------------------------------------
 	public void select() {
 		String sql = null;
 

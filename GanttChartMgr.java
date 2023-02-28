@@ -34,7 +34,7 @@ public class GanttChartMgr extends JPanel {
 		setBackground(Color.white);
 		setBounds(25, 15, 505, 340);
 
-		if (cbText.equals("입고")) { // 입고 카테고리 
+		if (cbText.equals("입고")) { // 입고 카테고리
 			JFreeChart chart = ChartFactory.createBarChart("물품별 총 입고차트", "", "", createDataset());
 			ChartPanel chartPanel = new ChartPanel(chart);
 
@@ -63,7 +63,7 @@ public class GanttChartMgr extends JPanel {
 			chartPanel.setBounds(0, 0, 505, 330);
 
 			add(chartPanel);
-		} else if (cbText.equals("출고")) { // 출고 카테고리 
+		} else if (cbText.equals("출고")) { // 출고 카테고리
 			JFreeChart chart2 = ChartFactory.createBarChart("물품별 총 출고차트", "", "", createDataset2());
 			ChartPanel chartPanel2 = new ChartPanel(chart2);
 
@@ -92,12 +92,12 @@ public class GanttChartMgr extends JPanel {
 			chartPanel2.setBounds(0, 0, 505, 330);
 
 			add(chartPanel2);
-
 		}
 		statisticsAWT.p7.add(this);
 	}
-	// 입력 차트 데이터
-	public CategoryDataset createDataset() { 
+
+// ----------------------------------------입력 차트 데이터----------------------------------------
+	public CategoryDataset createDataset() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		String sql = null;
 		pool = DBConnectionMgr.getInstance();
@@ -124,23 +124,23 @@ public class GanttChartMgr extends JPanel {
 		}
 		return dataset;
 	}
-	// 출력 차트 데이터
-	public CategoryDataset createDataset2() { 
+
+// ----------------------------------------출력 차트 데이터----------------------------------------
+	public CategoryDataset createDataset2() {
 		DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
 		String sql = null;
 		pool = DBConnectionMgr.getInstance();
 		try {
 			con = pool.getConnection();
-			sql = "select p.PROD_NAME, sum(t.TAKEOUT_AMOUNT)\r\n"
-					+ "from takeout_log t, product p \r\n"
-					+ "where p.PROD_CODE = t.PROD_CODE \r\n"
-					+ "group by t.PROD_CODE";
+			sql = "select p.PROD_NAME, sum(t.TAKEOUT_AMOUNT)\r\n" + "from takeout_log t, product p \r\n"
+					+ "where p.PROD_CODE = t.PROD_CODE \r\n" + "group by t.PROD_CODE";
 			pstmt = con.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				dataset2.addValue(rs.getInt("sum(t.TAKEOUT_AMOUNT)"), rs.getString("p.PROD_NAME"), rs.getString("p.PROD_NAME"));
+				dataset2.addValue(rs.getInt("sum(t.TAKEOUT_AMOUNT)"), rs.getString("p.PROD_NAME"),
+						rs.getString("p.PROD_NAME"));
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

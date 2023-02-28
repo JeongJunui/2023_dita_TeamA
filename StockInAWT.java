@@ -2,27 +2,21 @@ package warehouse;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-
-import ch08.interfaceEx2;
 
 @SuppressWarnings("serial")
 public class StockInAWT extends JPanel implements ActionListener{
@@ -51,7 +45,8 @@ public class StockInAWT extends JPanel implements ActionListener{
 	
 	public StockInAWT(MainAWT mainAWT) {
 		this.mainAWT = mainAWT;
-		setLayout(null);
+		//setLayout(null);
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		menuPanel();
 	}
 	
@@ -119,7 +114,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		Panel startP = new Panel();
 		startP.setBackground(Color.white);
 		startP.setLayout(null);
-		startP.setBounds(50, 130, 450, 300);
+		startP.setBounds(40, 120, 475, 310);
 		p2.add(startP);
 		
 		pl[0] = new JLabel("물품코드 : ");
@@ -132,7 +127,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		
 		for (int i = 0; i < 7; i++) {
 			if(i%2 == 1) {
-				pl[i].setBounds(220, 20+(60*(i/2)), 80, 30);
+				pl[i].setBounds(240, 20+(60*(i/2)), 80, 30);
 			} else {
 				pl[i].setBounds(20, 20+(60*(i/2)), 80, 30);
 			}
@@ -143,7 +138,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		for (int i = 0; i < 7; i++) {
 			pf[i] = new JTextField("");
 			if(i%2 == 1) {
-				pf[i].setBounds(300, 20+(60*(i/2)), 100, 30);
+				pf[i].setBounds(320, 20+(60*(i/2)), 100, 30);
 			} else {
 				pf[i].setBounds(100, 20+(60*(i/2)), 100, 30);
 			}
@@ -152,14 +147,18 @@ public class StockInAWT extends JPanel implements ActionListener{
 		}
 		
 		backButton = new JButton();
-		backButton.setBounds(20, 250, 40, 40);
+		backButton.setBounds(0, 275, 40, 40);
 		backButton.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/backBtn.png")));
+		backButton.setFocusable(false);
+		backButton.setBorderPainted(false);
+		backButton.setContentAreaFilled(false);
 		backButton.addActionListener(this);
 		startP.add(backButton);
 		
 		regBtn = new JButton();
-		regBtn.setBounds(310, 250, 130, 40);
+		regBtn.setBounds(345, 272, 130, 40);
 		regBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/regist.png")));
+		regBtn.setRolloverIcon(new ImageIcon(".\\images\\regist2.png"));
 		regBtn.setFocusable(false);
 		regBtn.setBorderPainted(false);
 		regBtn.setContentAreaFilled(false);
@@ -169,7 +168,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		for (int i = 0; i < 7; i++) {
 			bar[i] = new JLabel();
 			if(i%2 == 1) {
-				bar[i].setBounds(220,20+(60*(i/2)),200,70);
+				bar[i].setBounds(240,20+(60*(i/2)),200,70);
 			} else {
 				bar[i].setBounds(20,20+(60*(i/2)),200,70);
 			}
@@ -187,20 +186,20 @@ public class StockInAWT extends JPanel implements ActionListener{
 		p3 = new JPanel();
 		p3.setLayout(null); 
 		p3.setBackground(new Color(0,32,96));
-		p3.setBounds(132, 0, 552, 461);
+		p3.setBounds(180, 0, 452, 461);
 		mainAWT.mainPanel.add(p3);
 		
 		label3 = new JLabel();
 		label3.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/recieptStatus.png")));
-		label3.setBounds(28, 34, 150, 50);
+		label3.setBounds(0, 34, 150, 50);
 		p3.add(label3);
 		
 		searchField = new JTextField("");
-		searchField.setBounds(180, 100, 200, 25);
+		searchField.setBounds(100, 95, 200, 30);
 		p3.add(searchField);
 		
 		searchBtn = new JButton();
-		searchBtn.setBounds(380, 100, 30, 25);
+		searchBtn.setBounds(292, 88, 45, 45);
 		searchBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/searchBtn.png")));
 		searchBtn.setBorderPainted(false);
 		searchBtn.setContentAreaFilled(false);
@@ -208,18 +207,20 @@ public class StockInAWT extends JPanel implements ActionListener{
 		searchBtn.addActionListener(this);
 		p3.add(searchBtn);
 		
+		
 		searchAllBtn = new JButton("전체 조회");
-		searchAllBtn.setBounds(420, 90, 130, 40);
-		searchAllBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/checkAll.png")));
-		searchAllBtn.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/checkAll_1.png")));
+		searchAllBtn.setBounds(345, 92, 130, 40);
+		searchAllBtn.setIcon(new ImageIcon(".\\images\\stockinCheckAll.png"));
+		searchAllBtn.setRolloverIcon(new ImageIcon(".\\images\\stockinCheckAll2.png"));
 		searchAllBtn.setFocusable(false);
 		searchAllBtn.setBorderPainted(false);
 		searchAllBtn.setContentAreaFilled(false);
 		searchAllBtn.addActionListener(this);
 		p3.add(searchAllBtn);
 		
+		
 		correct = new JButton();
-		correct.setBounds(380, 420, 60, 30);
+		correct.setBounds(327, 420, 60, 30);
 		correct.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
 		correct.addActionListener(this);
 		correct.setFocusable(false);
@@ -228,16 +229,16 @@ public class StockInAWT extends JPanel implements ActionListener{
 		p3.add(correct);
 		
 		delete = new JButton();
-		delete.setBounds(460, 420, 60, 30);
+		delete.setBounds(392, 420, 60, 30);
 		delete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
 		delete.addActionListener(this);
 		delete.setFocusable(false);
 		delete.setBorderPainted(false);
-		delete.setFocusable(false);
+		delete.setContentAreaFilled(false);
 		p3.add(delete);
 		
 		p4 = new JPanel();
-		p4.setBounds(25, 140, 505, 270);
+		p4.setBounds(-49, 140, 550, 270);
 		p3.add(p4);
 		
 		loadStockin = new LoadStockin(this);
@@ -247,16 +248,15 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp = new JPanel();
 		pp.setLayout(null); 
 		pp.setBackground(new Color(0,32,96));
-		pp.setBounds(132, 0, 552, 461);
-		mainAWT.mainPanel.add(pp);
+		pp.setBounds(180, 0, 452, 460);
 		
 		label2 = new JLabel();
 		label2.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/receiving.png")));
-		label2.setBounds(28, 34, 150, 50);
+		label2.setBounds(0, 34, 150, 50);
 		pp.add(label2);
 		
 		prodcorrect = new JButton();
-		prodcorrect.setBounds(320, 400, 60, 30);
+		prodcorrect.setBounds(321, 412, 65, 40);
 		prodcorrect.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/modifyBtn.png")));
 		prodcorrect.addActionListener(this);
 		prodcorrect.setBorderPainted(false);
@@ -265,7 +265,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp.add(prodcorrect);
 		
 		proddelete = new JButton();
-		proddelete.setBounds(400, 400, 60, 30);
+		proddelete.setBounds(389, 412, 65, 40);
 		proddelete.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/deleteBtn.png")));
 		proddelete.setBorderPainted(false);
 		proddelete.setContentAreaFilled(false);
@@ -274,7 +274,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp.add(proddelete);
 		
 		b4 = new JButton();
-		b4.setBounds(40, 400, 120, 30);
+		b4.setBounds(-10, 411, 120, 40);
 		b4.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn.png")));
 		b4.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/productRegistBtn2.png")));
 		b4.setBorderPainted(false);
@@ -284,7 +284,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp.add(b4);
 		
 		registBtn = new JButton();
-		registBtn.setBounds(480, 400, 60, 30);
+		registBtn.setBounds(253, 411, 65, 40);
 		registBtn.setIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn.png")));
 		registBtn.setRolloverIcon(new ImageIcon(StockInAWT.class.getResource("/warehouse/images/registBtn2.png")));
 		registBtn.setBorderPainted(false);
@@ -294,10 +294,10 @@ public class StockInAWT extends JPanel implements ActionListener{
 		pp.add(registBtn);
 		
 		pp1 = new JPanel();
-		pp1.setBounds(25, 100, 505, 290);
+		pp1.setBounds(-101, 100, 655, 290);
 		loadProduct = new LoadProduct(this);
 		pp.add(pp1);
-		
+		mainAWT.mainPanel.add(pp);
 	}
 	
 	@Override
@@ -321,7 +321,6 @@ public class StockInAWT extends JPanel implements ActionListener{
 				repaint();
 				menuCheck = 0;
 			}
-			System.out.println("1번 버튼!!!!!!!!!" + menuCheck);
 		}else if(obj==b2){ //입고현황
 			if(menuCheck == 0) {
 				pp.setVisible(false);
@@ -336,7 +335,6 @@ public class StockInAWT extends JPanel implements ActionListener{
 			} else if(menuCheck == 2) {
 			}
 			menuCheck = 2;
-			System.out.println("2번 버튼!!!!!!!!!" + menuCheck);
 		}else if(obj==b4){ //제품 등록
 			pp.setVisible(false);
 			rightPanel();

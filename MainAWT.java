@@ -30,9 +30,10 @@ public class MainAWT extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
 		Image cursorImage = Toolkit.getDefaultToolkit().getImage(".\\images\\mouseCursor.png");
-		Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0, 0), "customCursor");
+		Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0, 0),
+				"customCursor");
 		setCursor(customCursor);
-		try {
+		try { // look and feel windows 테마 적용
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
@@ -40,7 +41,6 @@ public class MainAWT extends JFrame implements ActionListener {
 		}
 
 		mainPanel();
-		
 	}
 
 // ----------------------------------------메인 패널----------------------------------------
@@ -93,14 +93,12 @@ public class MainAWT extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 
 		if (obj == mainReceivingBtn) { // 입고 버튼
-			// TODO
 			mainPanel.removeAll();
 			mainPanel.revalidate();
 			mainPanel.repaint();
 			new StockInAWT(this);
 
 		} else if (obj == mainReleaseBtn) { // 출고 버튼
-			// TODO
 			mainPanel.removeAll();
 			mainPanel.revalidate();
 			mainPanel.repaint();

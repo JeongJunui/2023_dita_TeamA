@@ -80,7 +80,7 @@ public class MailAWT extends JFrame implements ActionListener {
 		mailPanel();
 		setVisible(true);
 	}
-
+// ----------------------------------------메일 패널----------------------------------------
 	public void mailPanel() {
 		p1 = new JPanel();
 		p1.setBackground(Color.white);
@@ -219,7 +219,8 @@ public class MailAWT extends JFrame implements ActionListener {
 		add(closeBtn);
 		add(p1);	
 	}
-	// 글자 글꼴 색상 변경 패널
+
+// ----------------------------------------글자 글꼴 색상 변경 패널----------------------------------------
 		public void letterEventPanel() {	
 			letterEventPanel = new JPanel();
 			letterEventPanel.setBounds(0,300, 434, 50);
@@ -334,7 +335,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	public void setBorder(Border border) {
 
 	}
-	// 버튼 이벤트
+// ----------------------------------------버튼 이벤트----------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -412,7 +413,7 @@ public class MailAWT extends JFrame implements ActionListener {
 				}
 				attachTextArea.setText(checkFiles);
 				checkFiles = "";
-			} else {
+			} else { 
 				File file = new File(".\\재고내역.txt");
 				file.delete();
 				attachmentFiles.remove("재고내역.txt");
@@ -640,8 +641,7 @@ public class MailAWT extends JFrame implements ActionListener {
 	        return true;
 	    }
 }
-
-// 둥근 버튼 생성 클래스
+//----------------------------------------둥근 버튼 생성 클래스----------------------------------------
 class RoundedButton extends JButton {
 	public RoundedButton() {
 		super();

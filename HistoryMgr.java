@@ -25,7 +25,7 @@ public class HistoryMgr extends JPanel {
 	int reciept_releaseCheck;
 	StatisticsAWT statisticsAWT;
 
-	// 입출고 내역 테이블
+// ----------------------------------------입출고 내역 테이블----------------------------------------
 	public HistoryMgr(StatisticsAWT statisticsAWT, int reciept_releaseCheck) {
 		this.reciept_releaseCheck = reciept_releaseCheck;
 		this.statisticsAWT = statisticsAWT;
@@ -45,7 +45,7 @@ public class HistoryMgr extends JPanel {
 			};
 
 			table = new JTable(model);
-		
+
 			TableCellRenderer renderer = new MyTableCellRenderer(table);
 			table.getTableHeader().setDefaultRenderer(renderer);
 			try {
@@ -84,7 +84,7 @@ public class HistoryMgr extends JPanel {
 		select();
 	}
 
-	// sql 문
+// ----------------------------------------입출고 내역 sql문 ----------------------------------------
 	private void select() {
 		String sql = null;
 

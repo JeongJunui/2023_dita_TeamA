@@ -239,7 +239,6 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		textField2.setBounds(161, 123, 130, 27);
 		textField2.setColumns(10);
 		textField2.addActionListener(this);
-
 		// 조회하기 버튼
 		p4_btn1 = new JButton();
 		p4_btn1.setIcon(new ImageIcon(".\\images\\check2.png"));

@@ -37,7 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class NaverMapAPI extends JFrame implements ActionListener {
-	// static Vector<String> attachmentFiles; // 주소가 저장될 위치
 	private String clientId = "n03gkha64w";
 	private String clientSecret = "rR6Gw5aPo8ek0pe7Uy6OkcVB6e3ANQhGPacfVNKP";
 	private Connection con = null;
@@ -400,7 +399,7 @@ public class NaverMapAPI extends JFrame implements ActionListener {
 				productCodeLabel2.setText("");
 				releaseCountLabel.setText("출고수량");
 				releaseCountLabel2.setText("");
-				
+
 				for (int i = 0; i < address.getItemCount(); i++) {
 					if (geocodingAddress.equals(address.getItemAt(i).toString())) {
 						productCodeLabel.setText("제품코드:");

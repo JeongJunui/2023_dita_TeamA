@@ -28,7 +28,7 @@ public class InventoryStatusSearchMgr extends JPanel {
 	private String[] cbText2;
 	StatisticsAWT statisticsAWT;
 
-	// 재고 현황 테이블
+// ----------------------------------------재고현황 검색----------------------------------------
 	public InventoryStatusSearchMgr(StatisticsAWT statisticsAWT, String cbText, String[] cbText2, String tfText) {
 		this.statisticsAWT = statisticsAWT;
 		this.cbText = cbText;
@@ -64,7 +64,7 @@ public class InventoryStatusSearchMgr extends JPanel {
 		select();
 	}
 
-	// 조회하기
+// ----------------------------------------조회하기----------------------------------------
 	public void select() {
 		String sql = null;
 		try {

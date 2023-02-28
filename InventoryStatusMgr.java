@@ -25,8 +25,8 @@ public class InventoryStatusMgr extends JPanel {
 	private ResultSet rs = null;
 	private DBConnectionMgr pool;
 	StatisticsAWT statisticsAWT;
-
-	// 재고 현황 테이블
+	
+// ----------------------------------------재고 현황 테이블----------------------------------------
 	public InventoryStatusMgr(StatisticsAWT statisticsAWT) {
 		this.statisticsAWT = statisticsAWT;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -57,8 +57,7 @@ public class InventoryStatusMgr extends JPanel {
 		select();
 
 	}
-
-	// sql 문
+// ----------------------------------------재고 현황 sql문----------------------------------------
 	private void select() {
 		String sql = null;
 		try {
