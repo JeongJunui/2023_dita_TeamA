@@ -27,25 +27,7 @@ public class ZipcodeAWT {
 	ZipcodeMgr mgr;
 	private JList searchedList;
 	ReleaseAWT2 awt;
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ZipcodeAWT window = new ZipcodeAWT();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
 	public ZipcodeAWT(ReleaseAWT2 awt) {
 		this.awt=awt;
 		initialize();
@@ -56,14 +38,11 @@ public class ZipcodeAWT {
 		this.frame.setVisible(false);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		mgr=new ZipcodeMgr();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 300, 500);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);// 창이 가운데 나오게
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -83,6 +62,7 @@ public class ZipcodeAWT {
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(ZipcodeAWT.class.getResource("/warehouse/images/selectBtn.png")));
+		btnNewButton.setPreferredSize(new Dimension(70,48));
 		frame.getContentPane().add(btnNewButton, BorderLayout.SOUTH);
 		btnNewButton.setBorderPainted(false);
 		btnNewButton.setFocusPainted(false);
@@ -118,15 +98,7 @@ public class ZipcodeAWT {
 					JOptionPane.showMessageDialog(null, "검색 결과가 없습니다.\n정확한 도로명을 입력하였는지 확인해 주십시오.","알림",JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
-				/*
-				for(int i=0; i<serachResult.size();i++) {
-					ZipcodeBean bean = serachResult.get(i);
-					String str = bean.getZipcode()+" ";
-					str += bean.getArea1()+" ";
-					str += bean.getArea2()+" ";
-					str += bean.getArea3()+" ";
-					searchedList.add;
-				}*/
+			
 				searchedList.setListData(serachResult);
 			}
 		});
@@ -141,5 +113,4 @@ public class ZipcodeAWT {
 		panel.add(searchedList);
 		searchedList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
-
 }

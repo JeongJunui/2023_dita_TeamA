@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ReleaseAWT2 {
-
 	private JFrame frame;
 	private JTextField codeTextField;
 	private JTextField amountTextField;
@@ -28,29 +27,9 @@ public class ReleaseAWT2 {
 	private int n;
 	private JButton releaseButton;
 	ZipcodeAWT za;
-
-	ReleasedMgr rsl;
-	
+	ReleasedMgr rsl;	
 	ReleasedAWT awt;
 
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ReleaseAWT2 window = new ReleaseAWT2("asdf");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public ReleaseAWT2(String s,int n, ReleasedAWT awt) {
 		initialize();
 		this.codeTextField.setText(s);
@@ -69,13 +48,10 @@ public class ReleaseAWT2 {
 		roadAddressTextField.setText(Addr);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 300, 500);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);// 창이 가운데 나오게
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		rsl=new ReleasedMgr();
 		
@@ -89,6 +65,7 @@ public class ReleaseAWT2 {
 		
 		JLabel titleLabel = new JLabel("");
 		titleLabel.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/releaseTitle2.png")));
+		titleLabel.setPreferredSize(new Dimension(60, 90));
 		frame.getContentPane().add(titleLabel,BorderLayout.NORTH);
 		
 		JPanel codePanel=new JPanel();
@@ -156,7 +133,7 @@ public class ReleaseAWT2 {
 		});
 		addressButton.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/searchAddressBtn.png")));
 		addressPanel.add(addressButton);
-		addressButton.setPreferredSize(new Dimension(110,20));
+		addressButton.setPreferredSize(new Dimension(50,35));
 		addressButton.setBorderPainted(false);
 		addressButton.setFocusPainted(false);
 		addressButton.setContentAreaFilled(false);
@@ -177,6 +154,7 @@ public class ReleaseAWT2 {
 		roadAddressTextField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("* 표시는 필수 입력 ");
+		lblNewLabel.setForeground(Color.RED);
 		mainPanel.add(lblNewLabel);
 		
 		releaseButton = new JButton("");
@@ -229,6 +207,7 @@ public class ReleaseAWT2 {
 			}
 		});
 		releaseButton.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/releaseBtn2.png")));
+		releaseButton.setPreferredSize(new Dimension(80,48));
 		frame.getContentPane().add(releaseButton, BorderLayout.SOUTH);
 	}
 	public void zaOpen()

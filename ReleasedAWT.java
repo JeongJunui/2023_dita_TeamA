@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class ReleasedAWT extends JPanel{
 
@@ -196,6 +197,13 @@ public class ReleasedAWT extends JPanel{
 		searchButton.setContentAreaFilled(false);
 		
 		table = new JTable(dtm);
+		TableCellRenderer renderer = new MyTableCellRenderer(table);
+		table.getTableHeader().setDefaultRenderer(renderer);
+		try {
+			table.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		table.setRowSelectionAllowed(true);
 		tableScroll=new JScrollPane(table);
 		tableScroll.setBounds(12, 73, 503, 233);
