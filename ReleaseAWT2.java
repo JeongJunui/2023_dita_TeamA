@@ -46,7 +46,7 @@ public class ReleaseAWT2 {
 		this.releaseButton.setEnabled(true);
 	}
 	public void setAddress(String Addr) {
-		otherTextField.setText(Addr);
+		addressTextField.setText(Addr);
 	}
 
 	private void initialize() {
@@ -198,7 +198,7 @@ public class ReleaseAWT2 {
 					JOptionPane.showMessageDialog(null,"주소가 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				if(rsl.releasedStart(prodCode, memberIdx, amount, ".",otherTextField.getText())==true)
+				if(rsl.releasedStart(prodCode, memberIdx, amount, otherTextField.getText(),addressTextField.getText())==true)
 				{
 					JOptionPane.showMessageDialog(null,"출고가 완료되었습니다.","알림",JOptionPane.INFORMATION_MESSAGE);
 					releaseButton.setEnabled(false);
