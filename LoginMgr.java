@@ -11,7 +11,8 @@ public class LoginMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	// 회원가입 
+	// -------------------------------회원가입---------------------------------------- 
+	
 	public boolean insert(MemberBean bean) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -36,7 +37,8 @@ public class LoginMgr {
 		return flag;
 	}
 	
-	// 회원가입 중복확인
+	//------------------------------- 회원가입 중복확인-----------------------------------
+	
 	public  boolean  signUpChk(MemberBean bean) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -60,8 +62,8 @@ public class LoginMgr {
 		return flag;
 	}
 
-	// 로그인 체크
-	public boolean loginChk(String pwd) {
+	//-------------------------------- 로그인 체크---------------------------------------
+	public boolean loginChk(String pwd, String id) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -70,9 +72,10 @@ public class LoginMgr {
 		try {
 			con = pool.getConnection();
 			sql = "select tel from member "
-					+ "where tel = ?";
+					+ "where tel = ? and name = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, pwd);
+			pstmt.setString(2, id);
 			rs = pstmt.executeQuery();
 			if(rs.next())
 				flag = true;
