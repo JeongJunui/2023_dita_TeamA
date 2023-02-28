@@ -21,7 +21,6 @@ public class StartStockIn {
 		insert(model,str,checkRegist);
 	}
 	
-	@SuppressWarnings("null")
 	int index() {
 		String indexsql = null;
 		int indexarr[] = null;
@@ -67,7 +66,7 @@ public class StartStockIn {
 			con = pool.getConnection();
 			if (checkRegist == 1) {
 				storedsql = "insert into stored_log\r\n"
-						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 1 + " , '2023-02-17' , '" + str[5] + "') ";
+						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 5 + " , '2023-02-17' , '" + str[5] + "') ";
 				pstmt1 = con.prepareStatement(storedsql);
 				int rs1 = pstmt1.executeUpdate(storedsql);
 				
@@ -82,7 +81,7 @@ public class StartStockIn {
 				int rs = pstmt.executeUpdate(productsql);
 				
 				storedsql = "insert into stored_log\r\n"
-						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 1 + " , '2023-02-17' , '" + str[5] + "') ";
+						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 5 + " , '2023-02-17' , '" + str[5] + "') ";
 				pstmt1 = con.prepareStatement(storedsql);
 				int rs1 = pstmt1.executeUpdate(storedsql);
 			}

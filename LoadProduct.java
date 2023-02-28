@@ -146,11 +146,11 @@ public class LoadProduct extends JPanel implements MouseListener {
 		try {
 			con = pool.getConnection();
 
-			updatesql = "UPDATE product SET PROD_STOCK = PROD_STOCK - " + stock + "\r\n" + "WHERE PROD_CODE = '" + str
-					+ "'";
-			pstmt = con.prepareStatement(updatesql);
-			int rs = pstmt.executeUpdate(updatesql);
-			System.out.println(updatesql + "\n stick : " + stock);
+//			updatesql = "UPDATE product SET PROD_STOCK = PROD_STOCK - " + stock + "\r\n" + "WHERE PROD_CODE = '" + str
+//					+ "'";
+//			pstmt = con.prepareStatement(updatesql);
+//			int rs = pstmt.executeUpdate(updatesql);
+//			System.out.println(updatesql + "\n stick : " + stock);
 
 			sql = "DELETE FROM product \r\n" + "WHERE PROD_CODE = '" + str + "'";
 			pstmt = con.prepareStatement(sql);
