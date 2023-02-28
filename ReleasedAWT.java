@@ -138,15 +138,19 @@ public class ReleasedAWT extends JPanel{
 		panel_1.setBackground(new Color(0, 32, 96));
 		panel_1.setBounds(12, 10, 503, 53);
 		panel.add(panel_1);
+		panel_1.setLayout(null);
 		
 		JLabel searchLabel = new JLabel("");
+		searchLabel.setBounds(90, 7, 66, 46);
 		searchLabel.setIcon(new ImageIcon(ReleasedAWT.class.getResource("/warehouse/images/search.png")));
 		panel_1.add(searchLabel);
 		
 		searchTextField = new JTextField();
+		searchTextField.setLocation(171, 13);
 		searchTextField.setFont(new Font("Dialog", Font.PLAIN, 19));
+		searchTextField.setSize(166, 31);
 		panel_1.add(searchTextField);
-		searchTextField.setColumns(10);
+		searchTextField.setColumns(5);
 		Vector<ProductBean> allResult=rsl.loadWhenOpened();
 		for(int i=0;i<allResult.size();i++)
 		{
@@ -162,6 +166,7 @@ public class ReleasedAWT extends JPanel{
 		}
 		
 		JButton searchButton = new JButton("");
+		searchButton.setBounds(342, 13, 61, 30);
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String keyword=searchTextField.getText();
