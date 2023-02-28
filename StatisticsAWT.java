@@ -134,6 +134,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		textField = new JTextField("");
 		textField.setBounds(119, 95, 180, 32);
 		textField.setColumns(10);
+		textField.addActionListener(this);
 		// 조회하기 버튼
 		p2_btn1 = new JButton();
 		p2_btn1.setIcon(new ImageIcon(".\\images\\check.png"));
@@ -416,7 +417,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 
 		} else if (obj == comboBox) { // 입출고 내역 콤보 박스
 			cbText = comboBox.getSelectedItem().toString();
-		} else if (obj == p2_btn1) { // 입출고 내역 조회하기 버튼
+		} else if (obj == p2_btn1 || obj == textField) { // 입출고 내역 조회하기 버튼
 			if (textField.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
 			} else {
@@ -449,7 +450,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 			historyTablePanel();
 		} else if (obj == comboBox2) { // 재고 현황 콤보 박스
 			cbText2 = comboBox2.getSelectedItem().toString();
-		} else if (obj == p4_btn1) { // 재고 현황 조회하기 버튼
+		} else if (obj == p4_btn1 || obj == textField2) { // 재고 현황 조회하기 버튼
 			if (textField2.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "입력된 값이 없습니다.", "에러", JOptionPane.INFORMATION_MESSAGE);
 			} else {
