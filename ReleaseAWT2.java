@@ -23,12 +23,13 @@ public class ReleaseAWT2 {
 	private JTextField codeTextField;
 	private JTextField amountTextField;
 	private JTextField memberTextField;
-	private JTextField roadAddressTextField;
+	private JTextField otherTextField;
 	private int n;
 	private JButton releaseButton;
 	ZipcodeAWT za;
 	ReleasedMgr rsl;	
 	ReleasedAWT awt;
+	private JTextField addressTextField;
 
 	public ReleaseAWT2(String s,int n, ReleasedAWT awt) {
 		initialize();
@@ -45,7 +46,7 @@ public class ReleaseAWT2 {
 		this.releaseButton.setEnabled(true);
 	}
 	public void setAddress(String Addr) {
-		roadAddressTextField.setText(Addr);
+		addressTextField.setText(Addr);
 	}
 
 	private void initialize() {
@@ -131,27 +132,32 @@ public class ReleaseAWT2 {
 				zaOpen();
 			}
 		});
+		
+		addressTextField = new JTextField();
+		addressPanel.add(addressTextField);
+		addressTextField.setPreferredSize(new Dimension(40, 25));
+		addressTextField.setColumns(5);
 		addressButton.setIcon(new ImageIcon(ReleaseAWT2.class.getResource("/warehouse/images/searchAddressBtn.png")));
 		addressPanel.add(addressButton);
-		addressButton.setPreferredSize(new Dimension(50,35));
+		addressButton.setPreferredSize(new Dimension(50, 25));
 		addressButton.setBorderPainted(false);
 		addressButton.setFocusPainted(false);
 		addressButton.setContentAreaFilled(false);
 		
-		Panel roadAddressPanel = new Panel();
-		FlowLayout flowLayout_5 = (FlowLayout) roadAddressPanel.getLayout();
+		Panel otherPanel = new Panel();
+		FlowLayout flowLayout_5 = (FlowLayout) otherPanel.getLayout();
 		flowLayout_5.setHgap(10);
 		flowLayout_5.setAlignment(FlowLayout.LEFT);
-		roadAddressPanel.setBackground(new Color(255, 255, 255));
-		mainPanel.add(roadAddressPanel);
+		otherPanel.setBackground(new Color(255, 255, 255));
+		mainPanel.add(otherPanel);
 		
-		JLabel roadAddressLabel = new JLabel("도로명주소");
-		roadAddressPanel.add(roadAddressLabel);
-		roadAddressLabel.setPreferredSize(new Dimension(80,20));
+		JLabel otherLabel = new JLabel("비고사항");
+		otherPanel.add(otherLabel);
+		otherLabel.setPreferredSize(new Dimension(80,20));
 		
-		roadAddressTextField = new JTextField();
-		roadAddressPanel.add(roadAddressTextField);
-		roadAddressTextField.setColumns(10);
+		otherTextField = new JTextField();
+		otherPanel.add(otherTextField);
+		otherTextField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("* 표시는 필수 입력 ");
 		lblNewLabel.setForeground(Color.RED);
@@ -186,13 +192,13 @@ public class ReleaseAWT2 {
 					return;
 				}
 				int memberIdx=Integer.parseInt(member);
-				String addr=roadAddressTextField.getText();
+				String addr=otherTextField.getText();
 				if(addr.length()==0)
 				{
 					JOptionPane.showMessageDialog(null,"주소가 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				if(rsl.releasedStart(prodCode, memberIdx, amount, ".",roadAddressTextField.getText())==true)
+				if(rsl.releasedStart(prodCode, memberIdx, amount, otherTextField.getText(),addressTextField.getText())==true)
 				{
 					JOptionPane.showMessageDialog(null,"출고가 완료되었습니다.","알림",JOptionPane.INFORMATION_MESSAGE);
 					releaseButton.setEnabled(false);
