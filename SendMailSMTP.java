@@ -25,10 +25,10 @@ public class SendMailSMTP {
 	private String password = "deu@2022"; // 발신자 비밀번호
 
 	public SendMailSMTP(String toEmail, String toTitle, Vector<String> attachFiles, String setMessage) {
-		SMTP(toEmail, toTitle, attachFiles, setMessage);
+		smtp(toEmail, toTitle, attachFiles, setMessage);
 	}
 
-	public void SMTP(String toEmail, String toTitle, Vector<String> attachFiles, String setMessage) {
+	public void smtp(String toEmail, String toTitle, Vector<String> attachFiles, String setMessage) {
 		// Get the session object
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
