@@ -117,12 +117,12 @@ public class StockInAWT extends JPanel implements ActionListener{
 		startP.setBounds(40, 120, 475, 310);
 		p2.add(startP);
 		
-		pl[0] = new JLabel("물품코드 : ");
+		pl[0] = new JLabel("제품번호 : ");
 		pl[1] = new JLabel("카테고리 : ");
-		pl[2] = new JLabel("물품명 : ");
+		pl[2] = new JLabel("물품이름 : ");
 		pl[3] = new JLabel("사이즈 : ");
 		pl[4] = new JLabel("색상 : ");
-		pl[5] = new JLabel("입고수량 : ");
+		pl[5] = new JLabel("제품수량 : ");
 		pl[6] = new JLabel("고객번호 : ");
 		
 		for (int i = 0; i < 7; i++) {

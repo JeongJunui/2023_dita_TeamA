@@ -93,7 +93,7 @@ public class ReleasedAWT extends JPanel{
 		dtm=new DefaultTableModel(tableContent, tableCol);
 		p1=new JPanel();
 		p1.setLayout(null);
-		p1.setBackground(new Color(44,122,147));
+		p1.setBackground(new Color(44, 112, 147));
 		p1.setBounds(0, 0, 133, 461);
 		mainAWT.mainPanel.add(p1);
 		
