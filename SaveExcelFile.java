@@ -63,12 +63,6 @@ public class SaveExcelFile extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 		
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				mainAWT.setEnabled(true);
-			}
-		});
-
 		title = new JLabel("");
 		title.setIcon(new ImageIcon(".\\images\\preViewTitle.png"));
 		title.setBounds(108, 17, 170, 43);
@@ -100,7 +94,12 @@ public class SaveExcelFile extends JFrame implements ActionListener {
 		setVisible(true);
 
 		showDataFile();
-
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				mainAWT.setEnabled(true);
+			}
+		});
 	}
 
 	// 저장하기 버튼 이벤트

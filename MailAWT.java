@@ -77,8 +77,8 @@ public class MailAWT extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);// 창이 가운데 나오게
 		getContentPane().setLayout(null);
 
-		mailPanel();
-		setVisible(true);
+		mailPanel();	
+		setVisible(true);			
 	}
 // ----------------------------------------메일 패널----------------------------------------
 	public void mailPanel() {

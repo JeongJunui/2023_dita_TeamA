@@ -41,6 +41,7 @@ public class StockInAWT extends JPanel implements ActionListener{
 	DefaultTableModel model;
 	LoadStockin loadStockin;
 	LoadProduct loadProduct;
+	CheckMemberIdx checkMemberIdx;
 	MainAWT mainAWT;
 	
 	public StockInAWT(MainAWT mainAWT) {
@@ -354,11 +355,12 @@ public class StockInAWT extends JPanel implements ActionListener{
 			repaint();
 			menuCheck = 0;
 			
-		}else if(obj==homeBtn) {			
+		}else if(obj==homeBtn) {
 			mainAWT.mainPanel.setVisible(false);
 			mainAWT.mainPanel();
 			
-		}else if(obj == regBtn){	//등록 버튼
+		}else if(obj == regBtn){	//등록하기 버튼
+			checkMemberIdx = new CheckMemberIdx(); 
 			for (int i = 0; i < 7; i++) {
 				str[i] = pf[i].getText();
 				if(str[i].isEmpty()) { //빈값 체크
@@ -367,15 +369,13 @@ public class StockInAWT extends JPanel implements ActionListener{
 					check++;
 				}
 			}
-			System.out.println(str[6] + "str[7]값");
 			
 			if(check == 0) { //빈값 없으면 테이블 추가
-				if(loadStockin.check_idx(str[6]) == true) {
+				if(checkMemberIdx.check(str[6]))
 					new StartStockIn(model,str,loadProduct.checkRegist(str));
-				}else {
-					JOptionPane.showMessageDialog(null, "올바른 거래처 번호를 입력하세요");
+				else {
+					JOptionPane.showMessageDialog(null, "잘못된 고객번호 입니다.");
 				}
-				
 			}
 			for (int i = 0; i < 7; i++) {
 				pf[i].setText("");

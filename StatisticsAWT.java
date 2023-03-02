@@ -466,7 +466,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 			p5.setVisible(false);
 			inventoryStatusTablePanel();
 		} else if (obj == p4_btn3) { // 엑셀로 저장하기 버튼
-			//mainAWT.setEnabled(false);
+			mainAWT.setEnabled(false);
 			new SaveExcelFile(mainAWT);
 		} else if (obj == mapBtn) { // 지도 버튼
 			new NaverMapAPI();
@@ -475,7 +475,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 		} else if (obj == p6_btn1) { // 기가별 차트 조회하기 버튼
 			p7.setVisible(false);
 			chartInputPanel();
-		} else if (obj == mailBtn) {
+		} else if (obj == mailBtn) { // 메일 버튼
 			new MailAWT();
 		}
 	}
