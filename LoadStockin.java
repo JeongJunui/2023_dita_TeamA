@@ -6,10 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.EventObject;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -81,6 +83,48 @@ public class LoadStockin extends JPanel implements MouseListener{
 		select();
 	}
 	
+	public Boolean check_idx(String str) {
+		String sql = null;
+		String[] checkString = null;
+		
+		try {
+			con = pool.getConnection();
+			sql = "SELECT member_idx\r\n"
+					+ "FROM member\r\n";
+			pstmt = con.prepareStatement(sql);
+		
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+					checkString = new String[] {rs.getString("member_idx")};
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				con.close();
+			} catch (Exception e2) {
+
+			}
+		}
+		int check = 0;
+		for (int i = 0; i < checkString.length; i++) {
+			if(checkString.equals(str)) {
+				check = 0;
+			}else {
+				check = 10;
+			}
+		}
+		
+		if(check == 10)
+			return false;
+		else {
+			return true;
+		}
+	}
+	
 	public void select() {
 		String sql = null;
 		try {
@@ -143,6 +187,7 @@ public class LoadStockin extends JPanel implements MouseListener{
 
 			
 		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(null,"수정할 행을 선택해주세요.");
 			System.out.println(e.getMessage());
 		} finally {
 			try {

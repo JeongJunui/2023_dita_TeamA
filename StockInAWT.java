@@ -368,8 +368,14 @@ public class StockInAWT extends JPanel implements ActionListener{
 				}
 			}
 			System.out.println(str[6] + "str[7]값");
+			
 			if(check == 0) { //빈값 없으면 테이블 추가
-				new StartStockIn(model,str,loadProduct.checkRegist(str));
+				if(loadStockin.check_idx(str[6]) == true) {
+					new StartStockIn(model,str,loadProduct.checkRegist(str));
+				}else {
+					JOptionPane.showMessageDialog(null, "올바른 거래처 번호를 입력하세요");
+				}
+				
 			}
 			for (int i = 0; i < 7; i++) {
 				pf[i].setText("");
@@ -378,6 +384,8 @@ public class StockInAWT extends JPanel implements ActionListener{
 		}else if(obj==correct) {	//수정 버튼
 			int row = loadStockin.row;
 			int col = loadStockin.col;
+			System.out.println(row + "row-----------------------");
+			System.out.println(col + "col-----------------------");
 			loadStockin.correct(row,col);
 			System.out.println(row + "행 수정 완료");
 			

@@ -17,7 +17,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.HorizontalAlignment;
 
-import net.DBConnectionMgr;
+import warehouse.DBConnectionMgr;
 
 public class GanttChartMgr extends JPanel {
 	private Connection con = null;

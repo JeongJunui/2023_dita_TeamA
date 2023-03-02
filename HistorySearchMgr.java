@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import net.DBConnectionMgr;
+import warehouse.DBConnectionMgr;
 
 public class HistorySearchMgr extends JPanel {
 	private JTable table;
