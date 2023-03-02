@@ -8,7 +8,6 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Label;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -20,12 +19,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.text.NumberFormatter;
 
 // ---------------------------------로그인 패널------------------------------------------------------------------------
 
@@ -77,7 +76,7 @@ class LogIn extends JPanel{
 		passTextField = new JPasswordField();
 		passTextField.setBounds(125, 290, 130, 21);
 		add(passTextField);
-		passTextField.setColumns(10);
+		passTextField.setColumns(40);
 		
 		//// ID 라벨
 		passLabel = new JLabel("이름");
@@ -250,7 +249,7 @@ class SignUp extends JPanel implements ActionListener {
 	Container contentPane;
 	JLabel lblNewLabel, lblNewLabel4, lblNewLabel5;
 	JLabel title2;
-	JFormattedTextField textField;
+	JTextField pwdTexxtField;
 	JTextField textfield, textfield2;
 	JComboBox cbx;
 	LoginMgr mgr = new LoginMgr();
@@ -278,10 +277,10 @@ class SignUp extends JPanel implements ActionListener {
 		add(imgBack); ///// 이미지 뒷배경 그리기
 
 		///// 전화번호 입력필드 ( 숫자만 입력 )
-		textField = new JFormattedTextField(new NumberFormatter());
-		textField.setBounds(146, 253, 130, 21);
-		add(textField);
-		textField.setColumns(10);
+		pwdTexxtField = new JTextField();
+		pwdTexxtField.setBounds(146, 253, 130, 21);
+		add(pwdTexxtField);
+		pwdTexxtField.setColumns(40);
 
 		///// 전화번호 라벨
 		lblNewLabel = new JLabel("전화번호");
@@ -345,17 +344,17 @@ class SignUp extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		MemberBean bean = new MemberBean();
-		bean.setTel(textField.getText());
+		bean.setTel(pwdTexxtField.getText());
 		bean.setAddress(textfield2.getText());
 		bean.setName(textfield.getText());
 
-		if (textField.getText().equals("")) { // 필드값에 아무것도 없으면
+		if (textfield.getText().equals("")) { // 필드값에 아무것도 없으면
 			new MDialog(win, "알림", true); // 입력하라고 알림
 		} else {
 			if (mgr.signUpChk(bean)) { // DB 중복체크
 				mgr.insert(bean); // DB에 회원정보 저장
-				win.dispose(); // LoginAWT 사라지고
-				new MainAWT(); // 메인화면으로 넘어감
+				JOptionPane.showMessageDialog(null, "회원가입 완료!", "성공", JOptionPane.PLAIN_MESSAGE);
+				win.change("LogIn");
 			} else
 				new MDialog2(win, "알림", true); // 중복확인알림
 		}

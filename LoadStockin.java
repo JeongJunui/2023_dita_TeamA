@@ -121,6 +121,7 @@ public class LoadStockin extends JPanel implements MouseListener{
 		int str2 = Integer.parseInt((String) model2.getValueAt(row, 6));
 		String str3 = (String)model2.getValueAt(row, 0);
 		String str4 = (String)model2.getValueAt(row, 1);
+		System.out.println(row);
 		
 		try {
 			con = pool.getConnection();

@@ -3,7 +3,9 @@ package warehouse;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +23,6 @@ public class StartStockIn {
 		insert(model,str,checkRegist);
 	}
 	
-	@SuppressWarnings("null")
 	int index() {
 		String indexsql = null;
 		int indexarr[] = null;
@@ -62,12 +63,15 @@ public class StartStockIn {
 	
 	void insert(DefaultTableModel model, String[] str, int checkRegist){
 		String productsql,storedsql,updatesql= null;
-		
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		String nowTime1 = date.format(now);
+		System.out.println(nowTime1);
 		try {
 			con = pool.getConnection();
 			if (checkRegist == 1) {
 				storedsql = "insert into stored_log\r\n"
-						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 1 + " , '2023-02-17' , '" + str[5] + "') ";
+						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ str[6] + " , '"+ nowTime1 +"' , '" + str[5] + "') ";
 				pstmt1 = con.prepareStatement(storedsql);
 				int rs1 = pstmt1.executeUpdate(storedsql);
 				
@@ -82,7 +86,7 @@ public class StartStockIn {
 				int rs = pstmt.executeUpdate(productsql);
 				
 				storedsql = "insert into stored_log\r\n"
-						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ 1 + " , '2023-02-17' , '" + str[5] + "') ";
+						+ " VALUES( " + index() + ", '"+ str[0] + "',"+ str[6] + " , '"+ nowTime1 +"' , '" + str[5] + "') ";
 				pstmt1 = con.prepareStatement(storedsql);
 				int rs1 = pstmt1.executeUpdate(storedsql);
 			}
