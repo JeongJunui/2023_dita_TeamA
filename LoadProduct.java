@@ -33,7 +33,7 @@ public class LoadProduct extends JPanel implements MouseListener {
 
 		this.stockInAWT = stockInAWT;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		// setBounds(0, 0, 600, 240);
+		//setBounds(0, 0, 600, 240);
 		// setBounds(25, 30, 505, 275);
 		stockinTable = new JTable(model2);
 		myTableCellRenderer = new MyTableCellRenderer(stockinTable);

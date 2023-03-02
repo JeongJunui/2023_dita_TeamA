@@ -466,7 +466,7 @@ public class StatisticsAWT extends JPanel implements ActionListener {
 			p5.setVisible(false);
 			inventoryStatusTablePanel();
 		} else if (obj == p4_btn3) { // 엑셀로 저장하기 버튼
-			mainAWT.setEnabled(false);
+			//mainAWT.setEnabled(false);
 			new SaveExcelFile(mainAWT);
 		} else if (obj == mapBtn) { // 지도 버튼
 			new NaverMapAPI();
