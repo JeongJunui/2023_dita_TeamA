@@ -192,7 +192,7 @@ public class ReleaseAWT2 {
 					return;
 				}
 				int memberIdx=Integer.parseInt(member);
-				String addr=otherTextField.getText();
+				String addr=addressTextField.getText();
 				if(addr.length()==0)
 				{
 					JOptionPane.showMessageDialog(null,"주소가 비어 있습니다.","경고",JOptionPane.WARNING_MESSAGE);
